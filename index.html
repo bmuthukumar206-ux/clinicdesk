@@ -26,14 +26,14 @@
   --sh:0 1px 2px rgba(0,0,0,.4);--sh-lg:0 18px 50px rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;padding:22px}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--panel);color:var(--ink);font-size:14.5px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---------- auth ---------- */
-.auth{max-width:1020px;margin:0 auto;background:var(--shell);border-radius:24px;box-shadow:var(--sh-lg);overflow:hidden;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 44px)}
-.auth.solo{grid-template-columns:1fr;max-width:720px}
+.auth{background:var(--shell);display:grid;grid-template-columns:1fr 1.05fr;min-height:100vh}
+.auth.solo{grid-template-columns:1fr}
 .auth-art{background:linear-gradient(155deg,#1D4ED8,#2563EB 50%,#0EA5E9);color:#fff;padding:44px;display:flex;flex-direction:column;justify-content:space-between}
 .auth-art h2{font-size:31px;font-weight:700;letter-spacing:-1.1px;line-height:1.2;margin-bottom:12px}
 .auth-art p{opacity:.85;font-size:15px;max-width:330px}
@@ -42,7 +42,7 @@ svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-l
 .art-i .b{width:32px;height:32px;border-radius:10px;background:rgba(255,255,255,.18);display:grid;place-items:center;flex:0 0 32px}
 .art-i svg{width:16px;height:16px}
 .art-i span{opacity:.8;font-size:12.5px;display:block}
-.auth-form{padding:44px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.auth-form{padding:48px 8vw;display:flex;flex-direction:column;justify-content:center;overflow-y:auto;max-height:100vh}
 .auth-form.top{justify-content:flex-start}
 .authswitch{display:flex;gap:4px;background:var(--panel);padding:4px;border-radius:11px;border:1px solid var(--line);margin-bottom:24px}
 .authswitch button{flex:1;border:0;background:none;padding:9px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:13.5px}
@@ -53,9 +53,21 @@ svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-l
 .step-h{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:4px}
 
 /* ---------- shell ---------- */
-.shell{max-width:1440px;margin:0 auto;background:var(--shell);border-radius:24px;box-shadow:var(--sh-lg);overflow:hidden;display:flex;min-height:calc(100vh - 44px)}
-.side{width:236px;flex:0 0 236px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 13px}
-.logo{display:flex;align-items:center;gap:11px;padding:0 8px 16px}
+/* Full bleed. `overflow:hidden` used to live here - it clipped the page and killed
+   scrolling, so it is gone and the document scrolls normally. */
+.shell{background:var(--shell);display:flex;min-height:100vh;width:100%}
+.side{width:74px;flex:0 0 74px;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:20px 14px;
+  position:sticky;top:0;height:100vh;align-self:flex-start;background:var(--shell);z-index:20;
+  transition:width .18s ease,flex-basis .18s ease}
+.side.open{width:250px;flex:0 0 250px}
+.side .logo-tx,.side .role-badge,.side .side-nav{display:none}
+.side.open .logo-tx,.side.open .role-badge{display:block}
+.side.open .side-nav{display:flex}
+.logo-btn{display:flex;align-items:center;gap:11px;padding:0;border:0;background:none;cursor:pointer;
+  width:100%;text-align:left;border-radius:12px}
+.logo-btn:hover .logo-mk{transform:scale(1.05)}
+.logo-mk{transition:transform .15s}
+.logo{display:flex;align-items:center;gap:11px;padding:0 4px 16px}
 .logo-mk{width:38px;height:38px;border-radius:11px;background:var(--blue);display:grid;place-items:center;color:#fff;flex:0 0 38px}
 .logo-mk svg{width:20px;height:20px;stroke-width:2}
 .logo-tx{font-size:15px;font-weight:700;letter-spacing:-.3px;line-height:1.2;word-break:break-word}
@@ -71,10 +83,15 @@ svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-l
 .side-foot{padding-top:10px;border-top:1px solid var(--line)}
 .nav-b.danger{color:var(--red)}
 .main{flex:1;min-width:0;background:var(--panel);display:flex;flex-direction:column}
-.top{background:var(--shell);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.top{background:var(--shell);border-bottom:1px solid var(--line);padding:16px 30px;display:flex;align-items:center;gap:14px;
+  flex-wrap:wrap;position:sticky;top:0;z-index:25}
+.top-h{border:0;background:none;padding:0;cursor:pointer;text-align:left;border-radius:10px}
 .top-h h1{font-size:23px;font-weight:700;letter-spacing:-.7px}
 .top-h p{font-size:13px;color:var(--muted)}
-.search{position:relative;margin-left:auto;min-width:200px}
+.datepill{margin-left:auto;display:flex;align-items:center;gap:9px;padding:9px 15px;border:1px solid var(--line);
+  background:var(--card);border-radius:11px;font-size:13px;font-weight:700;white-space:nowrap;color:var(--ink-2)}
+.datepill svg{width:15px;height:15px;color:var(--muted)}
+.search{position:relative;min-width:200px}
 .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--faint)}
 .search input{width:100%;padding:10px 14px 10px 38px;border:1px solid var(--line);border-radius:11px;background:var(--panel)}
 .icon-b{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;cursor:pointer;color:var(--muted);position:relative}
@@ -85,12 +102,12 @@ svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-l
 .who-av{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-weight:700;font-size:13px}
 .who-n{font-size:13px;font-weight:700;line-height:1.25}
 .who-r{font-size:11px;color:var(--muted)}
-.wrap{padding:20px 24px 40px}
+.wrap{padding:26px 30px 60px}
 .view{display:none}
 .view.on{display:block;animation:up .25s ease}
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-.npanel{position:fixed;top:76px;right:26px;width:min(400px,calc(100vw - 40px));max-height:70vh;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);z-index:80;display:none;flex-direction:column;overflow:hidden}
+.npanel{position:fixed;top:76px;right:26px;width:min(400px,calc(100vw - 40px));max-height:70vh;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);z-index:260;display:none;flex-direction:column;overflow:hidden}
 .npanel.on{display:flex}
 .np-h{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
 .np-list{overflow:auto;padding:8px}
@@ -154,6 +171,10 @@ th{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:var(--faint
 td{padding:13px 16px;border-bottom:1px solid var(--line-2);vertical-align:middle;font-size:13.5px}
 tbody tr:last-child td{border-bottom:0}
 tbody tr:hover{background:var(--panel)}
+/* Rows are the control now: no Action column, click the row itself. */
+.rowlink tbody tr{cursor:pointer}
+.rowlink tbody tr:hover{background:var(--blue-s)}
+.rowlink tbody tr:hover td:first-child{box-shadow:inset 3px 0 0 var(--blue)}
 .right{text-align:right}
 .num{font-variant-numeric:tabular-nums}
 .sub{font-size:12px;color:var(--muted);margin-top:2px}
@@ -186,6 +207,166 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .sw[aria-pressed="true"]{background:var(--green)}
 .sw[aria-pressed="true"]::after{left:22px}
 
+/* home: live token queue */
+/* Token flow: current -> next -> the one after, joined by a path.
+   A dot travels the path towards the room so the direction of the queue is obvious,
+   and calling a patient in slides the tokens along it. */
+.queue{display:flex;flex-direction:column;gap:12px;margin-bottom:22px}
+.qline{display:grid;grid-template-columns:222px minmax(0,1fr);gap:12px;align-items:stretch}
+.qdoc{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:13px 15px;box-shadow:var(--sh)}
+.qdoc .av{width:36px;height:36px;flex:0 0 36px;border-radius:11px;font-size:12px}
+.qdoc-n{font-size:13px;font-weight:700;line-height:1.2}
+.qdoc-r{font-size:11.5px;color:var(--muted);margin-top:1px}
+
+.tflow{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr) 54px minmax(0,1fr) auto;
+  gap:0;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:12px 14px;box-shadow:var(--sh)}
+.tnode{text-align:center;border-radius:13px;padding:11px 10px;border:1px solid var(--line);min-width:0;
+  transition:transform .25s ease,opacity .25s ease}
+.tn-k{display:block;font-size:9.5px;letter-spacing:1.1px;text-transform:uppercase;font-weight:700;opacity:.72}
+.tn-t{display:block;font-size:26px;font-weight:700;letter-spacing:-1.2px;line-height:1.15;font-variant-numeric:tabular-nums}
+.tn-n{display:block;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tn-s{display:block;font-size:10.5px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* each stage gets its own colour */
+.tnode.now{background:linear-gradient(145deg,var(--violet),#5B21B6);border-color:transparent;color:#fff;
+  box-shadow:0 8px 20px rgba(124,58,237,.28)}
+.tnode.next{background:var(--blue-s);border-color:var(--blue);color:var(--blue-d)}
+[data-theme="dark"] .tnode.next{color:#93B4FC}
+.tnode.then{background:var(--amber-s);border-color:var(--amber);color:var(--amber)}
+.tnode.empty{background:transparent;border-color:var(--line);border-style:dashed;color:var(--faint);box-shadow:none}
+.tnode.empty .tn-t{font-size:15px;letter-spacing:0;padding:6px 0}
+
+.tlink{position:relative;height:3px;background:var(--line-2);border-radius:99px;margin:0 8px}
+.tlink::after{content:"";position:absolute;top:50%;right:-1px;width:8px;height:8px;border-top:2px solid var(--line);
+  border-right:2px solid var(--line);transform:translateY(-50%) rotate(-135deg)}
+.tdot{position:absolute;top:50%;width:8px;height:8px;border-radius:99px;background:var(--blue);
+  transform:translateY(-50%);animation:travel 2.2s ease-in-out infinite;box-shadow:0 0 0 3px var(--blue-s)}
+@keyframes travel{0%{left:84%;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:-2%;opacity:0}}
+.tlink.dim .tdot{display:none}
+
+/* calling a patient in: the tokens slide one place towards the room */
+.tflow.advance .tnode.now{opacity:0;transform:translateX(-26px) scale(.94)}
+.tflow.advance .tnode.next{transform:translateX(calc(-100% - 54px));box-shadow:0 10px 26px rgba(124,58,237,.3)}
+.tflow.advance .tnode.then{transform:translateX(calc(-100% - 54px))}
+.tflow.advance .tdot{animation-duration:.5s}
+
+.q-call{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--blue);border:1px solid var(--blue);
+  color:#fff;border-radius:12px;padding:12px 20px;margin-left:14px;font-size:13px;font-weight:700;cursor:pointer;
+  white-space:nowrap;box-shadow:0 8px 20px rgba(37,99,235,.26);transition:background .15s,transform .15s}
+.q-call:hover{background:var(--blue-d);transform:translateY(-2px)}
+.q-call:disabled{background:var(--card);border-color:var(--line);color:var(--faint);box-shadow:none;
+  cursor:not-allowed;transform:none}
+.q-call svg{width:15px;height:15px}
+
+/* home: patient count + token pipeline */
+.stages{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.stage.total{background:linear-gradient(145deg,var(--blue),#1D4ED8);border-color:transparent;color:#fff;
+  box-shadow:0 10px 24px rgba(37,99,235,.28)}
+.stage.total .stage-k{color:rgba(255,255,255,.78)}
+.stage.total .stage-s{color:rgba(255,255,255,.78)}
+.stage.total::after{display:none}
+.stage.total:hover{transform:translateY(-2px)}
+.stage{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:15px 16px;cursor:pointer;text-align:left;box-shadow:var(--sh);transition:border-color .15s,transform .15s}
+.stage:hover{border-color:var(--blue);transform:translateY(-2px)}
+.stage[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-s)}
+.stage-k{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.7px;text-transform:uppercase;
+  font-weight:700;color:var(--faint)}
+.stage-d{width:8px;height:8px;border-radius:99px;flex:0 0 8px}
+.stage-v{font-size:26px;font-weight:700;letter-spacing:-1px;margin-top:6px;font-variant-numeric:tabular-nums}
+.stage-s{font-size:11.5px;color:var(--muted)}
+.stage::after{content:"";position:absolute;right:-6px;top:50%;width:11px;height:11px;border-top:1.5px solid var(--line);
+  border-right:1.5px solid var(--line);transform:translateY(-50%) rotate(45deg);z-index:2}
+.stage:last-child::after{display:none}
+
+/* home: action buttons */
+.acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:28px}
+.act-b{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:15px 16px;cursor:pointer;text-align:left;box-shadow:var(--sh);
+  transition:transform .16s,box-shadow .16s,border-color .16s,background .16s,color .16s}
+.act-b:hover,.act-b:focus-visible{transform:translateY(-3px);border-color:var(--blue);background:var(--blue-s);
+  box-shadow:0 12px 26px rgba(37,99,235,.18)}
+.act-b:hover .act-t,.act-b:hover .act-i{color:var(--blue)}
+.act-b:hover .act-i{background:#fff}
+.act-b:active{transform:translateY(-1px)}
+[data-theme="dark"] .act-b:hover{box-shadow:0 12px 26px rgba(0,0,0,.5)}
+[data-theme="dark"] .act-b:hover .act-i{background:rgba(255,255,255,.12)}
+.act-i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:0 0 42px}
+.act-i svg{width:19px;height:19px}
+.act-t{display:block;font-size:14px;font-weight:700;letter-spacing:-.2px}
+.act-s{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.act-n{margin-left:auto;font-size:12px;font-weight:700;background:var(--line-2);color:var(--muted);
+  padding:3px 10px;border-radius:99px}
+.act-n.alert{background:var(--red);color:#fff}
+
+/* home: sections shown in place */
+.isec{margin-bottom:30px}
+.isec-h{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.isec-i{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:0 0 36px}
+.isec-i svg{width:17px;height:17px}
+.isec-h h2{font-size:17px;font-weight:700;letter-spacing:-.4px;line-height:1.2}
+.isec-h p{font-size:12.5px;color:var(--muted)}
+
+/* home: details in two columns */
+.cols{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:20px;align-items:start}
+.cols>*{min-width:0}
+.cal-scroll{overflow-x:auto}
+.cal{min-width:640px}
+
+/* redirected page (New appointment, Doctors) */
+.page-top{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+
+/* profile menu */
+.whowrap{position:relative;margin-left:4px}
+.who{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 14px;border-left:1px solid var(--line);
+  border-top:0;border-right:0;border-bottom:0;background:none;cursor:pointer;border-radius:12px}
+.who:hover{background:var(--panel)}
+.who-c{width:14px;height:14px;color:var(--faint);transition:transform .18s}
+.who[aria-expanded="true"] .who-c{transform:rotate(180deg)}
+.pmenu{position:absolute;top:calc(100% + 10px);right:0;width:258px;background:var(--card);border:1px solid var(--line);
+  border-radius:15px;box-shadow:var(--sh-lg);padding:7px;z-index:120;display:none}
+.pmenu.on{display:block}
+.pmenu-h{padding:10px 12px 8px;border-bottom:1px solid var(--line-2);margin-bottom:6px}
+.pmenu-h b{font-size:13.5px;display:block}
+.pmenu-h span{font-size:11.5px;color:var(--muted)}
+.pm-b{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border:0;background:none;
+  border-radius:10px;cursor:pointer;color:var(--ink-2);font-size:13.5px;text-align:left}
+.pm-b:hover{background:var(--panel)}
+.pm-b svg{width:17px;height:17px;flex:0 0 17px;color:var(--muted)}
+.pm-n{margin-left:auto;font-size:11px;font-weight:700;background:var(--line-2);color:var(--muted);
+  padding:2px 8px;border-radius:99px}
+.pm-n.alert{background:var(--red);color:#fff}
+.pm-sep{height:1px;background:var(--line-2);margin:6px 4px}
+.pm-b.danger{color:var(--red)}
+.pm-b.danger svg{color:var(--red)}
+
+/* full screen panel */
+.screen{position:fixed;inset:0;z-index:200;background:var(--panel);display:none;flex-direction:column}
+.screen.on{display:flex;animation:scrIn .2s ease}
+@keyframes scrIn{from{opacity:0;transform:scale(.99)}to{opacity:1;transform:none}}
+.scr-top{background:var(--shell);border-bottom:1px solid var(--line);padding:14px 26px;display:flex;
+  align-items:center;gap:14px;flex-wrap:wrap;flex:0 0 auto}
+.scr-back{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--card);
+  display:grid;place-items:center;cursor:pointer;color:var(--muted);flex:0 0 38px}
+.scr-back:hover{color:var(--ink);border-color:var(--faint)}
+.scr-back svg{width:18px;height:18px}
+.scr-i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:0 0 40px}
+.scr-i svg{width:19px;height:19px}
+.scr-h h2{font-size:19px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
+.scr-h p{font-size:12.5px;color:var(--muted)}
+.scr-x{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 15px;
+  font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
+.scr-x:hover{color:var(--ink);border-color:var(--faint)}
+.scr-x svg{width:15px;height:15px}
+.scr-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:22px 26px 60px;-webkit-overflow-scrolling:touch}
+
+.totop{position:fixed;right:26px;bottom:26px;width:46px;height:46px;border-radius:99px;border:1px solid var(--line);
+  background:var(--card);box-shadow:var(--sh-lg);display:none;place-items:center;cursor:pointer;color:var(--muted);z-index:240}
+.totop.on{display:grid}
+.totop:hover{color:var(--ink);border-color:var(--faint)}
+.totop svg{width:19px;height:19px}
+
 /* calendar */
 .cal-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .nav-grp{display:flex;gap:6px}
@@ -202,6 +383,17 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .cal-hd.now b{color:var(--blue)}
 .cal-tm{padding:10px;font-size:11.5px;color:var(--faint);text-align:right;font-variant-numeric:tabular-nums}
 .cal-cell{padding:5px;min-height:60px;display:flex;flex-direction:column;gap:4px}
+/* month grid */
+.cal.month{grid-template-columns:repeat(7,minmax(0,1fr))}
+.mcell{background:var(--card);min-height:108px;padding:8px;display:flex;flex-direction:column;gap:4px;cursor:pointer}
+.mcell:hover{background:var(--panel)}
+.mcell.out{background:var(--panel);opacity:.5}
+.mday{font-size:11.5px;font-weight:700;width:25px;height:25px;border-radius:99px;display:grid;place-items:center;
+  color:var(--muted);flex:0 0 25px}
+.mcell.today .mday{background:var(--blue);color:#fff}
+.mev{font-size:10.5px;font-weight:700;border-radius:7px;padding:3px 6px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;border:1px solid var(--evbd);background:var(--evbg);color:var(--evtx);text-align:left;width:100%;cursor:pointer}
+.mmore{font-size:10.5px;color:var(--muted);font-weight:700}
 .cal-cell.free{cursor:pointer}
 .cal-cell.free:hover{background:var(--blue-s)}
 .cal-cell.blocked{background:repeating-linear-gradient(45deg,var(--panel),var(--panel) 6px,transparent 6px,transparent 12px)}
@@ -245,6 +437,8 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .roomchip.busy{border-color:var(--amber);background:var(--amber-s)}
 .roomchip.free{border-color:var(--green);background:var(--green-s)}
 .doc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--sh);display:flex;flex-direction:column}
+.doc.leave{border-color:var(--amber);background:linear-gradient(0deg,var(--amber-s),var(--amber-s))}
+.doc.leave .doc-av{opacity:.7}
 .doc-av{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:16px;flex:0 0 50px}
 .doc-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
 .doc-meta dt{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--faint);font-weight:700}
@@ -311,37 +505,56 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .inv-f{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
 .sign-l{width:150px;border-bottom:1px solid var(--ink);height:28px;margin-bottom:6px}
 
-.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;place-items:center;padding:20px;z-index:100;overflow:auto}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;place-items:center;padding:20px;z-index:300;overflow:auto}
 .modal.on{display:grid}
 .mbox{background:var(--card);border-radius:20px;width:100%;max-width:520px;box-shadow:var(--sh-lg);overflow:hidden;max-height:92vh;display:flex;flex-direction:column}
 .mbox.wide{max-width:680px}
 .mhead{padding:20px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line);flex:0 0 auto}
 .mbody{padding:20px;overflow:auto}
-.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);background:var(--ink);color:var(--card);padding:13px 20px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.25s;z-index:120;pointer-events:none;box-shadow:var(--sh-lg);max-width:90vw;text-align:center}
+.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);background:var(--ink);color:var(--card);padding:13px 20px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.25s;z-index:400;pointer-events:none;box-shadow:var(--sh-lg);max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 @media(max-width:1200px){.split,.split-r{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){
-  body{padding:0}
-  .auth{grid-template-columns:1fr;border-radius:0;min-height:100vh}
-  .auth-art{display:none}.auth-form{padding:26px 20px}
-  .shell{border-radius:0;flex-direction:column;min-height:100vh}
-  .side{width:100%;flex:none;flex-direction:row;align-items:center;overflow-x:auto;padding:12px;border-right:0;border-bottom:1px solid var(--line);gap:8px}
+  .auth{grid-template-columns:1fr}
+  .auth-art{display:none}.auth-form{padding:26px 20px;max-height:none}
+  .shell{flex-direction:column}
+  .side,.side.open{width:100%;flex:none;flex-direction:row;align-items:center;overflow-x:auto;padding:12px;
+    border-right:0;border-bottom:1px solid var(--line);gap:8px;position:sticky;top:0;height:auto}
+  .side .side-nav{display:flex}
+  .side .logo-tx{display:none}
   .logo{padding:0 8px 0;flex:0 0 auto}.logo-tx{display:none}
   .side-nav{flex-direction:row;flex:1;gap:6px}
   .nav-b{white-space:nowrap;padding:9px 13px}
   .nav-pill,.side-foot{display:none}
-  .top{padding:14px 16px}.search{order:5;min-width:100%;margin-left:0}
-  .wrap{padding:16px}
+  .top{padding:14px 16px;position:static}.search{order:5;min-width:100%;margin-left:0}
+  .wrap{padding:18px 16px 50px}
+  .stages{grid-template-columns:repeat(5,minmax(124px,1fr));overflow-x:auto;gap:8px;padding-bottom:4px}
+  .stage::after{display:none}
+  .acts{grid-template-columns:1fr 1fr;gap:10px}
+  .qline{grid-template-columns:1fr;gap:8px}
+  .tflow{grid-template-columns:1fr;gap:8px;padding:12px}
+  .tlink{height:22px;width:3px;margin:0 auto;background:var(--line-2)}
+  .tlink::after,.tdot{display:none}
+  .q-call{margin-left:0;width:100%}
+  .tflow.advance .tnode{transform:none}
+  .datepill{order:4;margin-left:0}
+  .cols{grid-template-columns:1fr;gap:16px}
+  .pmenu{right:0;width:min(258px,calc(100vw - 32px))}
+  .act-b{padding:13px}.act-s{display:none}
+  .scr-top{padding:12px 14px}.scr-body{padding:16px 14px 60px}
+  .totop{right:14px;bottom:14px}
   .g3,.g2,.cat,.inv-p,.kv{grid-template-columns:1fr}
-  .cal-scroll{overflow-x:auto}.cal{min-width:740px}
+  .cal{min-width:620px}
   .inv{padding:20px}
   .npanel{right:10px;left:10px;width:auto}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media print{
   body{padding:0;background:#fff}
-  .side,.top,.no-print,.view,.auth,.npanel{display:none!important}
+  .side,.top,.no-print,.view,.auth,.npanel,.totop,.scr-top,.acts,.stages,.datepill{display:none!important}
+  .screen{position:static;display:block!important}
+  .scr-body{overflow:visible;padding:0}
   .shell{box-shadow:none;border-radius:0}
   #printOnly{display:block!important}
   .inv{padding:0}
@@ -386,59 +599,61 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 <!-- ============ APP ============ -->
 <div class="shell" id="app" style="display:none">
   <aside class="side">
-    <div class="logo">
+    <button class="logo logo-btn" id="logoBtn" aria-expanded="false" title="Show menu">
       <div class="logo-mk"><svg viewBox="0 0 24 24"><path d="M12 7v10M7 12h10"/><rect x="3" y="3" width="18" height="18" rx="5"/></svg></div>
       <div><div class="logo-tx" id="clinicName">ClinicDesk</div><div class="role-badge" id="roleBadge">—</div></div>
-    </div>
+    </button>
     <nav class="side-nav" id="sideNav"></nav>
-    <div class="side-foot"><button class="nav-b danger" id="btnLogout">
-      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Sign out</button></div>
+    <button id="btnLogout" style="display:none"></button>
   </aside>
   <main class="main">
     <header class="top">
-      <div class="top-h"><h1 id="pgTitle">Today</h1><p id="pgSub"></p></div>
+      <button class="top-h" id="homeLink" title="Back to home">
+        <h1 id="pgTitle">ClinicDesk</h1><p id="pgSub"></p></button>
+      <div class="datepill no-print" id="topDate"></div>
       <div class="search no-print"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
         <input id="globalSearch" placeholder="Search patients…"></div>
       <button class="icon-b no-print" id="btnTheme"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg></button>
       <button class="icon-b no-print" id="btnBell"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 01-3.4 0"/></svg>
         <span class="badge" id="bellCount" style="display:none">0</span></button>
-      <div class="who no-print"><div class="who-av" id="meAv"></div><div><div class="who-n" id="meName"></div><div class="who-r" id="meRole"></div></div></div>
+      <div class="whowrap no-print">
+        <button class="who" id="whoBtn" aria-expanded="false">
+          <div class="who-av" id="meAv"></div>
+          <div style="text-align:left"><div class="who-n" id="meName"></div><div class="who-r" id="meRole"></div></div>
+          <svg class="who-c" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="pmenu" id="pmenu"></div>
+      </div>
     </header>
     <div class="wrap">
-      <section class="view on" id="v-dash"><div id="dashBody"></div></section>
-      <section class="view" id="v-appts">
-        <div class="card" style="margin-bottom:16px">
-          <div class="c-head" style="padding-bottom:0"><div><h3 id="calTitle">Schedule</h3><p id="calSub"></p></div>
-            <div class="tabs no-print" id="viewTabs" style="margin-left:auto">
-              <button class="tab" data-cal="day">Day</button><button class="tab" data-cal="week" aria-pressed="true">Week</button></div>
-            <div class="tabs no-print" id="statusTabs">
-              <button class="tab" data-st="all" aria-pressed="true">All</button>
-              <button class="tab" data-st="Requested">Requests</button>
-              <button class="tab" data-st="Scheduled">Booked</button>
-              <button class="tab" data-st="Completed">Done</button></div></div>
-          <div class="c-body" style="padding-top:16px">
-            <div class="cal-bar no-print">
-              <div class="nav-grp"><button id="calPrev"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-                <button id="calNext"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
-              <button class="btn btn-s" id="calToday">Today</button>
-              <div class="rangebox"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span id="calRange"></span></div>
-              <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap" id="calLegend"></div></div>
-            <div class="cal-scroll"><div id="calWrap"></div></div></div></div>
-        <div class="card"><div class="c-head"><div><h3>Appointment list</h3><p id="apptSub"></p></div>
-          <input class="in no-print" id="apptSearch" placeholder="Search" style="margin-left:auto;max-width:200px"></div>
-          <div id="apptTable"></div></div>
+      <section class="view on" id="v-home">
+        <div class="queue no-print" id="queue"></div>
+        <div class="acts no-print" id="acts"></div>
+        <div class="cols" id="inline"></div>
       </section>
-      <section class="view" id="v-requests"><div id="reqBody"></div></section>
-      <section class="view" id="v-book"><div id="bookBody"></div></section>
-      <section class="view" id="v-patients"><div id="patBody"></div></section>
-      <section class="view" id="v-followups"><div id="fuBody"></div></section>
-      <section class="view" id="v-doctors"><div id="docBody"></div></section>
-      <section class="view" id="v-billing"><div id="billBody"></div></section>
-      <section class="view" id="v-messages"><div id="msgBody"></div></section>
-      <section class="view" id="v-activity"><div id="actBody"></div></section>
-      <section class="view" id="v-config"><div id="cfgBody"></div></section>
+      <section class="view" id="v-page">
+        <div class="page-top">
+          <button class="scr-back no-print" id="pgBack" aria-label="Back to home">
+            <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+          <div class="scr-i" id="pgIcon"></div>
+          <div class="scr-h"><h2 id="pgHead">—</h2><p id="pgHeadSub"></p></div>
+        </div>
+        <div id="pgBody"></div>
+      </section>
     </div>
   </main>
+</div>
+
+<!-- Full-screen work panel: one feature at a time, edge to edge -->
+<div class="screen" id="screen" role="dialog" aria-modal="true">
+  <div class="scr-top">
+    <button class="scr-back" id="scrBack" title="Back to home" aria-label="Back to home">
+      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button>
+    <div class="scr-i" id="scrIcon"></div>
+    <div class="scr-h"><h2 id="scrTitle">—</h2><p id="scrSub"></p></div>
+    <button class="scr-x no-print" id="scrClose">
+      <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>Close</button>
+  </div>
+  <div class="scr-body" id="scrBody"></div>
 </div>
 
 <div class="npanel" id="npanel">
@@ -450,6 +665,8 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 <div class="modal" id="modal"><div class="mbox" id="mbox">
   <div class="mhead"><div class="av" id="mAv"></div><div style="flex:1"><div id="mName" style="font-weight:700;font-size:15px"></div><div id="mMeta" class="sub"></div></div>
     <button class="x" id="mClose">×</button></div><div class="mbody" id="mBody"></div></div></div>
+<button class="totop no-print" id="toTop" title="Back to top">
+  <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -488,13 +705,26 @@ const dotFor=s=>`<span class="sdot" style="background:${{Active:"var(--green)","
 function download(n,c,m){const b=new Blob([c],{type:m}),u=URL.createObjectURL(b),a=document.createElement("a");
   a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),3000)}
 
+/* CSV export. A BOM keeps Excel happy with the rupee sign and Indian names. */
+function toCSV(rows){
+  return rows.map(r=>r.map(c=>{
+    const v=String(c==null?"":c).replace(/"/g,'""');
+    return /[",\n\r]/.test(v)?`"${v}"`:v;
+  }).join(",")).join("\r\n");
+}
+function exportCSV(name,rows){
+  if(rows.length<2)return toast("Nothing to export");
+  download(`${name}-${TODAY_ISO}.csv`,"\uFEFF"+toCSV(rows),"text/csv;charset=utf-8");
+  toast(`${rows.length-1} row(s) exported`);
+}
+
 function defaultClinic(o){
   return {id:"c"+Date.now()+Math.floor(Math.random()*999),
     settings:{clinic:o.name,type:o.type,regNo:o.regNo,address:o.address,city:o.city,state:o.state,pin:o.pin,
       phone:o.phone,email:o.email,currency:"₹",regFee:+o.regFee||30,slotMin:+o.slotMin||15,
       dayStart:o.dayStart||"09:00",dayEnd:o.dayEnd||"13:00",days:o.days||"Mon–Sat",
       waCode:o.waCode||"91",senderEmail:o.email,waNumber:o.phone,
-      auto:{confirmed:true,updated:true,declined:true,report:true,bill:true}},
+      auto:{confirmed:true,updated:true,declined:true,report:true,followup:true,bill:true}},
     departments:["General Medicine","Paediatrics","Gynaecology","Dermatology","Dental","Physiotherapy"],
     rooms:[{no:"Room 1",type:"Consultation"},{no:"Room 2",type:"Consultation"},{no:"Room 3",type:"Consultation"},{no:"Injection Bay",type:"Treatment"}],
     doctors:[],
@@ -628,12 +858,18 @@ function msgBooking(a,kind){
 function msgBill(b){return `${C.settings.clinic}\nBill ${b.no}\n\nPatient: ${b.patient} (${b.pid})\nDoctor: ${b.doctor}\nDate: ${fmtFull(parseISO(b.date))}\n\n`+
   b.lines.map(l=>`${l.name} x${l.qty} — ${rs(l.rate*l.qty)}`).join("\n")+`\nRegistration — ${rs(C.settings.regFee)}`+
   (b.disc?`\nDiscount (${b.pct}%) — -${rs(b.disc)}`:"")+`\n\nTOTAL PAID: ${rs(b.total)}\nMode: ${b.mode}\n\nThank you for visiting.`}
+function msgFollowup(a){const c=a.consult,s=C.settings;
+  return `${s.clinic}\nFollow-up reminder\n\nPatient: ${a.name} (${a.pid})\nDoctor: ${a.docName}\n`+
+  `Seen on: ${fmtFull(parseISO(a.date))}\nDiagnosis: ${c.diagnosis}\n\n`+
+  `${a.docName} has asked to review you on ${fmtFull(parseISO(c.followUp))}.\n`+
+  `Please call ${s.phone} to confirm a time, or walk in during clinic hours.\n\n`+
+  `Your consultation report is attached as a PDF.`}
 function msgReport(a){const c=a.consult;
   return `${C.settings.clinic}\nConsultation summary\n\nPatient: ${a.name} (${a.pid})\nDoctor: ${a.docName}\nDate: ${fmtFull(parseISO(a.date))}\n\n`+
   `Diagnosis: ${c.diagnosis}\n\nTreatment:\n${c.treatment}\n`+(c.advice?`\nAdvice: ${c.advice}\n`:"")+
   (c.followUp?`\nFollow-up: ${fmtFull(parseISO(c.followUp))}\n`:"")+`\nThe full report is attached as a PDF.`}
 const EVENTS={confirmed:"Appointment confirmed",updated:"Appointment updated",declined:"Appointment declined",
-  report:"Consultation report",bill:"Bill"};
+  report:"Consultation report",followup:"Follow-up reminder",bill:"Bill"};
 function autoSend(event,rec){
   const s=C.settings;
   if(!s.auto[event])return null;
@@ -641,9 +877,15 @@ function autoSend(event,rec){
   const appt=isBill?C.appts.find(a=>a.pid===rec.pid&&a.token===rec.token):rec;
   const name=isBill?rec.patient:rec.name;
   const phone=appt?appt.phone:"",email=appt?appt.email:"";
-  const body=isBill?msgBill(rec):event==="report"?msgReport(rec):msgBooking(rec,event);
+  const body=isBill?msgBill(rec)
+    :event==="report"?msgReport(rec)
+    :event==="followup"?msgFollowup(rec)
+    :msgBooking(rec,event);
   const subject=`${s.clinic} — ${EVENTS[event]}`;
-  const pdf=isBill?{kind:"bill",id:rec.no}:event==="report"?{kind:"report",id:rec.id}:{kind:"booking",id:rec.id};
+  // Reports and follow-up reminders carry the consultation report as the attachment.
+  const pdf=isBill?{kind:"bill",id:rec.no}
+    :(event==="report"||event==="followup")?{kind:"report",id:rec.id}
+    :{kind:"booking",id:rec.id};
   const now=new Date();const at=now.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true});
   const out=[];
   out.push({id:"m"+(++C.msgSeq),channel:"whatsapp",to:phone?`+${s.waCode} ${phone}`:"",raw:phone,event,name,subject,body,pdf,
@@ -816,11 +1058,13 @@ function signIn(acc){
   $("#auth").style.display="none";$("#app").style.display="flex";
   $("#clinicName").textContent=C.settings.clinic;
   $("#roleBadge").textContent=me.role==="doctor"?"Doctor":"Admin";
+  // No left rail for anyone: the clinic name goes home, everything else is in the profile menu.
+  $(".side").style.display="none";
   $("#meAv").style=avSt(me.color);$("#meAv").textContent=ini(me.name);
   $("#meName").textContent=me.name;$("#meRole").textContent=me.title;
-  buildNav();go("dash");refreshBadges();renderNotifs();
+  buildNav();buildProfileMenu();buildHome();closeSide();go("home");renderNotifs();
 }
-$("#btnLogout").onclick=()=>{me=null;C=null;$("#app").style.display="none";$("#auth").style.display="grid";
+$("#btnLogout").onclick=()=>{closeScreen();closePage();closeMenu();me=null;C=null;$("#app").style.display="none";$("#auth").style.display="grid";
   $("#npanel").classList.remove("on");authMode="in";$$("#authSwitch button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.auth==="in"));renderAuth()};
 $("#btnTheme").onclick=()=>{const d=document.documentElement.getAttribute("data-theme")==="dark";
   document.documentElement.setAttribute("data-theme",d?"light":"dark")};
@@ -838,33 +1082,381 @@ const IC={dash:`<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3
  billing:`<rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/>`,
  messages:`<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>`,
  activity:`<path d="M3 12h4l2 6 4-14 2 8h6"/>`,
+ apptlist:`<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M7 15h6"/>`,
+ current:`<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M17 11h4M19 9v4"/>`,
+ history:`<path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>`,
  config:`<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>`};
-const NAV={doctor:[["dash","Today"],["appts","My Schedule"],["requests","Requests"],["patients","My Patients"],["followups","Follow-ups"],["activity","Activity"]],
- admin:[["dash","Front Desk"],["book","New Appointment"],["appts","Schedule"],["requests","Requests"],["patients","Patients"],["doctors","Doctors"],["billing","Billing"],["messages","Messages"],["activity","Activity"],["config","Settings"]]};
-const PGT={dash:me=>me.role==="doctor"?"Today":"Front desk",appts:"Schedule",requests:"Requests",book:"New appointment",
-  patients:"Patients",followups:"Follow-ups",doctors:"Doctors",billing:"Billing",messages:"Messages",activity:"Activity",config:"Settings"};
-const can=v=>me&&NAV[me.role].some(([id])=>id===v);
-function buildNav(){$("#sideNav").innerHTML=NAV[me.role].map(([id,l])=>
-  `<button class="nav-b" data-go="${id}"><svg viewBox="0 0 24 24">${IC[id]}</svg>${l}<span class="nav-pill" id="np-${id}" style="display:none"></span></button>`).join("")}
-function go(v){
-  if(!can(v))return toast("No access to that section");
-  $$(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
-  $$("#sideNav .nav-b").forEach(b=>b.setAttribute("aria-current",b.dataset.go===v));
-  const t=PGT[v];$("#pgTitle").textContent=typeof t==="function"?t(me):t;
-  $("#pgSub").textContent=me.role==="doctor"?me.name:C.settings.clinic;
-  renderView(v);window.scrollTo({top:0});
+/* Two tabs only: Home and Settings.
+   Everything that used to be its own tab is now a titled section stacked down the
+   Home page, with a sticky chip bar to jump between them. */
+const SECS={
+  admin:["book","appts","apptlist","history","dash","doctors","billing","messages","activity"],
+  doctor:["appts","apptlist","current","history","dash","followups","activity"]};
+const SECMETA={
+  book:{admin:["New appointment","Confirmed on the spot, with the token issued"]},
+  appts:{admin:["Schedule","Every doctor's calendar, colour-coded"],
+         doctor:["My schedule","Only your own patients"]},
+  apptlist:{admin:["Today's appointments","Everyone booked today — tap a row to open it"],
+            doctor:["Today's appointments","Your patients today — tap a row to open it"]},
+  dash:{admin:["Dashboard","How the clinic is running today"],
+        doctor:["Dashboard","Your numbers at a glance"]},
+  current:{admin:["Current patients","In the clinic now, with their appointment"],
+           doctor:["Current patients","Your patients in the clinic right now"]},
+  history:{admin:["Patient history","Treated patients and their past visits"],
+           doctor:["Patient history","People you have treated"]},
+  followups:{doctor:["Follow-ups","Reviews you have scheduled"]},
+  doctors:{admin:["Doctors","Your team and their sessions"]},
+  billing:{admin:["Billing","Raise a bill and reprint invoices"]},
+  messages:{admin:["Messages","Everything sent to patients automatically"]},
+  activity:{admin:["Activity","A running log of every change"],
+            doctor:["Activity","A running log of your appointments"]}};
+const SHORT={dash:{admin:"Front desk",doctor:"Today"},book:{admin:"Book"},
+  appts:{admin:"Schedule",doctor:"Schedule"},requests:{admin:"Requests",doctor:"Requests"},
+  patients:{admin:"Patients",doctor:"Patients"},followups:{doctor:"Follow-ups"},
+  doctors:{admin:"Doctors"},billing:{admin:"Billing"},messages:{admin:"Messages"},
+  activity:{admin:"Activity",doctor:"Activity"}};
+const BODYID={book:"bookBody",appts:"apptsBody",apptlist:"listBody",current:"curBody",history:"histBody",dash:"dashBody",
+  followups:"fuBody",doctors:"docBody",billing:"billBody",messages:"msgBody",activity:"actBody"};
+const RENDER={book:()=>renderBook(),appts:()=>renderAppts(),apptlist:()=>renderApptList(),
+  current:()=>renderCurrent(),
+  history:()=>renderHistory(),dash:()=>renderDashboard(),
+  followups:()=>renderFollowups(),doctors:()=>renderDoctors(),billing:()=>renderBilling(),
+  messages:()=>renderMessages(),activity:()=>renderActivity()};
+
+const meta=id=>(SECMETA[id]||{})[me.role]||["",""];
+const short=id=>(SHORT[id]||{})[me.role]||id;
+const has=id=>me&&SECS[me.role].includes(id);
+const can=v=>v==="config"?(me&&me.role==="admin"):has(v);
+
+/* The schedule section keeps its own markup, injected when the page is built. */
+const APPTS_TPL=`
+  <div class="stages no-print" id="stages"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="c-head" style="padding-bottom:0"><div><h3 id="calTitle">Schedule</h3><p id="calSub"></p></div>
+      <div class="tabs no-print" id="viewTabs" style="margin-left:auto">
+        <button class="tab" data-cal="day">Day</button>
+        <button class="tab" data-cal="week" aria-pressed="true">Week</button>
+        <button class="tab" data-cal="month">Month</button></div>
+      <div class="tabs no-print" id="statusTabs">
+        <button class="tab" data-st="all" aria-pressed="true">All</button>
+        <button class="tab" data-st="Scheduled">Booked</button>
+        <button class="tab" data-st="Completed">Done</button></div></div>
+    <div class="c-body" style="padding-top:16px">
+      <div class="cal-bar no-print">
+        <div class="nav-grp"><button data-calnav="prev"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button data-calnav="next"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
+        <button class="btn btn-s" data-calnav="today">Today</button>
+        <div class="rangebox"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span id="calRange"></span></div>
+        <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap" id="calLegend"></div></div>
+      <div class="cal-scroll"><div id="calWrap"></div></div></div></div>
+  <div class="card"><div class="c-head"><div><h3>Appointment list</h3><p id="apptSub"></p></div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input class="in no-print" id="apptSearch" placeholder="Search" style="max-width:200px">
+      <button class="btn btn-s no-print" data-export="schedule">Export CSV</button></div></div>
+    <div id="apptTable"></div></div>`;
+
+/* Home layout
+   - patient count and the token pipeline across the top
+   - New appointment and Doctors are full pages (they redirect, not pop up)
+   - Billing, Messages and Activity live under the profile menu, as pop-ups
+   - Schedule and Patients are shown on Home itself, side by side              */
+const PAGES={admin:["book","appts","doctors"],doctor:["appts","current"]}; // redirect
+const POPUP={admin:["dash","history","billing","messages","activity"],   // profile menu
+             doctor:["dash","history","followups","activity"]};
+const INLINE={admin:["apptlist"],doctor:["apptlist"]}; // today's list is the first thing both roles see
+const ACTSUB={book:"Confirm a walk-in",appts:"Calendar view",doctors:"Team and sessions",
+  current:"Who is in the clinic"};
+const TINT={dash:"blue",book:"blue",appts:"violet",apptlist:"violet",current:"blue",history:"violet",patients:"blue",
+  followups:"violet",doctors:"green",billing:"violet",messages:"blue",activity:"amber",config:"blue"};
+
+BODYID.config="cfgBody";
+RENDER.config=()=>renderConfig();
+SECMETA.config={admin:["Settings","Everything about how this clinic runs"],
+                doctor:["Settings","Your profile and preferences"]};
+
+/* Walk-in only: there is no request queue, so the pipeline starts at Booked. */
+const STAGES=[["Scheduled","Booked","var(--blue)","token issued"],
+              ["In consultation","With doctor","var(--violet)","in the room now"],
+              ["Completed","Completed","var(--green)","notes written"],
+              ["Billed","Billed","var(--green)","paid and closed"]];
+
+let openId=null,pageId=null;
+
+function buildNav(){
+  $("#sideNav").innerHTML=[["home","Home",IC.dash],["config","Settings",IC.config]]
+    .map(([id,l,ic])=>`<button class="nav-b" data-go="${id}"><svg viewBox="0 0 24 24">${ic}</svg>${l}</button>`).join("");
 }
-function renderView(v){({dash:renderDash,appts:renderAppts,requests:renderRequests,book:renderBook,patients:renderPatients,
-  followups:renderFollowups,doctors:renderDoctors,billing:renderBilling,messages:renderMessages,activity:renderActivity,config:renderConfig}[v]||(()=>{}))()}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b&&me)go(b.dataset.go)});
+
+/* ---------- profile menu ---------- */
+function buildProfileMenu(){
+  const items=POPUP[me.role].map(id=>
+    `<button class="pm-b" data-open-screen="${id}"><svg viewBox="0 0 24 24">${IC[id]}</svg>${esc(meta(id)[0])}
+      <span class="pm-n" id="pm-${id}" style="display:none"></span></button>`).join("");
+  $("#pmenu").innerHTML=`<div class="pmenu-h"><b>${esc(me.name)}</b><span>${esc(me.title)}</span></div>
+    <button class="pm-b" data-go="home"><svg viewBox="0 0 24 24">${IC.dash}</svg>Home</button>
+    <div class="pm-sep"></div>${items}<div class="pm-sep"></div>
+    <button class="pm-b" data-go="config"><svg viewBox="0 0 24 24">${IC.config}</svg>Settings</button>
+    <button class="pm-b danger" id="pmOut">
+      <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+      Sign out</button>`;
+  $("#pmOut").onclick=()=>$("#btnLogout").click();
+}
+function closeMenu(){$("#pmenu").classList.remove("on");$("#whoBtn").setAttribute("aria-expanded","false")}
+/* The two tabs stay hidden until the clinic name on the left is clicked. */
+$("#logoBtn").onclick=e=>{e.stopPropagation();
+  const side=e.currentTarget.closest(".side");
+  const on=side.classList.toggle("open");
+  $("#logoBtn").setAttribute("aria-expanded",String(on))};
+document.addEventListener("click",e=>{
+  if(window.innerWidth<=900)return;
+  if(!e.target.closest(".side"))closeSide()});
+function closeSide(){const el=$(".side");if(el){el.classList.remove("open");
+  $("#logoBtn").setAttribute("aria-expanded","false")}}
+
+$("#whoBtn").onclick=e=>{e.stopPropagation();
+  const on=$("#pmenu").classList.toggle("on");
+  $("#whoBtn").setAttribute("aria-expanded",String(on))};
+document.addEventListener("click",e=>{if(!e.target.closest(".whowrap"))closeMenu()});
+
+/* ---------- home ---------- */
+function buildHome(){
+  $("#inline").className=INLINE[me.role].length>1?"cols":"";
+  $("#inline").innerHTML=INLINE[me.role].map(id=>{
+    const[t,sub]=meta(id),c=TINT[id]||"blue";
+    return `<section class="isec" id="s-${id}">
+      <div class="isec-h"><div class="isec-i" style="background:var(--${c}-s);color:var(--${c})">
+        <svg viewBox="0 0 24 24">${IC[id]}</svg></div>
+        <div><h2>${esc(t)}</h2><p>${esc(sub)}</p></div></div>
+      <div id="${BODYID[id]}">${id==="appts"?APPTS_TPL:""}</div></section>`}).join("");
+}
+
+/* Queue helpers, per doctor: who is in the room, and who is next. */
+function servingFor(docId){
+  return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="In consultation")
+    .sort((x,y)=>x.time.localeCompare(y.time))[0]||null;
+}
+function queueFor(docId){
+  return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="Scheduled")
+    .sort((x,y)=>x.time.localeCompare(y.time));
+}
+function nextForDoc(docId){return queueFor(docId)[0]||null}
+function thenForDoc(docId){return queueFor(docId)[1]||null}
+/* Only doctors actually on duty get a column, so the grid sizes itself. */
+function onDuty(){
+  const list=me.role==="doctor"?C.doctors.filter(d=>d.id===me.docId)
+    :C.doctors.filter(d=>d.status==="Active");
+  return list.filter(d=>me.role==="doctor"||servingFor(d.id)||nextForDoc(d.id)
+    ||C.appts.some(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected"));
+}
+/* Called when a consultation is finished: the next token moves into the room. */
+function advanceQueue(finished){
+  const next=C.appts.filter(x=>x.docId===finished.docId&&x.date===finished.date&&x.status==="Scheduled")
+    .sort((x,y)=>x.time.localeCompare(y.time))[0];
+  if(!next)return null;
+  next.status="In consultation";
+  next.log.push(`Called in automatically after ${finished.token||finished.name}`);
+  log("initiated",`Token ${next.token} is now in consultation`,
+      `${next.name} · ${next.docName} · ${next.room}`,next.id,["role:admin","doctor:"+next.docId]);
+  return next;
+}
+
+function renderHome(){
+  const mine=myAppts();
+  /* current -> next -> after next, on a path, one row per doctor on duty */
+  const docs=onDuty();
+  const node=(cls,kicker,tok,name,sub)=>tok
+    ? `<div class="tnode ${cls}"><span class="tn-k">${esc(kicker)}</span>
+        <span class="tn-t">${esc(tok)}</span><span class="tn-n">${esc(name)}</span>
+        ${sub?`<span class="tn-s">${esc(sub)}</span>`:""}</div>`
+    : `<div class="tnode ${cls} empty"><span class="tn-k">${esc(kicker)}</span>
+        <span class="tn-t">${cls==="now"?"Room free":"—"}</span>
+        <span class="tn-s">${cls==="now"?"Nobody in the room":"nothing queued"}</span></div>`;
+
+  $("#queue").innerHTML=docs.length?docs.map(d=>{
+    const cur=servingFor(d.id),nxt=nextForDoc(d.id),then=thenForDoc(d.id);
+    return `<div class="qline">
+      <div class="qdoc"><div class="av" style="${avSt(d.color)}">${ini(d.name)}</div>
+        <div style="min-width:0"><div class="qdoc-n">${esc(d.name)}</div>
+          <div class="qdoc-r">${esc(d.spec)} · ${esc(d.room)}</div></div></div>
+      <div class="tflow" id="flow-${d.id}">
+        ${node("now","In consultation",cur&&cur.token,cur&&cur.name,cur&&cur.room)}
+        <div class="tlink ${nxt?"":"dim"}"><span class="tdot"></span></div>
+        ${node("next","Next token",nxt&&nxt.token,nxt&&nxt.name,nxt&&(t12(nxt.time)+" · "+nxt.type))}
+        <div class="tlink ${then?"":"dim"}"><span class="tdot"></span></div>
+        ${node("then","After that",then&&then.token,then&&then.name,then&&t12(then.time))}
+        <button class="q-call" ${nxt?`data-call="${nxt.id}" data-doc="${d.id}"`:"disabled"}>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          ${nxt?"Call "+esc(nxt.token||"next"):"No one waiting"}</button></div></div>`}).join("")
+    :`<div class="card"><div class="empty"><b>No doctor on duty</b>Add a doctor or mark one active.</div></div>`;
+
+  /* full-page actions */
+  $("#acts").innerHTML=PAGES[me.role].map(id=>{
+    const[t]=meta(id),c=TINT[id]||"blue";
+    return `<button class="act-b" data-open-page="${id}">
+      <span class="act-i" style="background:var(--${c}-s);color:var(--${c})">
+        <svg viewBox="0 0 24 24">${IC[id]}</svg></span>
+      <span><span class="act-t">${esc(t)}</span><span class="act-s">${esc(ACTSUB[id]||"")}</span></span>
+      <span class="act-n" id="tn-${id}" style="display:none"></span></button>`}).join("");
+
+  INLINE[me.role].forEach(id=>{if(RENDER[id])RENDER[id]()});
+  refreshBadges();
+}
+
+/* A stage card filters the schedule on this page. */
+document.addEventListener("click",e=>{
+  const cb=e.target.closest("[data-call]");
+  if(cb&&me){const a=C.appts.find(x=>x.id===cb.dataset.call);if(!a)return;
+    const flow=$("#flow-"+cb.dataset.doc);
+    const commit=()=>{
+      a.status="In consultation";a.log.push(`Called in by ${me.name}`);
+      log("initiated",`${a.name} called in`,`Token ${a.token} · ${a.room}`,a.id,
+          ["role:admin","doctor:"+a.docId]);
+      toast(`Token ${a.token} called in — ${a.name}`);
+      renderView();
+    };
+    const reduced=typeof window.matchMedia==="function"
+      &&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(flow&&!reduced){
+      cb.disabled=true;flow.classList.add("advance");setTimeout(commit,420);
+    } else commit();
+    return;}
+  const st=e.target.closest("[data-stage]");if(!st||!me)return;
+  const k=st.dataset.stage;
+  stFilter=(stFilter===k)?"all":(k==="Billed"?"Completed":k);
+  $$("#statusTabs .tab").forEach(x=>x.setAttribute("aria-pressed",x.dataset.st===stFilter));
+  $$("[data-stage]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.stage===k&&stFilter!=="all"));
+  renderCal();renderApptTable();
+});
+
+/* ---------- redirected page ---------- */
+function openPage(id){
+  if(!has(id))return;
+  closeScreen();closeMenu();
+  pageId=id;
+  const[t,sub]=meta(id),c=TINT[id]||"blue";
+  $("#pgIcon").style.cssText=`background:var(--${c}-s);color:var(--${c})`;
+  $("#pgIcon").innerHTML=`<svg viewBox="0 0 24 24">${IC[id]}</svg>`;
+  $("#pgHead").textContent=t;$("#pgHeadSub").textContent=sub;
+  $("#pgBody").innerHTML=`<div id="${BODYID[id]}">${id==="appts"?APPTS_TPL:""}</div>`;
+  RENDER[id]();
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-page"));
+  window.scrollTo({top:0});
+}
+function closePage(){
+  if(!pageId)return;
+  pageId=null;$("#pgBody").innerHTML="";
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-home"));
+  renderHome();window.scrollTo({top:0});
+}
+$("#pgBack").onclick=closePage;
+
+/* ---------- pop-up panel ---------- */
+function openScreen(id){
+  if(id!=="config"&&!has(id))return;
+  closeMenu();
+  openId=id;
+  const[t,sub]=meta(id),c=TINT[id]||"blue";
+  $("#scrIcon").style.cssText=`background:var(--${c}-s);color:var(--${c})`;
+  $("#scrIcon").innerHTML=`<svg viewBox="0 0 24 24">${IC[id]}</svg>`;
+  $("#scrTitle").textContent=t;$("#scrSub").textContent=sub;
+  $("#scrBody").innerHTML=`<div id="${BODYID[id]}">${id==="appts"?APPTS_TPL:""}</div>`;
+  RENDER[id]();
+  $("#screen").classList.add("on");
+  document.body.style.overflow="hidden";
+  $("#scrBody").scrollTop=0;
+}
+function closeScreen(){
+  if(!openId)return;
+  openId=null;
+  $("#screen").classList.remove("on");
+  document.body.style.overflow="";
+  $("#scrBody").innerHTML="";
+  if(!pageId)renderHome();
+}
+function reopen(){
+  if(!openId)return;
+  const y=$("#scrBody").scrollTop;
+  $("#scrBody").innerHTML=`<div id="${BODYID[openId]}">${openId==="appts"?APPTS_TPL:""}</div>`;
+  RENDER[openId]();refreshBadges();
+  $("#scrBody").scrollTop=y;
+}
+function refreshOthers(){renderView()}
+
+function go(v){
+  closeSide();
+  $("#topDate").innerHTML=`<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/>
+    <path d="M8 3v4M16 3v4M3 10h18"/></svg>${esc(fmtFull(TODAY))}`;
+  if(v==="config")return openScreen("config");
+  closeScreen();closePage();closeMenu();
+  $$(".view").forEach(x=>x.classList.toggle("on",x.id==="v-home"));
+  $$("#sideNav .nav-b").forEach(b=>b.setAttribute("aria-current",b.dataset.go==="home"));
+  $("#pgTitle").textContent=C.settings.clinic;
+  $("#pgSub").textContent=me.role==="doctor"?me.name+" · "+(me.title||"Doctor"):"Front desk";
+  renderHome();window.scrollTo({top:0});
+}
+function renderView(){openId?reopen():pageId?RENDER[pageId]():renderHome()}
+
+const goSection=id=>{
+  if(PAGES[me.role].includes(id))return openPage(id);
+  if(POPUP[me.role].includes(id)||id==="config")return openScreen(id);
+  if(openId)closeScreen();
+  if(pageId)closePage();
+  const el=$("#s-"+id);
+  if(el)window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-84),behavior:"smooth"});
+};
+
+document.addEventListener("click",e=>{
+  const pg=e.target.closest("[data-open-page]");if(pg&&me)return openPage(pg.dataset.openPage);
+  const o=e.target.closest("[data-open-screen]");if(o&&me)return openScreen(o.dataset.openScreen);
+  const g=e.target.closest("[data-go]");if(g&&me)return go(g.dataset.go);
+  const sc=e.target.closest("[data-sec]");if(sc&&me)return goSection(sc.dataset.sec);
+});
+$("#scrBack").onclick=closeScreen;
+$("#scrClose").onclick=closeScreen;
+$("#homeLink").onclick=()=>me&&go("home");
+$("#globalSearch").addEventListener("input",()=>{if(!openId&&!pageId)renderCurrent()});
+
+/* Every list that is worth keeping can be taken away as a spreadsheet. */
+const EXPORTS={
+  today:()=>[["Token","Patient","Patient ID","Age","Sex","Phone","Doctor","Room","Date","Time","Type","Status"],
+    ...myAppts().filter(a=>a.date===TODAY_ISO).sort((x,y)=>x.time.localeCompare(y.time))
+      .map(a=>[a.token||"",a.name,a.pid,a.age,a.sex,a.phone,a.docName,a.room,a.date,a.time,a.type,
+               a.billed?"Billed":a.status])],
+  schedule:()=>[["Token","Patient","Patient ID","Phone","Doctor","Room","Date","Time","Type","Status","Diagnosis"],
+    ...myAppts().filter(a=>vis(a)).sort((x,y)=>(x.date+x.time).localeCompare(y.date+y.time))
+      .map(a=>[a.token||"",a.name,a.pid,a.phone,a.docName,a.room,a.date,a.time,a.type,
+               a.billed?"Billed":a.status,a.consult?a.consult.diagnosis:""])],
+  history:()=>[["Patient ID","Patient","Age","Sex","Phone","Visit date","Doctor","Diagnosis","Treatment","Advice","Follow-up"],
+    ...myAppts().filter(a=>a.status==="Completed"&&a.consult)
+      .sort((x,y)=>y.date.localeCompare(x.date))
+      .map(a=>[a.pid,a.name,a.age,a.sex,a.phone,a.date,a.docName,a.consult.diagnosis,
+               a.consult.treatment,a.consult.advice,a.consult.followUp||""])],
+  bills:()=>[["Invoice","Date","Patient","Patient ID","Doctor","Items","Subtotal","Discount","Registration","Total","Mode"],
+    ...C.bills.map(b=>[b.no,b.date,b.patient,b.pid,b.doctor,
+      b.lines.map(l=>`${l.name} x${l.qty}`).join("; "),b.sub,b.disc,C.settings.regFee,b.total,b.mode])],
+  messages:()=>[["Time","Patient","Channel","To","Event","Status","Message"],
+    ...C.messages.map(m=>[`${m.when} ${m.at}`,m.name,m.channel,m.to,EVENTS[m.event]||m.event,m.status,
+      m.body.replace(/\n/g," | ")])],
+  activity:()=>[["When","Time","Type","Title","Detail"],
+    ...myNotifs().map(n=>[n.when,n.at,n.type,n.title,n.body])],
+  doctors:()=>[["Name","Code","Speciality","Department","Qualification","Room","Fee","Session","Days","Status"],
+    ...C.doctors.map(d=>[d.name,d.code,d.spec,d.dept,d.qual,d.room,d.fee,`${d.start}-${d.end}`,d.days,d.status])],
+};
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-export]");if(!b||!me)return;
+  const k=b.dataset.export,fn=EXPORTS[k];if(!fn)return;
+  exportCSV(`${C.settings.clinic.replace(/[^\w]+/g,"-").toLowerCase()}-${k}`,fn());
+});
+
 function refreshBadges(){
-  const set=(id,n,a)=>{const el=$("#np-"+id);if(!el)return;el.style.display=n?"block":"none";el.textContent=n;el.classList.toggle("alert",!!a)};
+  const set=(id,n,a)=>{[`#tn-${id}`,`#pm-${id}`].forEach(sel=>{const el=$(sel);if(!el)return;
+    el.style.display=n?"inline-block":"none";el.textContent=n;el.classList.toggle("alert",!!a)})};
   const mine=myAppts();
   set("appts",mine.filter(a=>!["Completed","Rejected"].includes(a.status)).length);
-  set("requests",mine.filter(a=>a.status==="Requested").length,me.role==="doctor");
-  set("patients",new Set(mine.map(a=>a.pid)).size);
+  set("history",new Set(mine.filter(a=>a.status==="Completed").map(a=>a.pid)).size);
   set("followups",mine.filter(a=>a.consult&&a.consult.followUp).length);
   set("billing",C.bills.length);set("doctors",C.doctors.length);set("messages",C.messages.length);
+  set("activity",myNotifs().filter(n=>!n.readBy.includes(myKey())).length,true);
   renderNotifs();
 }
 function myAppts(){return me.role==="doctor"?C.appts.filter(a=>a.docId===me.docId):C.appts.slice()}
@@ -875,87 +1467,38 @@ function myAppts(){return me.role==="doctor"?C.appts.filter(a=>a.docId===me.docI
 function statCard(k,v,c,p,delta){return `<div class="stat"><div class="stat-t">
   <div class="tile" style="background:var(--${c}-s);color:var(--${c})"><svg viewBox="0 0 24 24">${p}</svg></div>
   ${delta?`<span class="delta up">${delta}</span>`:""}</div><div class="stat-k">${k}</div><div class="stat-v">${v}</div></div>`}
-function renderDash(){me.role==="doctor"?doctorDash():adminDash()}
-function doctorDash(){
-  const mine=myAppts(),today=mine.filter(a=>a.date===TODAY_ISO&&a.status!=="Rejected");
-  const req=mine.filter(a=>a.status==="Requested"),d=D(me.docId);
-  $("#dashBody").innerHTML=`<div class="grid g3" style="margin-bottom:16px">
-      ${statCard("Patients today",today.length,"blue",IC.appts)}
-      ${statCard("Waiting on you",req.length,"amber",IC.requests)}
-      ${statCard("Follow-ups set",mine.filter(a=>a.consult&&a.consult.followUp).length,"violet",IC.followups)}</div>
-    <div class="split">
-      <div class="card"><div class="c-head"><div><h3>Today's list</h3><p>${esc(d.room)} · ${t12(d.start)} – ${t12(d.end)}</p></div>
-        <button class="link no-print" data-go="appts" style="margin-left:auto">Schedule</button></div>
-        <div class="c-body">${today.length?today.sort((x,y)=>x.time.localeCompare(y.time)).map(a=>`
-          <div class="row ${a.status==="In consultation"?"hi":""}"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
-            <div style="min-width:0"><div class="row-n">${esc(a.name)}</div>
-              <div class="row-m">${t12(a.time)} · ${esc(a.token||"pending")} · ${esc(a.type)}</div></div>
-            <div class="row-a">${pill(a.status)}<button class="mini-b" data-open="${a.id}"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div></div>`).join("")
-          :`<div class="empty"><b>No patients today</b>Your list is clear.</div>`}</div></div>
-      <div class="card"><div class="c-head"><div><h3>Needs a decision</h3><p>Accepting sends the patient their confirmation automatically</p></div></div>
-        <div class="c-body">${req.length?req.slice(0,4).map(a=>reqCard(a)).join(""):`<div class="empty"><b>All caught up</b>No pending requests.</div>`}</div></div></div>`;
-}
-function adminDash(){
-  const today=C.appts.filter(a=>a.date===TODAY_ISO&&a.status!=="Rejected");
-  const pend=C.appts.filter(a=>a.status==="Requested");
-  const setup=!C.doctors.length||!C.appts.length;
-  $("#dashBody").innerHTML=`${setup?onboarding():""}
-    <div class="grid g3" style="margin-bottom:16px">
-      ${statCard("Appointments today",today.length,"blue",IC.appts)}
-      ${statCard("Awaiting doctor",pend.length,"amber",IC.requests)}
-      ${statCard("Collected today",money(C.bills.reduce((s,x)=>s+x.total,0)),"green",`<path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>`)}</div>
-    ${C.doctors.length?`<div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Rooms right now</h3><p>Who is in which room</p></div></div>
-      <div class="c-body"><div class="grid g3" style="gap:10px">${roomBoard()}</div></div></div>
-    <div class="split-r">
-      <div class="card"><div class="c-head"><div><h3>Doctor availability</h3><p>Slots left today</p></div></div>
-        <div class="c-body">${availBoard()}</div></div>
-      <div class="card"><div class="c-head"><div><h3>Today's queue</h3><p>Every appointment for today</p></div>
-        <button class="btn btn-s btn-p no-print" data-go="book" style="margin-left:auto">New appointment</button></div>
-        <div id="rTable"></div></div></div>`:""}`;
-  const t=$("#rTable");if(t)t.innerHTML=today.length?apptTableHTML(today.sort((a,b)=>a.time.localeCompare(b.time))):`<div class="empty"><b>Queue is clear</b>Book a patient to start.</div>`;
-}
-function onboarding(){
-  const steps=[["Add your doctors",C.doctors.length>0,"doctors"],
-    ["Check your charges",C.services.length>8,"config"],
-    ["Book your first appointment",C.appts.length>0,"book"]];
-  return `<div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Get set up</h3>
-      <p>${C.settings.clinic} is registered — three quick things left</p></div></div>
-    <div class="c-body">${steps.map(([t,done,v],i)=>`<div class="chk-item ${done?"done":""}">
-      <div class="chk-n">${done?"✓":i+1}</div><div style="flex:1"><b style="font-size:13.5px">${t}</b></div>
-      ${done?`<span class="pill p-green">Done</span>`:`<button class="btn btn-s btn-p" data-go="${v}">Go</button>`}</div>`).join("")}</div></div>`;
-}
-function availBoard(){
-  if(!C.doctors.length)return `<div class="empty"><b>No doctors yet</b>Add one to open the schedule.</div>`;
-  return C.doctors.map(d=>{
-    const cap=docSlots(d).length,used=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected").length;
-    const pct=cap?Math.min(100,used/cap*100):100,nx=nextSlot(d.id,TODAY_ISO);
-    return `<div class="avail"><div class="av" style="${avSt(d.color)};width:42px;height:42px;flex:0 0 42px;border-radius:12px">${ini(d.name)}</div>
-      <div style="min-width:0;flex:1"><div class="row-n">${esc(d.name)}</div>
-        <div class="row-m">${dotFor(d.status)}${esc(d.spec)} · ${esc(d.room)}</div>
-        <div class="bar-track"><div class="bar-fill ${pct>=100?"full":""}" style="width:${pct}%"></div></div></div>
-      <div style="text-align:right"><div style="font-size:12.5px;font-weight:700">${used}/${cap}</div>
-        <div class="sub">${d.status==="Active"?(nx?"Next "+t12(nx):"Full"):d.status}</div>
-        ${can("book")&&d.status==="Active"&&nx?`<button class="btn btn-s btn-p" style="margin-top:6px" data-book="${d.id}">Book</button>`:""}</div></div>`}).join("");
-}
-function roomBoard(){
-  return C.rooms.map(r=>{const d=C.doctors.find(x=>x.room===r.no&&x.status==="Active");
-    const busy=d&&C.appts.some(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status==="In consultation");
-    return `<div class="roomchip ${busy?"busy":d?"free":""}"><b>${esc(r.no)}</b>
-      <span>${busy?"In use — "+esc(d.name.replace("Dr. ","")):d?"Free — "+esc(d.name.replace("Dr. ","")):esc(r.type)+" · vacant"}</span></div>`}).join("");
-}
 
 /* ==========================================================
    CALENDAR
    ========================================================== */
-let calMode="week",calDate=new Date(2026,7,15),stFilter="all",patFilter="all",docFilter="All",cfgTab="doctors",visitType="New consultation",bookMode="token";
-$("#viewTabs").addEventListener("click",e=>{const b=e.target.closest("[data-cal]");if(!b)return;
-  $$("#viewTabs .tab").forEach(x=>x.setAttribute("aria-pressed",x===b));calMode=b.dataset.cal;renderCal()});
-$("#statusTabs").addEventListener("click",e=>{const b=e.target.closest("[data-st]");if(!b)return;
-  $$("#statusTabs .tab").forEach(x=>x.setAttribute("aria-pressed",x===b));stFilter=b.dataset.st;renderCal();renderApptTable()});
-$("#calPrev").onclick=()=>{calDate.setDate(calDate.getDate()-(calMode==="day"?1:7));renderCal()};
-$("#calNext").onclick=()=>{calDate.setDate(calDate.getDate()+(calMode==="day"?1:7));renderCal()};
-$("#calToday").onclick=()=>{calDate=new Date(TODAY);renderCal()};
+let calMode="week",calDate=new Date(2026,7,15),stFilter="all",listQ="",docFilter="All",cfgTab="doctors",visitType="New consultation";
+/* The schedule markup is injected into the Home page, so these are delegated. */
+document.addEventListener("click",e=>{
+  const v=e.target.closest("[data-cal]");
+  if(v){$$("#viewTabs .tab").forEach(x=>x.setAttribute("aria-pressed",x===v));calMode=v.dataset.cal;return renderCal()}
+  const st=e.target.closest("[data-st]");
+  if(st){$$("#statusTabs .tab").forEach(x=>x.setAttribute("aria-pressed",x===st));stFilter=st.dataset.st;
+    renderCal();return renderApptTable()}
+  const n=e.target.closest("[data-calnav]");
+  if(n){const k=n.dataset.calnav,dir=k==="next"?1:-1;
+    if(k==="today")calDate=new Date(TODAY);
+    else if(calMode==="month")calDate=new Date(calDate.getFullYear(),calDate.getMonth()+dir,1);
+    else calDate.setDate(calDate.getDate()+dir*(calMode==="day"?1:7));
+    renderCal()}
+});
+function renderStages(){
+  const box=$("#stages");if(!box)return;
+  const mine=myAppts();
+  box.innerHTML=STAGES.map(([key,label,col,sub])=>{
+    const n=key==="Billed"?mine.filter(a=>a.billed).length
+      :mine.filter(a=>a.status===key&&!(key==="Completed"&&a.billed)).length;
+    return `<button class="stage" data-stage="${key}" aria-pressed="${stFilter===key}">
+      <span class="stage-k"><span class="stage-d" style="background:${col}"></span>${esc(label)}</span>
+      <div class="stage-v">${n}</div><div class="stage-s">${esc(sub)}</div></button>`}).join("");
+}
 function renderAppts(){
+  if(!$("#calTitle"))return;
+  renderStages();
   $("#calTitle").textContent=me.role==="doctor"?"My schedule":"Clinic schedule";
   $("#calSub").textContent=me.role==="doctor"?"Only your own patients":"All doctors, colour-coded";
   $("#apptSub").textContent=me.role==="doctor"?"Your patients only":"Everyone";
@@ -963,10 +1506,12 @@ function renderAppts(){
 }
 const vis=a=>stFilter==="all"||a.status===stFilter;
 function renderCal(){
+  if(!$("#calWrap"))return;
   const scope=myAppts();
   const dl=me.role==="doctor"?[D(me.docId)]:C.doctors;
   $("#calLegend").innerHTML=dl.filter(Boolean).map(d=>
     `<span style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)"><span class="sdot" style="background:${AVC[d.color][1]}"></span>${esc(d.name.replace("Dr. ",""))}</span>`).join("");
+  if(calMode==="month")return renderMonth(scope);
   const days=[];
   if(calMode==="day")days.push(new Date(calDate));
   else{const m=monday(calDate);for(let i=0;i<6;i++){const d=new Date(m);d.setDate(m.getDate()+i);days.push(d)}}
@@ -980,30 +1525,57 @@ function renderCal(){
     days.forEach(d=>{const k=isoOf(d),ev=scope.filter(a=>a.date===k&&a.time===s&&vis(a)&&a.status!=="Rejected");
       const off=myDoc&&(s<myDoc.start||s>=myDoc.end);
       h+=`<div class="cal-cell ${ev.length?"":off?"blocked":"free"}" data-slot="${k}|${s}">`+
-        ev.map(a=>`<button class="ev ev-${a.color} ${a.status==="Requested"?"pend":""} ${a.status==="Completed"?"gone":""}" data-open="${a.id}">
+        ev.map(a=>`<button class="ev ev-${a.color} ${a.status==="Completed"?"gone":""}" data-open="${a.id}">
           <b>${esc(a.name)}</b><i>${me.role==="doctor"?esc(a.type):esc(a.docName.replace("Dr. ",""))}</i>
           <u>${esc(a.token||"Request")}</u></button>`).join("")+`</div>`})});
   $("#calWrap").innerHTML=h+`</div>`;
 }
 document.addEventListener("click",e=>{const f=e.target.closest(".cal-cell.free");
-  if(f&&can("book")){const[d]=f.dataset.slot.split("|");go("book");setTimeout(()=>{const el=$("#pDate");if(el){el.value=d;docHint()}},40)}});
+  if(f&&has("book")){const[d]=f.dataset.slot.split("|");goSection("book");setTimeout(()=>{const el=$("#pDate");if(el){el.value=d;docHint()}},40)}});
+/* Month view: a whole month at a glance, each day listing its tokens. */
+function renderMonth(scope){
+  const first=new Date(calDate.getFullYear(),calDate.getMonth(),1);
+  const start=monday(first);
+  const last=new Date(calDate.getFullYear(),calDate.getMonth()+1,0);
+  $("#calRange").textContent=`${MONN[calDate.getMonth()]} ${calDate.getFullYear()}`;
+  let h=`<div class="cal month">`;
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(d=>h+=`<div class="cal-hd"><b>${d}</b></div>`);
+  const cur=new Date(start);
+  const weeks=Math.ceil((((last-start)/86400000)+1)/7);
+  for(let w=0;w<weeks;w++){
+    for(let i=0;i<7;i++){
+      const k=isoOf(cur),out=cur.getMonth()!==calDate.getMonth();
+      const ev=scope.filter(a=>a.date===k&&vis(a)&&a.status!=="Rejected")
+        .sort((x,y)=>x.time.localeCompare(y.time));
+      h+=`<div class="mcell ${out?"out":""} ${k===TODAY_ISO?"today":""}" data-slot="${k}|${C.settings.dayStart}">
+        <div class="mday">${cur.getDate()}</div>`+
+        ev.slice(0,3).map(a=>`<button class="mev ev-${a.color}" data-open="${a.id}">
+          ${esc(a.token||"—")} · ${esc(a.name.split(" ")[0])}</button>`).join("")+
+        (ev.length>3?`<span class="mmore">+${ev.length-3} more</span>`:"")+`</div>`;
+      cur.setDate(cur.getDate()+1);
+    }
+  }
+  $("#calWrap").innerHTML=h+`</div>`;
+}
+
 function apptTableHTML(list){
-  return `<table><thead><tr><th>Patient</th>${me.role==="doctor"?"":"<th>Doctor</th>"}<th>Date</th><th>Time</th><th>Status</th><th class="right no-print">Action</th></tr></thead>
-    <tbody>${list.map(a=>`<tr>
+  return `<table class="rowlink"><thead><tr><th>Patient</th>${me.role==="doctor"?"":"<th>Doctor</th>"}
+      <th>Date</th><th>Time</th><th>Status</th></tr></thead>
+    <tbody>${list.map(a=>`<tr data-open="${a.id}" title="Open this appointment">
       <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
         <div><div style="font-weight:700">${esc(a.name)}</div><div class="sub">${esc(a.pid)} · ${esc(a.token||"no token")}</div></div></div></td>
       ${me.role==="doctor"?"":`<td>${esc(a.docName)}${a.covering?`<div class="sub">covering</div>`:""}</td>`}
       <td class="num">${fmtD(parseISO(a.date))}</td><td class="num">${t12(a.time)}</td>
-      <td>${pill(a.billed?"Billed":a.status)}</td>
-      <td class="right no-print"><button class="dots" data-open="${a.id}">⋯</button></td></tr>`).join("")}</tbody></table>`;
+      <td>${pill(a.billed?"Billed":a.status)}</td></tr>`).join("")}</tbody></table>`;
 }
 function renderApptTable(){
+  if(!$("#apptTable"))return;
   const q=($("#apptSearch").value||"").toLowerCase();
   const l=myAppts().filter(a=>vis(a)&&(!q||a.name.toLowerCase().includes(q)||(a.token||"").toLowerCase().includes(q)))
     .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
   $("#apptTable").innerHTML=l.length?apptTableHTML(l):`<div class="empty"><b>Nothing to show</b>Try another filter.</div>`;
 }
-$("#apptSearch").addEventListener("input",renderApptTable);
+document.addEventListener("input",e=>{if(e.target.id==="apptSearch")renderApptTable()});
 
 /* ==========================================================
    APPOINTMENT DETAIL + ACTIONS
@@ -1012,7 +1584,9 @@ function pdfRow(a){
   return `<div class="req-acts" style="margin-top:12px">
     <button class="btn btn-s" data-pdf="booking|${a.id}">Confirmation PDF</button>
     ${a.consult?`<button class="btn btn-s" data-pdf="report|${a.id}">Report PDF</button>`:""}
-    ${a.token?`<button class="btn btn-s btn-g" data-resend="booking|${a.id}">Resend to patient</button>`:""}</div>`;
+    ${a.token?`<button class="btn btn-s btn-g" data-resend="booking|${a.id}">Resend to patient</button>`:""}
+    ${a.consult&&a.consult.followUp?`<button class="btn btn-s" data-resend="followup|${a.id}">
+      Send follow-up reminder</button>`:""}</div>`;
 }
 function openAppt(id){
   const a=C.appts.find(x=>x.id===id);if(!a)return;
@@ -1021,15 +1595,16 @@ function openAppt(id){
   $("#mName").textContent=a.name;
   $("#mMeta").textContent=`${a.pid} · ${a.age}/${a.sex[0]} · ${a.blood} · +91 ${a.phone}`;
   const mine=me.role==="doctor"&&a.docId===me.docId,acts=[];
-  if(mine&&a.status==="Requested")acts.push(`<button class="btn btn-ok" data-act="accept|${a.id}">Accept</button>`,
-    `<button class="btn" data-act="postpone|${a.id}">Postpone</button>`,`<button class="btn" data-act="reassign|${a.id}">Reassign</button>`,
-    `<button class="btn btn-no" data-act="reject|${a.id}">Reject</button>`);
   if(mine&&a.status==="Scheduled")acts.push(`<button class="btn btn-p" data-act="call|${a.id}">Start consultation</button>`,
-    `<button class="btn" data-act="postpone|${a.id}">Postpone</button>`,`<button class="btn" data-act="reassign|${a.id}">Reassign</button>`);
+    `<button class="btn" data-act="postpone|${a.id}">Postpone</button>`,`<button class="btn" data-act="reassign|${a.id}">Reassign</button>`,
+    `<button class="btn btn-no" data-act="reject|${a.id}">Cancel visit</button>`);
   if(mine&&a.status==="In consultation")acts.push(`<button class="btn btn-p" data-act="consult|${a.id}">Write notes</button>`);
   if(mine&&a.status==="Completed")acts.push(`<button class="btn" data-act="consult|${a.id}">Edit notes</button>`);
   if(me.role==="admin"&&a.status==="Scheduled")acts.push(`<button class="btn btn-p" data-act="call|${a.id}">Call in</button>`,
-    `<button class="btn" data-act="postpone|${a.id}">Reschedule</button>`);
+    `<button class="btn" data-act="postpone|${a.id}">Reschedule</button>`,
+    `<button class="btn" data-act="reassign|${a.id}">Reassign</button>`,
+    `<button class="btn btn-no" data-act="reject|${a.id}">Cancel visit</button>`);
+  if(me.role==="admin"&&a.status==="In consultation")acts.push(`<button class="btn" data-act="reassign|${a.id}">Reassign</button>`);
   if(me.role==="admin"&&a.status==="Completed"&&!a.billed)acts.push(`<button class="btn btn-p" data-act="bill|${a.id}">Raise bill</button>`);
   $("#mBody").innerHTML=`<dl class="kv" style="padding-top:0">
       <div><dt>Token</dt><dd>${esc(a.token||"Not issued")}</dd></div>
@@ -1056,8 +1631,30 @@ function consultBlock(a){const c=a.consult;
     ${c.advice?`<dt>Advice</dt><dd style="white-space:pre-wrap">${esc(c.advice)}</dd>`:""}</dl></div>`}
 $("#mClose").onclick=closeModal;
 $("#modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModal();$("#npanel").classList.remove("on")}});
+document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;
+  if($("#modal").classList.contains("on"))return closeModal();
+  if($("#npanel").classList.contains("on"))return $("#npanel").classList.remove("on");
+  if(openId)return closeScreen();
+  if($("#pmenu").classList.contains("on"))return closeMenu();
+  if(pageId)closePage();});
 function closeModal(){$("#modal").classList.remove("on");$("#mbox").classList.remove("wide")}
+
+/* Our own confirm dialog. The native confirm() is blocked inside sandboxed and
+   preview frames, where it silently returns undefined and the action never runs. */
+function askConfirm({title,meta="",body,okLabel="Confirm",danger=false,onOk}){
+  $("#mbox").classList.remove("wide");
+  $("#mAv").style=avSt(danger?"pink":"blue");
+  $("#mAv").innerHTML=`<svg viewBox="0 0 24 24" style="width:17px;height:17px">
+    <circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>`;
+  $("#mName").textContent=title;
+  $("#mMeta").textContent=meta;
+  $("#mBody").innerHTML=`<p style="font-size:13.5px;color:var(--ink-2);margin:0 0 18px">${esc(body)}</p>
+    <div class="req-acts"><button class="btn ${danger?"btn-no":"btn-p"}" id="cfOk">${esc(okLabel)}</button>
+      <button class="btn btn-g" id="cfNo">Cancel</button></div>`;
+  $("#cfOk").onclick=()=>{closeModal();onOk()};
+  $("#cfNo").onclick=closeModal;
+  $("#modal").classList.add("on");
+}
 document.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o&&me)openAppt(o.dataset.open)});
 document.addEventListener("click",e=>{
   const p=e.target.closest("[data-pdf]");
@@ -1070,7 +1667,9 @@ document.addEventListener("click",e=>{
   const r=e.target.closest("[data-resend]");
   if(r){const[k,id]=r.dataset.resend.split("|");
     if(k==="bill")announce("bill",C.bills.find(x=>x.no===id),"Bill resent");
-    else{const a=C.appts.find(x=>x.id===id);announce(k==="report"?"report":"confirmed",a,"Resent")}}
+    else{const a=C.appts.find(x=>x.id===id);
+      announce(k==="report"?"report":k==="followup"?"followup":"confirmed",a,
+        k==="followup"?"Follow-up reminder":"Resent")}}
 });
 document.addEventListener("click",e=>{
   const el=e.target.closest("[data-act]");if(!el)return;
@@ -1085,10 +1684,10 @@ document.addEventListener("click",e=>{
     log("initiated",`${a.name} called in`,`${a.docName} · ${a.room}`,a.id,["role:admin","doctor:"+a.docId]);
     toast(`${a.name} called in`);closeModal();after();return}
   if(act==="consult")return openConsult(a);
-  if(act==="bill"){closeModal();go("billing");setTimeout(()=>{const s=$("#billToken");if(s){s.value=a.id;loadBill()}},40)}
+  if(act==="bill"){closeModal();goSection("billing");setTimeout(()=>{const s=$("#billToken");if(s){s.value=a.id;loadBill()}},260)}
 });
-function after(){refreshBadges();renderView(currentView())}
-function currentView(){const v=$$(".view").find(s=>s.classList.contains("on"));return v?v.id.slice(2):"dash"}
+function after(){refreshBadges();renderView()}
+
 function mkToken(a){const d=D(a.docId),k=d.id+"|"+a.date;C.seq[k]=(C.seq[k]||0)+1;return d.code+"-"+String(C.seq[k]).padStart(2,"0")}
 function promptReject(a){
   $("#mBody").innerHTML=`<p class="hint" style="margin:0 0 14px">The patient is told automatically, with this reason.</p>
@@ -1113,7 +1712,7 @@ function promptPostpone(a){
     if(C.appts.some(x=>x.id!==a.id&&x.docId===a.docId&&x.date===nd&&x.time===nt&&x.status!=="Rejected"))return toast("That slot is taken");
     const old=`${fmtD(parseISO(a.date))} ${t12(a.time)}`;
     a.log.push(`Moved from ${old} to ${fmtD(parseISO(nd))} ${t12(nt)} by ${me.name}${$("#ppM").value?" — "+$("#ppM").value:""}`);
-    a.date=nd;a.time=nt;if(a.status==="Requested")a.status="Scheduled";if(!a.token)a.token=mkToken(a);
+    a.date=nd;a.time=nt;if(!a.token)a.token=mkToken(a);
     log("postponed",`${a.name} moved to ${fmtD(parseISO(nd))}`,`${old} → ${t12(nt)}`,a.id,["role:admin","doctor:"+a.docId]);
     closeModal();announce("updated",a,"Rescheduled");after()};
 }
@@ -1166,7 +1765,15 @@ function openConsult(a){
       followUp:fu,fuDays:sel,savedAt:fmtD(TODAY),by:me.name,custom:cfCollect($("#mBody"))};
     a.status="Completed";a.log.push(`Consultation completed by ${me.name}`);
     log("completed",`${a.name} — consultation complete`,`${dx}${fu?" · review "+fmtD(parseISO(fu)):""}`,a.id,["role:admin","doctor:"+a.docId]);
-    closeModal();announce("report",a,"Consultation saved");after();
+    // The visit is done, so the next token moves straight into the room.
+    const next=advanceQueue(a);
+    closeModal();announce("report",a,"Consultation saved");
+    // A review date means the patient gets a follow-up reminder too, with the report attached.
+    if(fu){const ok=autoSend("followup",a);
+      if(ok&&ok.length)setTimeout(()=>toast(
+        `Follow-up ${fmtD(parseISO(fu))} — reminder sent to ${a.name} by ${ok.join(" + ")}`),1200);}
+    if(next)setTimeout(()=>toast(`Next token ${next.token} — ${next.name} is now in consultation`),2400);
+    after();
   };
   $("#modal").classList.add("on");
 }
@@ -1185,34 +1792,6 @@ function cfShow(t,v){return cfFor(t).filter(f=>(v||{})[f.id]).map(f=>`<div><dt>$
 /* ==========================================================
    REQUESTS / FOLLOW-UPS / PATIENTS / MESSAGES / ACTIVITY
    ========================================================== */
-function reqCard(a){
-  const mine=me.role==="doctor"&&a.docId===me.docId;
-  return `<div class="req ${a.status==="Requested"?"new":""}">
-    <div class="req-t"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
-      <div style="flex:1;min-width:0"><div class="row-n">${esc(a.name)}</div>
-        <div class="row-m">${fmtD(parseISO(a.date))} · ${t12(a.time)} · ${me.role==="doctor"?esc(a.type):esc(a.docName)}</div>
-        ${a.note?`<div class="sub">"${esc(a.note)}"</div>`:""}
-        <div class="sub">Raised by ${esc(a.raisedBy)}</div></div>${pill(a.status)}</div>
-    <div class="req-acts">${mine&&a.status==="Requested"?`
-      <button class="btn btn-s btn-ok" data-act="accept|${a.id}">Accept</button>
-      <button class="btn btn-s" data-act="postpone|${a.id}">Postpone</button>
-      <button class="btn btn-s" data-act="reassign|${a.id}">Reassign</button>
-      <button class="btn btn-s btn-no" data-act="reject|${a.id}">Reject</button>`:""}
-      <button class="btn btn-s btn-g" data-open="${a.id}">Open</button></div>
-    ${a.rejectReason?`<div class="sub" style="margin-top:9px;color:var(--red)">Reason: ${esc(a.rejectReason)}</div>`:""}</div>`;
-}
-function renderRequests(){
-  const s=myAppts(),pend=s.filter(a=>a.status==="Requested"),rej=s.filter(a=>a.status==="Rejected");
-  $("#reqBody").innerHTML=`<div class="grid g3" style="margin-bottom:16px">
-      ${statCard("Awaiting decision",pend.length,"amber",IC.requests)}
-      ${statCard("Accepted",s.filter(a=>a.log.some(l=>l.startsWith("Accepted"))).length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
-      ${statCard("Rejected",rej.length,"red",`<path d="M18 6L6 18M6 6l12 12"/>`)}</div>
-    <div class="split"><div class="card"><div class="c-head"><div><h3>${me.role==="doctor"?"For your decision":"Waiting on the doctor"}</h3>
-      <p>Whatever is decided, the patient hears about it automatically</p></div></div>
-      <div class="c-body">${pend.length?pend.map(a=>reqCard(a)).join(""):`<div class="empty"><b>Nothing pending</b>All clear.</div>`}</div></div>
-      <div class="card"><div class="c-head"><div><h3>Turned down</h3><p>With the reason sent to the patient</p></div></div>
-        <div class="c-body">${rej.length?rej.map(a=>reqCard(a)).join(""):`<div class="empty"><b>None rejected</b>Good news.</div>`}</div></div></div>`;
-}
 function renderFollowups(){
   const l=myAppts().filter(a=>a.consult&&a.consult.followUp).sort((a,b)=>a.consult.followUp.localeCompare(b.consult.followUp));
   $("#fuBody").innerHTML=`<div class="grid g3" style="margin-bottom:16px">
@@ -1220,44 +1799,168 @@ function renderFollowups(){
       ${statCard("Overdue",l.filter(a=>a.consult.followUp<TODAY_ISO).length,"red",`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>`)}
       ${statCard("Due this week",l.filter(a=>{const d=parseISO(a.consult.followUp),x=new Date(TODAY);x.setDate(x.getDate()+7);return d>=TODAY&&d<=x}).length,"amber",`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`)}</div>
     <div class="card"><div class="c-head"><div><h3>Follow-up schedule</h3><p>Send a reminder with one tap</p></div></div>
-    ${l.length?`<table><thead><tr><th>Patient</th><th>Last seen</th><th>Diagnosis</th><th>Due</th><th>State</th><th class="right">Remind</th></tr></thead>
+    ${l.length?`<table class="rowlink"><thead><tr><th>Patient</th><th>Last seen</th><th>Diagnosis</th><th>Due</th><th>State</th></tr></thead>
       <tbody>${l.map(a=>{const late=a.consult.followUp<TODAY_ISO;
         const booked=myAppts().some(x=>x.pid===a.pid&&x.date===a.consult.followUp);
-        return `<tr><td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
+        return `<tr data-open="${a.id}" title="Open this visit">
+          <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
             <div><div style="font-weight:700">${esc(a.name)}</div><div class="sub">${esc(a.pid)}</div></div></div></td>
           <td class="num">${fmtD(parseISO(a.date))}</td><td>${esc(a.consult.diagnosis)}</td>
           <td class="num">${fmtD(parseISO(a.consult.followUp))}</td>
-          <td>${booked?`<span class="pill p-green">Booked</span>`:late?`<span class="pill p-red">Overdue</span>`:`<span class="pill p-amber">Awaiting</span>`}</td>
-          <td class="right no-print"><button class="btn btn-s btn-p" data-resend="report|${a.id}">Send reminder</button></td></tr>`}).join("")}</tbody></table>`
+          <td>${booked?`<span class="pill p-green">Booked</span>`:late?`<span class="pill p-red">Overdue</span>`:`<span class="pill p-amber">Awaiting</span>`}</td></tr>`}).join("")}</tbody></table>`
       :`<div class="empty"><b>No follow-ups yet</b>Set one while writing notes.</div>`}</div>`;
 }
-function renderPatients(){
-  const scope=myAppts(),by={};scope.forEach(a=>{if(!by[a.pid]||a.date>by[a.pid].date)by[a.pid]=a});
-  let l=Object.values(by).sort((a,b)=>b.date.localeCompare(a.date));
-  if(patFilter!=="all")l=l.filter(a=>patFilter==="followup"?(a.consult&&a.consult.followUp):a.status===patFilter);
-  const q=($("#globalSearch").value||"").toLowerCase();
-  if(q)l=l.filter(a=>a.name.toLowerCase().includes(q)||a.pid.toLowerCase().includes(q)||a.phone.includes(q));
-  $("#patBody").innerHTML=`<div class="grid g3" style="margin-bottom:16px">
-      ${statCard(me.role==="doctor"?"My patients":"Patients",Object.keys(by).length,"blue",IC.patients)}
-      ${statCard("Treated",scope.filter(a=>a.status==="Completed").length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
-      ${statCard("In the clinic now",scope.filter(a=>["Scheduled","In consultation"].includes(a.status)&&a.date===TODAY_ISO).length,"amber",`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`)}</div>
-    <div class="card"><div class="c-head" style="padding-bottom:0"><div class="utabs no-print" id="patTabs" style="flex:1">
-      ${[["all","All"],["Scheduled","Booked"],["Completed","Treated"],["followup","Follow-up"]].map(([k,x])=>
-        `<button class="utab" data-pt="${k}" aria-pressed="${patFilter===k}">${x}</button>`).join("")}</div></div>
-      <div class="c-head" style="padding-top:14px"><div><h3>${me.role==="doctor"?"Under my care":"Patient list"}</h3>
-        <p>${me.role==="doctor"?"Only patients you have seen":"Everyone registered"}</p></div></div>
-      <div id="patTable"></div></div>`;
-  $("#patTabs").onclick=e=>{const b=e.target.closest("[data-pt]");if(!b)return;patFilter=b.dataset.pt;renderPatients()};
-  $("#patTable").innerHTML=l.length?`<table><thead><tr><th>ID</th><th>Name</th><th>Age / Sex</th>
-      ${me.role==="doctor"?"<th>Last diagnosis</th>":"<th>Doctor</th>"}<th>Last visit</th><th>Status</th><th class="right">Action</th></tr></thead>
-    <tbody>${l.map(a=>`<tr><td class="num" style="font-weight:700">${esc(a.pid)}</td>
-      <td><div style="font-weight:700">${esc(a.name)}</div><div class="sub">+91 ${esc(a.phone)}</div></td>
-      <td>${esc(a.age)} / ${esc(a.sex)}</td>
-      ${me.role==="doctor"?`<td>${a.consult?esc(a.consult.diagnosis):`<span class="sub">Not seen yet</span>`}</td>`:`<td>${esc(a.docName)}</td>`}
-      <td class="num">${fmtD(parseISO(a.date))}</td><td>${pill(a.billed?"Billed":a.status)}</td>
-      <td class="right no-print"><button class="btn btn-s" data-hist="${a.pid}">History</button></td></tr>`).join("")}</tbody></table>`
-    :`<div class="empty"><b>No patients</b>Book someone to get started.</div>`;
+/* Dashboard, opened from the profile menu. The numbers that used to sit on Home,
+   plus the per-doctor breakdown they only make sense against. */
+function renderDashboard(){
+  const box=$("#dashBody");if(!box)return;
+  const mine=myAppts();
+  const today=mine.filter(a=>a.date===TODAY_ISO&&a.status!=="Rejected");
+  const treated=mine.filter(a=>a.status==="Completed");
+  const inClinic=mine.filter(a=>["Scheduled","In consultation"].includes(a.status)&&a.date===TODAY_ISO);
+  const money_=n=>money(n);
+
+  const docs=me.role==="doctor"?C.doctors.filter(d=>d.id===me.docId):C.doctors;
+  const rows=docs.map(d=>{
+    const all=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected");
+    const cap=docSlots(d).length;
+    const done=all.filter(a=>a.status==="Completed").length;
+    const pct=cap?Math.min(100,Math.round(all.length/cap*100)):0;
+    const cur=servingFor(d.id),nxt=nextForDoc(d.id);
+    return `<tr><td><div class="who-cell"><div class="av" style="${avSt(d.color)}">${ini(d.name)}</div>
+        <div><div style="font-weight:700">${esc(d.name)}</div>
+          <div class="sub">${dotFor(d.status)}${esc(d.spec)} · ${esc(d.room)}</div></div></div></td>
+      <td class="num">${t12(d.day_start||d.start)}–${t12(d.day_end||d.end)}</td>
+      <td class="num">${all.length}/${cap}
+        <div class="bar-track" style="width:110px"><div class="bar-fill ${pct>=100?"full":""}" style="width:${pct}%"></div></div></td>
+      <td class="num">${done}</td>
+      <td>${cur?`<span class="pill p-violet">${esc(cur.token)}</span>`:`<span class="sub">free</span>`}</td>
+      <td>${nxt?`<span class="pill p-blue">${esc(nxt.token)}</span>`:`<span class="sub">—</span>`}</td></tr>`}).join("");
+
+  const collected=C.bills.reduce((t,b)=>t+b.total,0);
+  const sent=C.messages?C.messages.filter(m=>m.status==="Sent").length:0;
+
+  box.innerHTML=`<div class="grid g3" style="margin-bottom:16px">
+      ${statCard(me.role==="doctor"?"My patients":"Patients",new Set(mine.map(a=>a.pid)).size,"blue",IC.current)}
+      ${statCard("Treated",treated.length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
+      ${statCard("In the clinic now",inClinic.length,"amber",`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`)}</div>
+    <div class="grid g3" style="margin-bottom:20px">
+      ${statCard("Appointments today",today.length,"violet",IC.appts)}
+      ${statCard("Follow-ups pending",
+        mine.filter(a=>a.consult&&a.consult.followUp&&a.consult.followUp>=TODAY_ISO).length,"violet",IC.followups)}
+      ${me.role==="admin"
+        ? statCard("Collected",money_(collected),"green",`<path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>`)
+        : statCard("Reports sent",treated.length,"blue",IC.messages)}</div>
+    <div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Doctors today</h3>
+      <p>Load, completed visits and who is in each room</p></div></div>
+      ${docs.length?`<table><thead><tr><th>Doctor</th><th>Session</th><th>Booked</th><th>Done</th>
+        <th>In room</th><th>Next</th></tr></thead><tbody>${rows}</tbody></table>`
+        :`<div class="empty"><b>No doctors yet</b>Add one to see the breakdown.</div>`}</div>
+    ${me.role==="admin"?`<div class="split">
+      <div class="card"><div class="c-head"><div><h3>Billing</h3><p>Every invoice raised so far</p></div></div>
+        <div class="c-body"><dl class="kv" style="padding-top:0">
+          <div><dt>Invoices</dt><dd>${C.bills.length}</dd></div>
+          <div><dt>Collected</dt><dd>${money_(collected)}</dd></div>
+          <div><dt>Average bill</dt><dd>${money_(C.bills.length?collected/C.bills.length:0)}</dd></div>
+          <div><dt>Unbilled visits</dt><dd>${mine.filter(a=>a.status==="Completed"&&!a.billed).length}</dd></div></dl></div></div>
+      <div class="card"><div class="c-head"><div><h3>Patient messaging</h3><p>Sent automatically, no prompts</p></div></div>
+        <div class="c-body"><dl class="kv" style="padding-top:0">
+          <div><dt>Messages sent</dt><dd>${sent}</dd></div>
+          <div><dt>Not delivered</dt><dd>${(C.messages||[]).length-sent}</dd></div>
+          <div><dt>Doctors on duty</dt><dd>${C.doctors.filter(d=>d.status==="Active").length}</dd></div>
+          <div><dt>Rooms</dt><dd>${C.rooms.length}</dd></div></dl></div></div></div>`:""}`;
 }
+
+/* The appointment list on its own, for the top of a doctor's home page. */
+function renderApptList(){
+  const box=$("#listBody");if(!box)return;
+  const q=(listQ||"").toLowerCase();
+  const l=myAppts()
+    .filter(a=>a.date===TODAY_ISO)          // today only; the calendar covers other days
+    .filter(a=>!q||a.name.toLowerCase().includes(q)||(a.token||"").toLowerCase().includes(q)||a.pid.toLowerCase().includes(q))
+    .sort((a,b)=>a.time.localeCompare(b.time));
+  box.innerHTML=`<div class="card"><div class="c-head"><div><h3>${esc(fmtFull(TODAY))}</h3>
+      <p>${l.length} appointment(s) today · tap a row to open it</p></div>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input class="in no-print" id="listSearch" placeholder="Search name, ID or token"
+        value="${esc(listQ)}" style="max-width:210px">
+      <button class="btn btn-s no-print" data-export="today">Export CSV</button></div></div>
+    ${l.length?apptTableHTML(l):`<div class="empty"><b>Nothing booked today</b>The list is clear.</div>`}</div>`;
+  const si=$("#listSearch");
+  if(si)si.oninput=()=>{listQ=si.value;renderApptList();
+    const n=$("#listSearch");if(n){n.focus();n.setSelectionRange(listQ.length,listQ.length)}};
+}
+
+/* Home: who is in the clinic right now, patient AND appointment together. */
+function renderCurrent(){
+  const box=$("#curBody");if(!box)return;
+  const q=($("#globalSearch").value||"").toLowerCase();
+  let l=myAppts().filter(a=>["Scheduled","In consultation"].includes(a.status))
+    .sort((x,y)=>(x.date+x.time).localeCompare(y.date+y.time));
+  if(q)l=l.filter(a=>a.name.toLowerCase().includes(q)||a.pid.toLowerCase().includes(q)||a.phone.includes(q));
+
+  box.innerHTML=`<div class="card">
+    <div class="c-head"><div><h3>In the clinic</h3>
+      <p>${l.length} patient(s) booked or with a doctor — treated patients move to Patient history</p></div></div>
+    ${l.length?`<table class="rowlink"><thead><tr>
+        <th>Token</th><th>Patient</th><th>Age / Sex</th><th>Appointment</th>
+        ${me.role==="doctor"?"":"<th>Doctor</th>"}<th>Status</th></tr></thead>
+      <tbody>${l.map(a=>`<tr data-open="${a.id}" title="Open this appointment"
+        ${a.status==="In consultation"?'style="background:var(--violet-s)"':""}>
+        <td class="num" style="font-weight:700;font-size:15px">${esc(a.token||"—")}</td>
+        <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
+          <div><div style="font-weight:700">${esc(a.name)}</div>
+            <div class="sub">${esc(a.pid)} · +91 ${esc(a.phone)}</div></div></div></td>
+        <td>${esc(a.age)} / ${esc(a.sex)}<div class="sub">${esc(a.blood||"—")}</div></td>
+        <td class="num">${fmtD(parseISO(a.date))} · ${t12(a.time)}
+          <div class="sub">${esc(a.type)}${a.note?" · "+esc(a.note):""}</div></td>
+        ${me.role==="doctor"?"":`<td>${esc(a.docName)}<div class="sub">${esc(a.room)}</div></td>`}
+        <td>${pill(a.status)}</td></tr>`).join("")}</tbody></table>`
+      :`<div class="empty"><b>Nobody in the clinic</b>Book a walk-in and they will appear here.</div>`}</div>`;
+}
+
+/* Profile menu: everyone whose treatment is finished, with their past visits. */
+function renderHistory(){
+  const box=$("#histBody");if(!box)return;
+  const treated=myAppts().filter(a=>a.status==="Completed");
+  const by={};
+  treated.forEach(a=>{if(!by[a.pid]||a.date>by[a.pid].date)by[a.pid]=a});
+  const q=($("#histSearch")?$("#histSearch").value:"").toLowerCase();
+  let l=Object.values(by).sort((a,b)=>b.date.localeCompare(a.date));
+  if(q)l=l.filter(a=>a.name.toLowerCase().includes(q)||a.pid.toLowerCase().includes(q)||a.phone.includes(q));
+
+  box.innerHTML=`<div class="grid g3" style="margin-bottom:16px">
+      ${statCard("Patients treated",Object.keys(by).length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
+      ${statCard("Visits completed",treated.length,"blue",IC.history)}
+      ${statCard("Follow-ups pending",treated.filter(a=>a.consult&&a.consult.followUp&&a.consult.followUp>=TODAY_ISO).length,
+        "violet",IC.followups)}</div>
+    <div class="card"><div class="c-head"><div><h3>Treated patients</h3>
+      <p>Every visit, diagnosis and report kept together</p></div>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <input class="in no-print" id="histSearch" placeholder="Search name, ID or mobile"
+          value="${esc(q)}" style="max-width:230px">
+        <button class="btn btn-s no-print" data-export="history">Export CSV</button></div></div>
+    ${l.length?`<table class="rowlink"><thead><tr><th>Patient</th><th>Visits</th><th>Last seen</th>
+        ${me.role==="doctor"?"":"<th>Doctor</th>"}<th>Last diagnosis</th><th>Follow-up</th></tr></thead>
+      <tbody>${l.map(a=>{
+        const visits=treated.filter(x=>x.pid===a.pid).length;
+        const fu=a.consult&&a.consult.followUp;
+        return `<tr data-hist="${a.pid}" title="Open the full visit history">
+          <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
+            <div><div style="font-weight:700">${esc(a.name)}</div>
+              <div class="sub">${esc(a.pid)} · ${esc(a.age)}/${esc(a.sex[0])} · +91 ${esc(a.phone)}</div></div></div></td>
+          <td class="num" style="font-weight:700">${visits}</td>
+          <td class="num">${fmtD(parseISO(a.date))}</td>
+          ${me.role==="doctor"?"":`<td>${esc(a.docName)}</td>`}
+          <td>${a.consult?esc(a.consult.diagnosis):`<span class="sub">—</span>`}</td>
+          <td>${fu?(fu<TODAY_ISO?`<span class="pill p-red">Overdue ${fmtD(parseISO(fu))}</span>`
+              :`<span class="pill p-violet">${fmtD(parseISO(fu))}</span>`):`<span class="sub">none</span>`}</td></tr>`}).join("")}</tbody></table>`
+      :`<div class="empty"><b>No treated patients yet</b>Once a consultation is saved the patient moves here.</div>`}</div>`;
+  const si=$("#histSearch");
+  if(si)si.oninput=()=>{const v=si.value;renderHistory();const n=$("#histSearch");
+    if(n){n.value=v;n.focus();n.setSelectionRange(v.length,v.length)}};
+}
+
 document.addEventListener("click",e=>{
   const h=e.target.closest("[data-hist]");if(!h)return;
   const v=myAppts().filter(a=>a.pid===h.dataset.hist).sort((a,b)=>b.date.localeCompare(a.date)),p=v[0];
@@ -1281,7 +1984,8 @@ function renderMessages(){
       ${statCard("Messages sent",m.filter(x=>x.status==="Sent").length,"green",IC.messages)}
       ${statCard("WhatsApp",m.filter(x=>x.channel==="whatsapp"&&x.status==="Sent").length,"blue",`<path d="M21 11.5a8.4 8.4 0 01-9 8.4 8.4 8.4 0 01-4-1L3 21l2.1-5a8.4 8.4 0 01-1-4 8.4 8.4 0 018.4-8.4h.5A8.4 8.4 0 0121 11v.5z"/>`)}
       ${statCard("Not delivered",m.filter(x=>x.status!=="Sent").length,"amber",`<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>`)}</div>
-    <div class="card"><div class="c-head"><div><h3>Outbox</h3><p>Everything sent to patients, automatically or by hand</p></div></div>
+    <div class="card"><div class="c-head"><div><h3>Outbox</h3><p>Everything sent to patients, automatically or by hand</p></div>
+      <button class="btn btn-s no-print" data-export="messages" style="margin-left:auto">Export CSV</button></div>
     ${m.length?`<table><thead><tr><th>To</th><th>Channel</th><th>About</th><th>Status</th><th>Time</th><th class="right">Action</th></tr></thead>
       <tbody>${m.slice(0,60).map(x=>`<tr>
         <td><div style="font-weight:700">${esc(x.name)}</div><div class="sub">${esc(x.to||"—")}</div></td>
@@ -1313,7 +2017,9 @@ function renderActivity(){
       ${statCard("Completed",l.filter(n=>n.type==="completed").length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
       ${statCard("Rejected",l.filter(n=>n.type==="rejected").length,"red",`<path d="M18 6L6 18M6 6l12 12"/>`)}</div>
     <div class="card"><div class="c-head"><div><h3>Activity log</h3><p>Initiated, accepted, rejected, completed, billed and every message sent</p></div>
-      <button class="btn btn-s no-print" id="actRead" style="margin-left:auto">Mark all read</button></div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-s no-print" data-export="activity">Export CSV</button>
+        <button class="btn btn-s no-print" id="actRead">Mark all read</button></div></div>
       <div class="c-body">${l.length?l.map(n=>{const[c,p]=NTYPE[n.type]||NTYPE.initiated;
         return `<div class="row" ${n.apptId?`data-open="${n.apptId}" style="cursor:pointer"`:""}>
           <div class="av" style="background:var(--${c}-s);color:var(--${c})"><svg viewBox="0 0 24 24" style="width:15px;height:15px">${p}</svg></div>
@@ -1327,16 +2033,17 @@ function renderActivity(){
    NEW APPOINTMENT
    ========================================================== */
 function renderBook(){
+  // Preserve anything half-typed: on a single page this form can be re-rendered
+  // by an action taken in another section.
+  const keep={};
+  ["pName","pPhone","pAge","pNote","pEmail","pDate","pDoc","pSex","pBlood"].forEach(i=>{
+    const el=$("#"+i);if(el&&el.value)keep[i]=el.value});
   if(!C.doctors.length)return $("#bookBody").innerHTML=`<div class="card"><div class="empty">
     <b>Add a doctor first</b>Appointments need someone to see the patient.
-    <div style="margin-top:16px"><button class="btn btn-p" data-go="doctors">Add a doctor</button></div></div></div>`;
+    <div style="margin-top:16px"><button class="btn btn-p" data-sec="doctors">Add a doctor</button></div></div></div>`;
   $("#bookBody").innerHTML=`<div class="split">
-    <div class="card"><div class="c-head"><div><h3>New appointment</h3><p>Walk-in is confirmed at once; a request waits for the doctor</p></div></div>
+    <div class="card"><div class="c-head"><div><h3>Patient details</h3><p>Confirmed on the spot — the token is issued straight away</p></div></div>
       <div class="c-body">
-        <div class="f"><span class="f-l">Booking type</span><div class="seg" id="modeSeg">
-          <button type="button" data-m="token" aria-pressed="${bookMode==="token"}">Walk-in — confirm now</button>
-          <button type="button" data-m="request" aria-pressed="${bookMode==="request"}">Request — doctor confirms</button></div>
-          <p class="hint" id="modeHint"></p></div>
         <div class="grid g2" style="gap:0 16px">
           <label class="f"><span class="f-l">Patient name <i>*</i></span><input class="in" id="pName" placeholder="e.g. Lakshmi Narayanan"></label>
           <label class="f"><span class="f-l">Mobile (WhatsApp) <i>*</i></span><input class="in" id="pPhone" inputmode="numeric" maxlength="10"></label>
@@ -1356,21 +2063,15 @@ function renderBook(){
     <div class="card"><div class="c-head"><div><h3>Confirmation</h3><p>Token slip and what the patient receives</p></div></div>
       <div class="c-body" id="slipWrap"><div class="empty"><b>Nothing booked yet</b>Fill in the form to confirm.</div></div></div></div>`;
   fillDocSelect();
-  $("#modeSeg").onclick=e=>{const b=e.target.closest("[data-m]");if(!b)return;
-    $$("#modeSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));bookMode=b.dataset.m;modeText()};
   $("#typeSeg").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;
     $$("#typeSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));visitType=b.dataset.t};
   $("#pDoc").onchange=docHint;$("#pDate").onchange=docHint;
   ["pPhone","pAge"].forEach(i=>$("#"+i).addEventListener("input",e=>e.target.value=e.target.value.replace(/\D/g,"")));
   $("#btnIssue").onclick=submitBooking;
   $("#btnClear").onclick=()=>["pName","pPhone","pAge","pNote","pEmail"].forEach(i=>{$("#"+i).value="";$("#"+i).classList.remove("bad")});
-  modeText();docHint();
-}
-function modeText(){
-  $("#modeHint").textContent=bookMode==="token"
-    ?"Confirmed straight away — the patient gets the WhatsApp and email at once."
-    :"Sent to the doctor. The patient is messaged the moment it's accepted, moved or declined.";
-  $("#btnIssue").textContent=bookMode==="token"?"Confirm appointment":"Send request";
+  Object.entries(keep).forEach(([i,v])=>{const el=$("#"+i);if(el)el.value=v});
+  $("#btnIssue").textContent="Confirm appointment";
+  docHint();
 }
 function fillDocSelect(){const s=$("#pDoc");if(!s)return;
   s.innerHTML=C.doctors.map(d=>`<option value="${d.id}" ${d.status!=="Active"?"disabled":""}>${esc(d.name)} — ${esc(d.spec)}${d.status!=="Active"?" ("+d.status+")":""}</option>`).join("");
@@ -1380,7 +2081,7 @@ function docHint(){const el=$("#docHint");if(!el)return;const d=D($("#pDoc").val
   const used=C.appts.filter(a=>a.docId===d.id&&a.date===date&&a.status!=="Rejected").length,nx=nextSlot(d.id,date);
   el.textContent=`${d.room} · ${t12(d.start)}–${t12(d.end)} · ${money(d.fee)} · ${used}/${cap} booked · next free ${nx?t12(nx):"none"}`}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-book]");
-  if(b&&can("book")){go("book");setTimeout(()=>{const s=$("#pDoc");if(s){s.value=b.dataset.book;docHint();$("#pName").focus()}},50)}});
+  if(b&&has("book")){goSection("book");setTimeout(()=>{const s=$("#pDoc");if(s){s.value=b.dataset.book;docHint();$("#pName").focus()}},50)}});
 function submitBooking(){
   const name=$("#pName").value.trim(),phone=$("#pPhone").value.trim(),age=$("#pAge").value.trim();
   const d=D($("#pDoc").value),date=$("#pDate").value||TODAY_ISO;
@@ -1388,7 +2089,7 @@ function submitBooking(){
   if(!name)return toast("Enter the patient's name");
   if(phone.length!==10)return toast("Mobile needs 10 digits");
   if(!age)return toast("Enter the age");
-  if(!d||d.status!=="Active")return toast("That doctor isn't consulting");
+  if(!d||d.status!=="Active")return toast(`${d?d.name:"That doctor"} is on leave — pick another doctor`);
   const cust=cfCollect($("#bookBody"));
   for(const f of cfFor("patient").filter(f=>f.required))if(!cust[f.id])return toast(`${f.label} is required`);
   const slot=nextSlot(d.id,date);
@@ -1396,15 +2097,14 @@ function submitBooking(){
   const a={id:"A"+Date.now(),pid:"#P-"+String(C.appts.length+1).padStart(3,"0"),name,phone,age,
     sex:$("#pSex").value,blood:$("#pBlood").value,email:$("#pEmail").value.trim(),type:visitType,note:$("#pNote").value.trim(),
     docId:d.id,docName:d.name,spec:d.spec,dept:d.dept,room:d.room,fee:d.fee,color:d.color,date,time:slot,
-    status:bookMode==="token"?"Scheduled":"Requested",token:null,billed:false,custom:cust,
+    status:"Scheduled",token:null,billed:false,custom:cust,
     raisedBy:me.name,log:[`Created by ${me.name}`],consult:null};
-  if(bookMode==="token")a.token=mkToken(a);
+  a.token=mkToken(a);           // walk-in only: a token is always issued
   C.appts.push(a);
-  log("initiated",`New appointment — ${a.name}`,`${a.docName} · ${fmtD(parseISO(date))} ${t12(slot)}${a.token?" · "+a.token:" · awaiting the doctor"}`,
+  log("initiated",`New appointment — ${a.name}`,`${a.docName} · ${fmtD(parseISO(date))} ${t12(slot)} · ${a.token}`,
     a.id,["role:admin","doctor:"+d.id]);
-  let sent=null;
-  if(bookMode==="token")sent=autoSend("confirmed",a);
-  $("#slipWrap").innerHTML=(a.token?`<div class="slip">
+  const sent=autoSend("confirmed",a);
+  $("#slipWrap").innerHTML=(`<div class="slip">
       <div class="slip-b"><span>${esc(C.settings.clinic)}</span><span>OPD</span></div>
       <div class="slip-m"><div class="slip-cap">Token</div><div class="slip-no">${esc(a.token)}</div>
         <div class="slip-d">${esc(a.docName)}</div><div class="slip-s">${esc(a.spec)} · ${esc(a.room)}</div></div>
@@ -1412,14 +2112,14 @@ function submitBooking(){
       <dl class="slip-g"><div><dt>Patient</dt><dd>${esc(a.name)}</dd></div><div><dt>ID</dt><dd>${esc(a.pid)}</dd></div>
         <div><dt>Report by</dt><dd>${t12(a.time)}</dd></div><div><dt>Date</dt><dd>${fmtD(parseISO(a.date))}</dd></div>
         <div><dt>Age / Sex</dt><dd>${esc(a.age)} / ${esc(a.sex[0])}</dd></div><div><dt>Fee</dt><dd>${money(a.fee)}</dd></div></dl>
-      <div class="slip-f">Numbers are called outside ${esc(a.room)}.</div></div>`
-    :`<div class="empty"><b>Request sent to ${esc(d.name)}</b>The patient is messaged as soon as it's decided.</div>`)+
+      <div class="slip-f">Numbers are called outside ${esc(a.room)}.</div></div>`)+
     (sent?`<div class="sent-note"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
       <div><b>${sent.length?sent.join(" + ")+" sent":"Nothing sent"}</b>
       <span>${sent.length?`Confirmation delivered to ${esc(a.name)} automatically.`:"No mobile or email on this record."}</span></div></div>`:"")+
     `<div class="req-acts" style="margin-top:12px"><button class="btn btn-s" data-pdf="booking|${a.id}">Download PDF</button>
-      ${a.token?`<button class="btn btn-s btn-g" data-resend="booking|${a.id}">Send again</button>`:""}</div>`;
-  toast(a.token?(sent&&sent.length?`Confirmed · ${sent.join(" + ")} sent to ${name}`:`Token ${a.token} issued`):"Request sent to the doctor");
+      <button class="btn btn-s btn-g" data-resend="booking|${a.id}">Send again</button></div>`;
+  toast(sent&&sent.length?`Confirmed · ${sent.join(" + ")} sent to ${name}`:`Token ${a.token} issued`);
+  ["pName","pPhone","pAge","pNote","pEmail"].forEach(i=>{const el=$("#"+i);if(el)el.value=""});
   refreshBadges();
 }
 
@@ -1435,25 +2135,74 @@ function renderBilling(){
         <div class="s-row"><span>Discount <input class="qty" id="bDisc" value="0" style="width:52px;margin:0 6px">%</span><b id="bDiscV">− ${money(0)}</b></div>
         <div class="s-row"><span>Registration</span><b id="bReg">${money(0)}</b></div>
         <div class="s-row s-tot"><span>Payable</span><b id="bTotal">${money(0)}</b></div></div></div>
-    <div><div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Bill to</h3><p>Pull from a visit</p></div></div>
-      <div class="c-body"><label class="f"><span class="f-l">Visit</span><select class="in" id="billToken"></select></label>
-      <label class="f" style="margin-bottom:0"><span class="f-l">Payment mode</span><select class="in" id="payMode">
-        <option>Cash</option><option>UPI</option><option>Card</option></select></label></div></div>
+    <div><div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Bill to</h3>
+        <p>Pick a registered patient, or pull straight from a visit</p></div></div>
+      <div class="c-body">
+        <label class="f"><span class="f-l">Patient</span><select class="in" id="billPatient"></select></label>
+        <div id="patInfo"></div>
+        <label class="f"><span class="f-l">Visit</span><select class="in" id="billToken"></select></label>
+        <label class="f" style="margin-bottom:0"><span class="f-l">Payment mode</span><select class="in" id="payMode">
+          <option>Cash</option><option>UPI</option><option>Card</option></select></label></div></div>
       <div class="card"><div class="c-head"><div><h3>Charges</h3><p>Rates set in Settings</p></div></div>
         <div class="c-body"><div class="cat" id="catWrap"></div>
         <button class="btn btn-p" id="btnBill" style="width:100%;margin-top:16px;justify-content:center">Generate bill &amp; send</button></div></div></div></div>
     <div id="invoiceWrap"></div>
-    <div class="card no-print" style="margin-top:16px"><div class="c-head"><div><h3>Bills raised</h3><p>Reopen to reprint or resend</p></div></div>
+    <div class="card no-print" style="margin-top:16px"><div class="c-head"><div><h3>Bills raised</h3><p>Tap a row to reopen</p></div>
+      <button class="btn btn-s no-print" data-export="bills" style="margin-left:auto">Export CSV</button></div>
       <div id="billTable"></div></div>`;
   $("#catWrap").innerHTML=C.services.map((c,i)=>`<button class="cat-b" data-cat="${i}"><b>${esc(c.name)}</b><span>${c.dyn?"auto":money(c.rate)}</span></button>`).join("");
-  fillBillSelect();renderItems();renderBills();
+  fillPatientSelect();fillBillSelect();renderItems();renderBills();showPatient(null);
+  $("#billPatient").onchange=pickPatient;
   $("#billToken").onchange=loadBill;$("#btnBill").onclick=generateBill;
 }
+/* Every registered patient, newest visit first. */
+function registeredPatients(){
+  const by={};
+  C.appts.forEach(a=>{if(!by[a.pid]||a.date>by[a.pid].date)by[a.pid]=a});
+  return Object.values(by).sort((a,b)=>a.name.localeCompare(b.name));
+}
+function fillPatientSelect(){
+  const el=$("#billPatient");if(!el)return;
+  el.innerHTML=`<option value="">— Select a registered patient —</option>`+
+    registeredPatients().map(p=>
+      `<option value="${p.pid}">${esc(p.name)} · ${esc(p.pid)} · ${esc(p.phone)}</option>`).join("");
+}
+/* Selecting a patient pulls their details and their open visit into the bill. */
+function pickPatient(){
+  const pid=$("#billPatient").value;
+  if(!pid){showPatient(null);$("#billToken").value="";items=[];renderItems();return}
+  const visits=C.appts.filter(a=>a.pid===pid).sort((a,b)=>b.date.localeCompare(a.date));
+  const open=visits.find(a=>!a.billed&&a.token)||null;
+  showPatient(visits[0],open,visits.length);
+  if(open){$("#billToken").value=open.id;loadBill()}
+  else{$("#billToken").value="";items=[];renderItems()}
+}
+function showPatient(p,open,visitCount){
+  const box=$("#patInfo");if(!box)return;
+  if(!p){box.innerHTML="";return}
+  box.innerHTML=`<div class="card" style="background:var(--panel);margin-bottom:16px">
+    <div class="c-body" style="padding:14px 16px">
+      <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+        <div class="av" style="${avSt(p.color)}">${ini(p.name)}</div>
+        <div style="min-width:0"><div style="font-weight:700;font-size:14px">${esc(p.name)}</div>
+          <div class="sub">${esc(p.pid)} · ${esc(p.age)}/${esc(p.sex[0])} · ${esc(p.blood||"—")} · +91 ${esc(p.phone)}</div></div>
+        <span class="pill p-grey" style="margin-left:auto">${visitCount} visit${visitCount>1?"s":""}</span></div>
+      ${open?`<div class="sub">Open visit: <b style="color:var(--ink)">${esc(open.token)}</b> ·
+          ${esc(open.docName)} · ${fmtD(parseISO(open.date))}${open.consult?" · "+esc(open.consult.diagnosis):""}</div>`
+        :`<div class="sub" style="color:var(--amber)">No unbilled visit — add charges by hand below.</div>`}
+    </div></div>`;
+}
+
 function fillBillSelect(){const s=$("#billToken");if(!s)return;
   s.innerHTML=`<option value="">Walk-in / manual</option>`+C.appts.filter(a=>!a.billed&&a.token)
     .map(a=>`<option value="${a.id}">${esc(a.token)} · ${esc(a.name)} — ${esc(a.docName)}</option>`).join("")}
 function loadBill(){const a=C.appts.find(x=>x.id===$("#billToken").value);
-  items=a?[{name:`Consultation — ${a.docName}`,rate:a.fee,qty:1}]:[];renderItems()}
+  items=a?[{name:`Consultation — ${a.docName}`,rate:a.fee,qty:1}]:[];
+  if(a){                                  // keep the patient picker and card in step
+    const sel=$("#billPatient");if(sel)sel.value=a.pid;
+    showPatient(a,a.billed?null:a,C.appts.filter(x=>x.pid===a.pid).length);
+  }
+  renderItems()}
 document.addEventListener("click",e=>{const c=e.target.closest("[data-cat]");if(!c)return;
   const s=C.services[+c.dataset.cat];let name=s.name,rate=s.rate;
   if(s.dyn){const a=C.appts.find(x=>x.id===$("#billToken").value);if(!a)return toast("Pick a visit first");
@@ -1486,8 +2235,10 @@ function generateBill(){
     dept:v?v.dept:"",date:v?v.date:TODAY_ISO,mode:$("#payMode").value,lines:items.map(i=>({...i})),by:me.name,...t};
   C.bills.push(b);
   log("billed",`Bill ${b.no} — ${b.patient}`,`${rs(b.total)} · ${b.mode}`,v?v.id:null,["role:admin"]);
-  renderInvoice(b);items=[];$("#bDisc").value=0;renderItems();fillBillSelect();renderBills();refreshBadges();
+  renderInvoice(b);items=[];$("#bDisc").value=0;renderItems();
+  fillPatientSelect();fillBillSelect();showPatient(null);renderBills();
   announce("bill",b,`${b.no} · ${money(b.total)}`);
+  refreshBadges();
 }
 function renderInvoice(b){
   const s=C.settings;
@@ -1513,15 +2264,16 @@ function renderInvoice(b){
       <div class="inv-f"><div>Paid by ${esc(b.mode)} · settled in full<br>Healthcare services are exempt from GST.<br>Raised by ${esc(b.by)}.</div>
         <div style="text-align:right"><div class="sign-l"></div>Authorised signatory</div></div></div></div>`;
   $("#btnCloseInv").onclick=()=>$("#invoiceWrap").innerHTML="";
-  $("#invoiceWrap").scrollIntoView({behavior:"smooth",block:"start"});
+  const iv=$("#invoiceWrap");
+  if(iv&&typeof iv.scrollIntoView==="function")iv.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function renderBills(){const w=$("#billTable");if(!w)return;
-  w.innerHTML=C.bills.length?`<table><thead><tr><th>Invoice</th><th>Patient</th><th>Mode</th><th class="right">Amount</th><th class="right">Action</th></tr></thead>
-    <tbody>${C.bills.slice().reverse().map(b=>`<tr><td class="num" style="font-weight:700">${esc(b.no)}</td>
+  w.innerHTML=C.bills.length?`<table class="rowlink"><thead><tr><th>Invoice</th><th>Patient</th><th>Mode</th>
+      <th class="right">Amount</th></tr></thead>
+    <tbody>${C.bills.slice().reverse().map(b=>`<tr data-inv="${b.no}" title="Open this invoice">
+      <td class="num" style="font-weight:700">${esc(b.no)}</td>
       <td>${esc(b.patient)}<div class="sub">${esc(b.doctor)}</div></td><td><span class="pill p-green">${esc(b.mode)}</span></td>
-      <td class="right num" style="font-weight:700">${money(b.total)}</td>
-      <td class="right no-print"><button class="btn btn-s" data-pdf="bill|${b.no}">PDF</button>
-        <button class="btn btn-s btn-g" data-inv="${b.no}">Open</button></td></tr>`).join("")}</tbody></table>`
+      <td class="right num" style="font-weight:700">${money(b.total)}</td></tr>`).join("")}</tbody></table>`
     :`<div class="empty"><b>No bills yet</b>Complete a visit, then raise the bill.</div>`}
 document.addEventListener("click",e=>{const o=e.target.closest("[data-inv]");if(o)renderInvoice(C.bills.find(b=>b.no===o.dataset.inv))});
 
@@ -1535,20 +2287,25 @@ function renderDoctors(){
       <div class="utabs no-print" id="docTabs" style="flex:1">${["All","Active","On Leave"].map(k=>
         `<button class="utab" data-dt="${k}" aria-pressed="${docFilter===k}">${k}</button>`).join("")}</div></div>
       <div class="c-head" style="padding-top:14px"><div><h3>The team</h3><p>${C.doctors.length} of 5 doctor slots used — each gets their own login</p></div>
-        <button class="btn btn-s btn-p no-print" style="margin-left:auto" id="btnAddDoc">Add doctor</button></div></div>`:""}
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-s no-print" data-export="doctors">Export CSV</button>
+          <button class="btn btn-s btn-p no-print" id="btnAddDoc">Add doctor</button></div></div></div>`:""}
     ${l.length?`<div class="grid g3">${l.map(d=>{
       const cap=docSlots(d).length,used=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected").length;
-      return `<article class="doc"><div style="display:flex;gap:13px;align-items:flex-start">
+      return `<article class="doc ${d.status!=="Active"?"leave":""}"><div style="display:flex;gap:13px;align-items:flex-start">
         <div class="doc-av" style="${avSt(d.color)}">${ini(d.name)}</div>
         <div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:700">${esc(d.name)}</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${dotFor(d.status)}${esc(d.spec)}</div></div></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${dotFor(d.status)}${esc(d.spec)}</div></div>
+        ${d.status!=="Active"?`<span class="pill p-amber">On leave</span>`:""}</div>
         <p style="font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.6">${esc(d.about)}</p>
         <dl class="doc-meta"><div><dt>Timing</dt><dd>${t12(d.start)}–${t12(d.end)}</dd></div>
           <div><dt>Room</dt><dd>${esc(d.room)}</dd></div>
           <div><dt>Fee</dt><dd>${money(d.fee)}</dd></div>
           <div><dt>Today</dt><dd>${used}/${cap}</dd></div></dl>
-        <div class="doc-foot">${can("book")&&d.status==="Active"?`<button class="btn btn-s btn-p" data-book="${d.id}">Book</button>`:""}
-          ${admin?`<button class="btn btn-s" data-editdoc="${d.id}">Edit</button>
+        <div class="doc-foot">${has("book")&&d.status==="Active"?`<button class="btn btn-s btn-p" data-book="${d.id}">Book</button>`:""}
+          ${admin?`<button class="btn btn-s ${d.status==="Active"?"btn-no":"btn-ok"}" data-togdoc="${d.id}">
+              ${d.status==="Active"?"Mark on leave":"Mark active"}</button>
+          <button class="btn btn-s" data-editdoc="${d.id}">Edit</button>
           <button class="btn btn-s btn-g" data-deldoc="${d.id}">Remove</button>`:""}</div></article>`}).join("")}</div>`
     :`<div class="card"><div class="empty"><b>No doctors yet</b>Add your first doctor to open the schedule.
       <div style="margin-top:16px"><button class="btn btn-p" id="btnAddDoc2">Add a doctor</button></div></div></div>`}`;
@@ -1556,6 +2313,28 @@ function renderDoctors(){
   [$("#btnAddDoc"),$("#btnAddDoc2")].forEach(b=>{if(b)b.onclick=()=>doctorForm(null)});
 }
 document.addEventListener("click",e=>{const ed=e.target.closest("[data-editdoc]");if(ed)doctorForm(D(ed.dataset.editdoc))});
+/* Admin can put a doctor on leave, or bring them back, in one tap. */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-togdoc]");if(!t||!me||me.role!=="admin")return;
+  const d=D(t.dataset.togdoc);if(!d)return;
+  const apply=()=>{
+    d.status=d.status==="Active"?"On Leave":"Active";
+    log("initiated",`${d.name} marked ${d.status.toLowerCase()}`,`Changed by ${me.name}`,null,["role:admin"]);
+    toast(`${d.name} is now ${d.status.toLowerCase()}`);
+    refreshBadges();renderView();
+  };
+  const open=C.appts.filter(a=>a.docId===d.id&&a.date>=TODAY_ISO&&
+    ["Scheduled","In consultation"].includes(a.status));
+  if(d.status==="Active"&&open.length){
+    return askConfirm({
+      title:`Put ${d.name} on leave?`,
+      meta:`${open.length} appointment(s) still open`,
+      body:`They have ${open.length} patient(s) booked from today onwards. Those appointments stay `+
+           `where they are — reassign or reschedule them from the schedule. New bookings will be blocked.`,
+      okLabel:"Mark on leave",danger:true,onOk:apply});
+  }
+  apply();
+});
 function doctorForm(d){
   const isNew=!d;
   if(isNew&&C.doctors.length>=5)return toast("This plan supports up to 5 doctors");
@@ -1600,23 +2379,61 @@ function doctorForm(d){
       const acc=accounts.find(x=>x.clinicId===C.id&&x.docId===d.id);if(acc){acc.name=d.name;acc.color=d.color}
       toast("Saved");
     }
-    closeModal();refreshBadges();renderView(currentView());
+    closeModal();refreshBadges();renderView();
   };
   $("#modal").classList.add("on");
 }
 document.addEventListener("click",e=>{const r=e.target.closest("[data-deldoc]");if(!r)return;
-  const d=D(r.dataset.deldoc);
-  if(C.appts.some(a=>a.docId===d.id&&!["Completed","Rejected"].includes(a.status)))return toast("Clear their open appointments first");
-  C.doctors=C.doctors.filter(x=>x.id!==d.id);
-  accounts=accounts.filter(x=>!(x.clinicId===C.id&&x.docId===d.id));
-  toast(`${d.name} removed`);refreshBadges();renderView(currentView())});
+  const d=D(r.dataset.deldoc);if(!d)return;
+  if(C.appts.some(a=>a.docId===d.id&&!["Completed","Rejected"].includes(a.status)))
+    return toast("Clear their open appointments first");
+  askConfirm({title:`Remove ${d.name}?`,meta:"This also disables their login",
+    body:`Their past appointments and consultation notes are kept for the patient record. `+
+         `To stop them consulting temporarily, use "Mark on leave" instead.`,
+    okLabel:"Remove doctor",danger:true,onOk:()=>{
+      C.doctors=C.doctors.filter(x=>x.id!==d.id);
+      accounts=accounts.filter(x=>!(x.clinicId===C.id&&x.docId===d.id));
+      toast(`${d.name} removed`);refreshBadges();renderView();
+    }});});
 
 /* ==========================================================
    SETTINGS
    ========================================================== */
 const CFG_TABS=[["doctors","Doctors"],["rooms","Rooms"],["fields","Custom fields"],["services","Charges"],["messaging","Messaging"],["clinic","Clinic profile"]];
+function doctorSettings(){
+  const d=D(me.docId)||{},s=C.settings;
+  const mine=myAppts();
+  $("#cfgBody").innerHTML=`<div class="split">
+    <div class="card"><div class="c-head"><div><h3>My profile</h3><p>Kept up to date by the clinic admin</p></div></div>
+      <div class="c-body"><div style="display:flex;gap:14px;align-items:center;margin-bottom:18px">
+        <div class="doc-av" style="${avSt(d.color||"blue")}">${ini(d.name||me.name)}</div>
+        <div><div style="font-size:16px;font-weight:700">${esc(d.name||me.name)}</div>
+          <div class="sub">${esc(d.spec||"")}${d.qual?" · "+esc(d.qual):""}</div></div></div>
+        <dl class="kv" style="padding-top:0">
+          <div><dt>Department</dt><dd>${esc(d.dept||"—")}</dd></div>
+          <div><dt>Room</dt><dd>${esc(d.room||"—")}</dd></div>
+          <div><dt>Session</dt><dd>${d.start?t12(d.start)+"–"+t12(d.end):"—"}</dd></div>
+          <div><dt>Days</dt><dd>${esc(d.days||"—")}</dd></div>
+          <div><dt>Consultation fee</dt><dd>${money(d.fee||0)}</dd></div>
+          <div><dt>Token prefix</dt><dd>${esc(d.code||"—")}</dd></div>
+          <div><dt>Patients seen</dt><dd>${mine.filter(a=>a.status==="Completed").length}</dd></div>
+          <div><dt>Follow-ups set</dt><dd>${mine.filter(a=>a.consult&&a.consult.followUp).length}</dd></div></dl>
+        <p class="hint">Ask your admin to change any of this in Settings → Doctors.</p></div></div>
+    <div>
+      <div class="card" style="margin-bottom:16px"><div class="c-head"><div><h3>Appearance</h3><p>Just for this device</p></div></div>
+        <div class="c-body"><div class="togrow"><div><b>Dark mode</b><span>Easier on the eyes in a dim consulting room</span></div>
+          <button class="sw" id="dsTheme" aria-pressed="${document.documentElement.getAttribute("data-theme")==="dark"}"></button></div></div></div>
+      <div class="card"><div class="c-head"><div><h3>What is sent for you</h3><p>Set by the clinic — patients are messaged with no prompt</p></div></div>
+        <div class="c-body">${[["confirmed","When you accept a request"],["updated","When you move or reassign a visit"],
+          ["declined","When you decline, with your reason"],["report","When you save consultation notes"]]
+          .map(([k,t])=>`<div class="togrow"><div><b>${t}</b><span>WhatsApp and email</span></div>
+            <span class="pill ${s.auto[k]?"p-green":"p-grey"}">${s.auto[k]?"On":"Off"}</span></div>`).join("")}
+          <p class="hint">${esc(s.clinic)} · ${esc(s.phone)}</p></div></div></div></div>`;
+  $("#dsTheme").onclick=()=>{const dark=document.documentElement.getAttribute("data-theme")==="dark";
+    document.documentElement.setAttribute("data-theme",dark?"light":"dark");renderConfig()};
+}
 function renderConfig(){
-  if(me.role!=="admin")return $("#cfgBody").innerHTML=`<div class="card"><div class="empty"><b>Admin only</b>Restricted.</div></div>`;
+  if(me.role!=="admin")return doctorSettings();
   $("#cfgBody").innerHTML=`<div class="card" style="margin-bottom:16px"><div class="c-head" style="padding-bottom:0">
       <div class="utabs no-print" id="cfgTabs" style="flex:1">${CFG_TABS.map(([k,l])=>
         `<button class="utab" data-cfg="${k}" aria-pressed="${cfgTab===k}">${l}</button>`).join("")}</div></div>
@@ -1633,7 +2450,8 @@ function cfgDoctors(){
     <tbody>${C.doctors.map(d=>`<tr><td><div class="who-cell"><div class="av" style="${avSt(d.color)}">${ini(d.name)}</div>
         <div><div style="font-weight:700">${esc(d.name)}</div><div class="sub">${esc(d.spec)} · ${esc(d.code)}</div></div></div></td>
       <td>${esc(d.room)}</td><td class="num">${t12(d.start)}–${t12(d.end)}</td><td class="num">${money(d.fee)}</td>
-      <td>${dotFor(d.status)}${d.status}</td>
+      <td><button class="btn btn-s ${d.status==="Active"?"btn-no":"btn-ok"}" data-togdoc="${d.id}"
+            title="Switch availability">${dotFor(d.status)}${d.status}</button></td>
       <td class="right"><button class="btn btn-s" data-editdoc="${d.id}">Edit</button>
         <button class="btn btn-s btn-no" data-deldoc="${d.id}">Remove</button></td></tr>`).join("")}</tbody></table>`
     :`<div class="empty"><b>No doctors yet</b>Add your first one.</div>`}</div>`;
@@ -1709,10 +2527,11 @@ document.addEventListener("click",e=>{const d=e.target.closest("[data-delsvc]");
 function cfgMessaging(){
   cfgHead("Messaging","Which events reach the patient on their own, and from which sender");
   const a=C.settings.auto;
-  const rows=[["confirmed","Appointment confirmed","Walk-in confirmed, or a request accepted by the doctor"],
+  const rows=[["confirmed","Appointment confirmed","Walk-in confirmed at the front desk"],
     ["updated","Appointment moved","Rescheduled or reassigned to a covering doctor"],
     ["declined","Appointment declined","Sent with the doctor's reason"],
     ["report","Consultation report","Goes out when the doctor saves their notes"],
+    ["followup","Follow-up reminder","Sent with the report whenever a doctor sets a review date"],
     ["bill","Bill","Sent as soon as the invoice is raised"]];
   $("#cfgPane").innerHTML=`<div class="split-r">
     <div class="card"><div class="c-head"><div><h3>Sender details</h3></div></div><div class="c-body">
@@ -1792,9 +2611,9 @@ function cfgClinic(){
    ["Divya Ramesh","9884567712","7","Female","A+",2,0,"New consultation","Night cough","live"],
    ["Meena Rajan","9445780013","29","Female","O-",3,0,"Follow-up","Antenatal — 24 weeks","book"],
    ["Suresh Kumar","9600341289","46","Male","AB+",1,0,"Report review","Sugar report","book"],
-   ["Fatima Begum","9600778899","67","Female","AB-",1,1,"Follow-up","Knee pain review","req"],
-   ["Nithya Prasad","9884001122","31","Female","A+",3,1,"New consultation","Irregular cycles","req"],
-   ["Karthik Rajan","9791556677","5","Male","B+",2,2,"Follow-up","Vaccination due","req"]];
+   ["Fatima Begum","9600778899","67","Female","AB-",1,1,"Follow-up","Knee pain review","book"],
+   ["Nithya Prasad","9884001122","31","Female","A+",3,1,"New consultation","Irregular cycles","book"],
+   ["Karthik Rajan","9791556677","5","Male","B+",2,2,"Follow-up","Vaccination due","book"]];
   const DX={1:["Viral pharyngitis","Tab. Paracetamol 500mg — 1-1-1 x 3 days\nWarm saline gargle twice daily","Rest and fluids. Return if fever crosses 3 days.",7]};
   const Cprev=C;C=c;
   S.forEach(([name,phone,age,sex,blood,docId,off,type,note,state],i)=>{
@@ -1804,8 +2623,8 @@ function cfgClinic(){
     const a={id:"S"+i,pid:"#P-"+String(i+1).padStart(3,"0"),name,phone,age,sex,blood,
       email:i%3===0?name.toLowerCase().split(" ")[0]+"@email.com":"",type,note,
       docId,docName:d.name,spec:d.spec,dept:d.dept,room:d.room,fee:d.fee,color:d.color,date:k,time:slot,
-      token:state==="req"?null:d.code+"-"+String(c.seq[sk]).padStart(2,"0"),
-      status:state==="req"?"Requested":state==="done"?"Completed":state==="live"?"In consultation":"Scheduled",
+      token:d.code+"-"+String(c.seq[sk]).padStart(2,"0"),
+      status:state==="done"?"Completed":state==="live"?"In consultation":"Scheduled",
       billed:false,custom:{cf1:i%4===0?"Penicillin":"",cf2:""},raisedBy:"Sarah Menon",
       log:["Created by Sarah Menon"],consult:null};
     if(state==="done"&&DX[docId]){const[dx,tx,ad,fu]=DX[docId];const f=new Date(dt);f.setDate(f.getDate()+fu);
@@ -1817,7 +2636,7 @@ function cfgClinic(){
       title:state==="done"?`${name} — consultation complete`:`New appointment — ${name}`,
       body:`${d.name} · ${fmtD(dt)} ${t12(slot)}`,apptId:a.id,to:["role:admin","doctor:"+docId],
       at:"09:"+String(10+i*3).padStart(2,"0")+" AM",when:fmtD(dt),readBy:[]});
-    if(state!=="req"){
+    {
       c.messages.push({id:"m"+(++c.msgSeq),channel:"whatsapp",to:`+91 ${phone}`,raw:phone,event:"confirmed",name,
         subject:`${c.settings.clinic} — Appointment confirmed`,body:msgBooking(a,"confirmed"),pdf:{kind:"booking",id:a.id},
         at:"09:"+String(11+i*3).padStart(2,"0")+" AM",when:fmtD(dt),status:"Sent",auto:true});
