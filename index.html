@@ -280,6 +280,40 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
   border-right:1.5px solid var(--line);transform:translateY(-50%) rotate(45deg);z-index:2}
 .stage:last-child::after{display:none}
 
+/* UPI payment */
+.upi{display:flex;gap:18px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:16px;margin-bottom:18px}
+.upi-qr{width:184px;height:184px;flex:0 0 184px;background:#fff;border:1px solid var(--line);
+  border-radius:10px;padding:8px;display:grid;place-items:center}
+.upi-qr svg{width:100%;height:100%;display:block;background:#fff}
+@media(max-width:900px){.upi-qr{width:200px;height:200px;flex:0 0 200px}}
+.upi-k{font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;font-weight:700;color:var(--faint)}
+.upi-a{font-size:25px;font-weight:700;letter-spacing:-1.1px;margin:2px 0 6px}
+.upi-v{font-size:13px;font-weight:700;word-break:break-all}
+.upi-n{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6}
+.upi-apps{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.upi-app{font-size:11px;font-weight:700;background:var(--card);border:1px solid var(--line);
+  border-radius:99px;padding:4px 10px;color:var(--muted)}
+@media(max-width:900px){.upi{flex-direction:column;align-items:flex-start}}
+
+/* bill builder */
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.chip-add{border:1px dashed var(--line);background:var(--card);border-radius:99px;padding:7px 13px;font-size:12.5px;
+  cursor:pointer;color:var(--ink-2)}
+.chip-add:hover{border-color:var(--blue);border-style:solid;color:var(--blue);background:var(--blue-s)}
+.bl-row{display:grid;grid-template-columns:minmax(0,1fr) 74px 96px 96px 34px;gap:9px;align-items:center;margin-bottom:9px}
+.bl-h{display:grid;grid-template-columns:minmax(0,1fr) 74px 96px 96px 34px;gap:9px;font-size:10.5px;
+  letter-spacing:.7px;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:8px}
+.bl-row .in{padding:9px 11px}
+.bl-amt{font-size:13.5px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.bl-tot{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+.bl-t{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--muted)}
+.bl-t b{color:var(--ink)}
+.bl-t.grand{border-top:1px solid var(--line);margin-top:8px;padding-top:12px;font-size:15px}
+.bl-t.grand b{font-size:24px;letter-spacing:-1px}
+.pdfbox{width:100%;height:min(70vh,780px);border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.donerow{display:flex;gap:6px;justify-content:flex-end}
+
 /* home: action buttons */
 .acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:12px;margin-bottom:28px}
 .act-b{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
@@ -355,9 +389,9 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .scr-i svg{width:19px;height:19px}
 .scr-h h2{font-size:19px;font-weight:700;letter-spacing:-.5px;line-height:1.2}
 .scr-h p{font-size:12.5px;color:var(--muted)}
-.scr-x{margin-left:auto;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 15px;
-  font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
-.scr-x:hover{color:var(--ink);border-color:var(--faint)}
+.scr-x{margin-left:auto;border:1px solid var(--red);background:var(--red-s);border-radius:10px;padding:9px 15px;
+  font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:var(--red)}
+.scr-x:hover{background:var(--red);color:#fff}
 .scr-x svg{width:15px;height:15px}
 .scr-body{flex:1;overflow-y:auto;overflow-x:hidden;padding:22px 26px 60px;-webkit-overflow-scrolling:touch}
 
@@ -509,6 +543,32 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .modal.on{display:grid}
 .mbox{background:var(--card);border-radius:20px;width:100%;max-width:520px;box-shadow:var(--sh-lg);overflow:hidden;max-height:92vh;display:flex;flex-direction:column}
 .mbox.wide{max-width:680px}
+.mbox.xl{max-width:940px}
+/* A faithful on-screen copy of the invoice PDF. Browsers block embedded PDFs inside
+   sandboxed frames, so we draw the same document instead of trying to embed it. */
+.sheet{background:#fff;color:#0F172A;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  max-height:min(66vh,760px);overflow-y:auto}
+.sheet-bar{height:6px;background:var(--blue)}
+.sheet-in{padding:30px 34px 34px}
+.sheet h4{font-size:19px;font-weight:700;letter-spacing:-.5px}
+.sheet .s-sub{font-size:11.5px;color:#64748B;line-height:1.7;margin-top:4px}
+.sheet-top{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  padding-bottom:16px;border-bottom:2px solid #0F172A}
+.sheet-k{font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;color:#94A3B8;font-weight:700}
+.sheet-v{font-size:17px;font-weight:700}
+.sheet-p{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding:18px 0;border-bottom:1px solid #E8EDF3}
+.sheet-p dd{font-size:12.5px;line-height:1.7;margin-top:5px}
+.sheet table{width:100%;border-collapse:collapse;margin-top:6px}
+.sheet th{font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#64748B;background:#F6F8FA;
+  padding:9px 10px;border-bottom:0;text-align:left}
+.sheet td{padding:10px;border-bottom:1px solid #EEF2F6;font-size:12.5px;color:#0F172A}
+.sheet .r{text-align:right}
+.sheet .tot td{border-top:2px solid #0F172A;border-bottom:0;font-size:16px;font-weight:700;padding-top:13px}
+.sheet .tot .amt{color:var(--blue);font-size:20px}
+.sheet-foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:22px;
+  padding-top:14px;border-top:1px solid #E8EDF3;font-size:11px;color:#64748B}
+.sheet-sign{width:150px;border-bottom:1px solid #0F172A;height:26px;margin-bottom:5px}
+[data-theme="dark"] .sheet{border-color:#1E293B}
 .mhead{padding:20px;display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line);flex:0 0 auto}
 .mbody{padding:20px;overflow:auto}
 .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);background:var(--ink);color:var(--card);padding:13px 20px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.25s;z-index:400;pointer-events:none;box-shadow:var(--sh-lg);max-width:90vw;text-align:center}
@@ -692,6 +752,23 @@ const ini=n=>String(n).replace("Dr. ","").split(" ").map(w=>w[0]).slice(0,2).joi
 const AVC={blue:["var(--blue-s)","var(--blue)"],green:["var(--green-s)","var(--green)"],violet:["var(--violet-s)","var(--violet)"],pink:["#FDF2F8","#BE185D"],amber:["var(--amber-s)","var(--amber)"]};
 const avSt=c=>`background:${(AVC[c]||AVC.blue)[0]};color:${(AVC[c]||AVC.blue)[1]}`;
 function monday(d){const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));x.setHours(0,0,0,0);return x}
+/* Read the token out for the waiting room. Optional, and silently skipped where
+   the browser has no speech support. */
+function sayToken(tok){
+  const m=String(tok||"").match(/^([A-Za-z]+)-?(\d+)$/);
+  return m?`${m[1].toUpperCase().split("").join(" ")} ${String(+m[2])}`:String(tok||"");
+}
+function announceAloud(a){
+  if(!C||!C.settings.voice)return;
+  if(typeof window==="undefined"||!window.speechSynthesis||typeof window.SpeechSynthesisUtterance!=="function")return;
+  try{
+    const text=`Token ${sayToken(a.token)}. ${a.name}. Please proceed to ${a.docName}, ${a.room}.`;
+    const u=new SpeechSynthesisUtterance(text);
+    u.rate=.92;u.pitch=1;u.lang="en-IN";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(err){/* speech is a nicety, never break the call-in */}
+}
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),3200)}
 function slots(){const o=[],[sh,sm]=C.settings.dayStart.split(":").map(Number),[eh,em]=C.settings.dayEnd.split(":").map(Number);
   let t=sh*60+sm;const e=eh*60+em;while(t<e){o.push(`${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`);t+=C.settings.slotMin}return o}
@@ -724,7 +801,8 @@ function defaultClinic(o){
       phone:o.phone,email:o.email,currency:"₹",regFee:+o.regFee||30,slotMin:+o.slotMin||15,
       dayStart:o.dayStart||"09:00",dayEnd:o.dayEnd||"13:00",days:o.days||"Mon–Sat",
       waCode:o.waCode||"91",senderEmail:o.email,waNumber:o.phone,
-      auto:{confirmed:true,updated:true,declined:true,report:true,followup:true,bill:true}},
+      upiId:o.upiId||"",upiName:o.upiName||o.name,invoiceColor:o.invoiceColor||"#2563EB",
+      auto:{confirmed:true,updated:true,declined:true,report:true,followup:true,bill:true},voice:true},
     departments:["General Medicine","Paediatrics","Gynaecology","Dermatology","Dental","Physiotherapy"],
     rooms:[{no:"Room 1",type:"Consultation"},{no:"Room 2",type:"Consultation"},{no:"Room 3",type:"Consultation"},{no:"Injection Bay",type:"Treatment"}],
     doctors:[],
@@ -734,6 +812,183 @@ function defaultClinic(o){
     customFields:[{id:"cf1",label:"Known allergies",type:"textarea",target:"patient",options:[],required:false,active:true}],
     appts:[],bills:[],notifs:[],messages:[],seq:{},billNo:0,cfSeq:1,notifSeq:0,msgSeq:0};
 }
+
+/* Minimal QR encoder: byte mode, error correction level M, versions 1-12.
+   Written out rather than pulled from a CDN so the app stays a single offline file. */
+const QR=(()=>{
+  const EXP=new Array(512),LOG=new Array(256);
+  (()=>{let x=1;for(let i=0;i<255;i++){EXP[i]=x;LOG[x]=i;x<<=1;if(x&0x100)x^=0x11d}
+    for(let i=255;i<512;i++)EXP[i]=EXP[i-255]})();
+  const mul=(a,b)=>(a&&b)?EXP[LOG[a]+LOG[b]]:0;
+
+  // level M: [ecPerBlock, g1Blocks, g1Data, g2Blocks, g2Data]
+  const EC={1:[10,1,16,0,0],2:[16,1,28,0,0],3:[26,1,44,0,0],4:[18,2,32,0,0],
+    5:[24,2,43,0,0],6:[16,4,27,0,0],7:[18,4,31,0,0],8:[22,2,38,2,39],
+    9:[22,3,36,2,37],10:[26,4,43,1,44],11:[30,1,50,4,51],12:[22,6,36,2,37]};
+  const ALIGN={1:[],2:[6,18],3:[6,22],4:[6,26],5:[6,30],6:[6,34],7:[6,22,38],
+    8:[6,24,42],9:[6,26,46],10:[6,28,50],11:[6,30,54],12:[6,32,58]};
+  const capacity=v=>{const e=EC[v];return e[1]*e[2]+e[3]*e[4]};
+
+  function rsGen(deg){let p=[1];
+    for(let i=0;i<deg;i++){const q=[1,EXP[i]],r=new Array(p.length+1).fill(0);
+      for(let j=0;j<p.length;j++){r[j]^=mul(p[j],q[0]);r[j+1]^=mul(p[j],q[1])}p=r}
+    return p}
+  function rsEcc(data,ecLen){
+    const gen=rsGen(ecLen),res=data.concat(new Array(ecLen).fill(0));
+    for(let i=0;i<data.length;i++){const f=res[i];if(!f)continue;
+      for(let j=0;j<gen.length;j++)res[i+j]^=mul(gen[j],f)}
+    return res.slice(data.length)}
+
+  const utf8=s=>{const o=[];for(const ch of unescape(encodeURIComponent(s)))o.push(ch.charCodeAt(0));return o};
+
+  function bch(data,gen,bits){let d=data<<bits;
+    while((Math.floor(Math.log2(d))|0)>=bits)d^=gen<<((Math.floor(Math.log2(d))|0)-bits);
+    return d}
+
+  function build(text,forceMask){
+    const bytes=utf8(text);
+    let ver=0;for(let v=1;v<=12;v++){
+      const cc=v<10?1:2;
+      if(bytes.length+2+cc<=capacity(v)){ver=v;break}}
+    if(!ver)throw new Error("payload too long for this encoder");
+
+    const [ecLen,g1,g1d,g2,g2d]=EC[ver];
+    const total=capacity(ver);
+    // bit stream
+    let bits=[];
+    const push=(val,len)=>{for(let i=len-1;i>=0;i--)bits.push((val>>i)&1)};
+    push(4,4);
+    push(bytes.length,ver<10?8:16);
+    bytes.forEach(b=>push(b,8));
+    for(let i=0;i<4&&bits.length<total*8;i++)bits.push(0);
+    while(bits.length%8)bits.push(0);
+    const data=[];
+    for(let i=0;i<bits.length;i+=8)data.push(parseInt(bits.slice(i,i+8).join(""),2));
+    const PAD=[0xEC,0x11];let pi=0;
+    while(data.length<total)data.push(PAD[pi++%2]);
+
+    // split into blocks, ecc each, interleave
+    const blocks=[],eccs=[];let at=0;
+    for(let i=0;i<g1;i++){blocks.push(data.slice(at,at+g1d));at+=g1d}
+    for(let i=0;i<g2;i++){blocks.push(data.slice(at,at+g2d));at+=g2d}
+    blocks.forEach(b=>eccs.push(rsEcc(b,ecLen)));
+    const out=[];
+    const maxD=Math.max(g1d,g2d||0);
+    for(let i=0;i<maxD;i++)blocks.forEach(b=>{if(i<b.length)out.push(b[i])});
+    for(let i=0;i<ecLen;i++)eccs.forEach(e=>out.push(e[i]));
+
+    // matrix
+    const size=17+ver*4;
+    const m=Array.from({length:size},()=>new Array(size).fill(null));
+    const set=(r,c,v)=>{if(r>=0&&c>=0&&r<size&&c<size)m[r][c]=v};
+    const finder=(r,c)=>{for(let i=-1;i<8;i++)for(let j=-1;j<8;j++){
+      const rr=r+i,cc=c+j;if(rr<0||cc<0||rr>=size||cc>=size)continue;
+      const on=(i>=0&&i<=6&&(j===0||j===6))||(j>=0&&j<=6&&(i===0||i===6))||(i>=2&&i<=4&&j>=2&&j<=4);
+      set(rr,cc,on?1:0)}};
+    finder(0,0);finder(0,size-7);finder(size-7,0);
+    for(let i=8;i<size-8;i++){const v=i%2===0?1:0;set(6,i,v);set(i,6,v)}
+    ALIGN[ver].forEach(r=>ALIGN[ver].forEach(c=>{
+      if((r<9&&c<9)||(r<9&&c>size-10)||(r>size-10&&c<9))return;
+      for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++)
+        set(r+i,c+j,(Math.max(Math.abs(i),Math.abs(j))!==1)?1:0)}));
+    set(size-8,8,1);                                   // dark module
+    // reserve format areas
+    for(let i=0;i<9;i++){if(m[8][i]===null)set(8,i,0);if(m[i][8]===null)set(i,8,0)}
+    for(let i=0;i<8;i++){if(m[8][size-1-i]===null)set(8,size-1-i,0);
+      if(m[size-1-i][8]===null)set(size-1-i,8,0)}
+    if(ver>=7){const vinfo=(ver<<12)|bch(ver,0x1F25,12);
+      for(let i=0;i<18;i++){const b=(vinfo>>i)&1;
+        set(Math.floor(i/3),size-11+(i%3),b);set(size-11+(i%3),Math.floor(i/3),b)}}
+
+    const reserved=m.map(row=>row.map(v=>v!==null));
+    // zigzag data placement
+    const maskFn=[(r,c)=>(r+c)%2===0,(r,c)=>r%2===0,(r,c)=>c%3===0,(r,c)=>(r+c)%3===0,
+      (r,c)=>(Math.floor(r/2)+Math.floor(c/3))%2===0,(r,c)=>((r*c)%2)+((r*c)%3)===0,
+      (r,c)=>(((r*c)%2)+((r*c)%3))%2===0,(r,c)=>(((r+c)%2)+((r*c)%3))%2===0];
+
+    function place(mask){
+      const g=m.map(r=>r.slice());
+      let bi=0,up=true;
+      for(let c=size-1;c>0;c-=2){
+        if(c===6)c--;
+        for(let k=0;k<size;k++){
+          const r=up?size-1-k:k;
+          for(let z=0;z<2;z++){
+            const cc=c-z;
+            if(reserved[r][cc])continue;
+            let bit=0;
+            if(bi<out.length*8)bit=(out[bi>>3]>>(7-(bi&7)))&1;
+            bi++;
+            if(maskFn[mask](r,cc))bit^=1;
+            g[r][cc]=bit;
+          }
+        }
+        up=!up;
+      }
+      // Format info is written most-significant bit first, at these fixed positions.
+      const fmt=((0<<3)|mask);                          // level M = 00
+      const fbits=((fmt<<10)|bch(fmt,0x537,10))^0x5412;
+      const POS=[[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],
+                 [7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]];
+      for(let j=0;j<15;j++){
+        const b=(fbits>>(14-j))&1;
+        g[POS[j][0]][POS[j][1]]=b;                       // copy beside the top-left finder
+        if(j<7)g[size-1-j][8]=b; else g[8][size-15+j]=b; // the duplicate copy
+      }
+      g[size-8][8]=1;
+      return g;
+    }
+
+    function penalty(g){
+      let p=0;
+      for(let r=0;r<size;r++)for(let c=0;c<size;c++){
+        if(c<size-1&&r<size-1&&g[r][c]===g[r][c+1]&&g[r][c]===g[r+1][c]&&g[r][c]===g[r+1][c+1])p+=3;
+      }
+      const runs=line=>{let run=1,s=0;
+        for(let i=1;i<line.length;i++){
+          if(line[i]===line[i-1])run++;else{if(run>=5)s+=3+(run-5);run=1}}
+        if(run>=5)s+=3+(run-5);return s};
+      for(let r=0;r<size;r++)p+=runs(g[r]);
+      for(let c=0;c<size;c++)p+=runs(g.map(row=>row[c]));
+      let dark=0;g.forEach(row=>row.forEach(v=>{if(v)dark++}));
+      p+=10*Math.floor(Math.abs(dark*100/(size*size)-50)/5);
+      return p;
+    }
+
+    if(forceMask!==undefined)return {size,modules:place(forceMask)};
+    let best=null,bestP=Infinity;
+    for(let mask=0;mask<8;mask++){
+      const g=place(mask),pen=penalty(g);
+      if(pen<bestP){bestP=pen;best=g}
+    }
+    return {size,modules:best};
+  }
+
+  function svg(text){
+    const {size,modules}=build(text);
+    const q=4,dim=size+q*2;
+    // Each module is drawn as a U-unit block. A large coordinate space means the
+    // browser's sub-pixel rounding is a tiny fraction of a module, so neighbouring
+    // dark cells cannot bleed into each other and swallow the white gaps.
+    const U=10,side=dim*U;
+    let path="";
+    for(let r=0;r<size;r++){
+      let c=0;
+      while(c<size){
+        if(!modules[r][c]){c++;continue}
+        let run=1;                                  // merge runs into one rect
+        while(c+run<size&&modules[r][c+run])run++;
+        path+=`M${(c+q)*U} ${(r+q)*U}h${run*U}v${U}h-${run*U}z`;
+        c+=run;
+      }
+    }
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${side} ${side}" `+
+      `preserveAspectRatio="xMidYMid meet" role="img" aria-label="Payment QR code">`+
+      `<rect width="${side}" height="${side}" fill="#ffffff"/>`+
+      `<path d="${path}" fill="#000000" fill-rule="nonzero"/></svg>`;
+  }
+  return {build,svg};
+})();
 
 /* ==========================================================
    PDF ENGINE
@@ -768,13 +1023,24 @@ function PDF(){const ops=[];const o={
     return out+`trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`}};
   return o}
 const BLUE=[.145,.388,.922],GREY=[.42,.45,.5],DARK=[.06,.09,.11],LINE=[.87,.9,.93];
+/* The clinic picks the accent used on its printed documents. */
+function hexRgb(hex){
+  const h=String(hex||"").replace("#","");
+  if(!/^[0-9a-fA-F]{6}$/.test(h))return BLUE;
+  return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255];
+}
+const docColor=()=>hexRgb(C&&C.settings?C.settings.invoiceColor:"");
+const docHex=()=>{
+  const h=C&&C.settings?String(C.settings.invoiceColor||""):"";
+  return /^#[0-9a-fA-F]{6}$/.test(h)?h:"#2563EB";
+};
 function pdfHead(p,title,k,v){
-  const s=C.settings;
-  p.rect(0,0,PW,6,BLUE);
+  const s=C.settings,AC=docColor();
+  p.rect(0,0,PW,6,AC);
   p.text(46,52,s.clinic,{size:17,bold:true,color:DARK});
   p.text(46,68,`${s.address}, ${s.city} ${s.pin}`,{size:9,color:GREY});
   p.text(46,80,`${s.phone}  ·  ${s.email}  ·  Reg. ${s.regNo}`,{size:9,color:GREY});
-  p.text(PW-46,50,title,{size:11,bold:true,color:BLUE,align:"right"});
+  p.text(PW-46,50,title,{size:11,bold:true,color:AC,align:"right"});
   p.text(PW-46,68,k,{size:8.5,color:GREY,align:"right"});
   p.text(PW-46,82,v,{size:13,bold:true,color:DARK,align:"right"});
   p.line(46,96,PW-46,96,{w:1.2,color:DARK});return 122}
@@ -801,11 +1067,15 @@ function billPDF(b){
     y+=13;p.line(54,y,PW-54,y,{color:LINE});y+=15});
   y+=4;const put=(k,v)=>{p.text(430,y,k,{size:10,color:GREY,align:"right"});
     p.text(PW-54,y,v,{size:10,color:DARK,align:"right"});y+=17};
-  put("Subtotal",rs(b.sub));if(b.disc)put(`Discount (${b.pct}%)`,"- "+rs(b.disc));put("Registration",rs(C.settings.regFee));
+  put("Subtotal",rs(b.sub));
+  if(b.disc)put(b.pct?`Discount (${b.pct}%)`:"Discount","- "+rs(b.disc));
+  put("Registration",rs(C.settings.regFee));
+  if(b.tax)put(`Tax (${b.taxPct}%)`,rs(b.tax));
   p.line(360,y-4,PW-54,y-4,{w:1.1,color:DARK});y+=12;
   p.text(430,y,"AMOUNT PAYABLE",{size:10,bold:true,color:DARK,align:"right"});
-  p.text(PW-54,y,rs(b.total),{size:16,bold:true,color:BLUE,align:"right"});
-  pdfFoot(p,`Paid by ${b.mode} · settled in full. Healthcare services are exempt from GST. Raised by ${b.by}.`);
+  p.text(PW-54,y,rs(b.total),{size:16,bold:true,color:docColor(),align:"right"});
+  pdfFoot(p,`${b.payStatus==="Unpaid"?"PAYMENT DUE":"Paid"} by ${b.mode}. `+
+    `${b.note?b.note+". ":""}Raised by ${b.by}.`);
   return p.build()}
 function reportPDF(a){
   const c=a.consult,p=PDF();let y=pdfHead(p,"CONSULTATION REPORT","Visit date",fmtD(parseISO(a.date)));
@@ -815,8 +1085,9 @@ function reportPDF(a){
   p.text(320,y,`${a.dept}  ·  ${a.room}`,{size:9.5,color:GREY});y+=13;
   p.text(46,y,`+91 ${a.phone}`,{size:9.5,color:GREY});
   p.text(320,y,`Token ${a.token}  ·  ${t12(a.time)}`,{size:9.5,color:GREY});y+=28;
-  const sec=(t,b)=>{if(!b)return;p.rect(46,y-11,3,13,BLUE);
-    p.text(56,y,t.toUpperCase(),{size:8.5,bold:true,color:BLUE});y+=16;
+  const AC=docColor();
+  const sec=(t,b)=>{if(!b)return;p.rect(46,y-11,3,13,AC);
+    p.text(56,y,t.toUpperCase(),{size:8.5,bold:true,color:AC});y+=16;
     String(b).split("\n").forEach(l=>{y=p.wrap(56,y,l,{size:10.5,color:DARK,width:450,lead:14})});y+=8};
   sec("Vitals",c.vitals);sec("Diagnosis",c.diagnosis);sec("Treatment / prescription",c.treatment);sec("Advice",c.advice);
   if(c.followUp)sec("Follow-up",`Review on ${fmtFull(parseISO(c.followUp))}`);
@@ -824,8 +1095,9 @@ function reportPDF(a){
   return p.build()}
 function slipPDF(a){
   const p=PDF();let y=pdfHead(p,"APPOINTMENT CONFIRMATION","Token",a.token||"Pending");
+  const AC=docColor();
   p.rect(46,y-8,PW-92,72,[.937,.965,1]);
-  p.text(PW/2,y+22,a.token||"AWAITING CONFIRMATION",{size:30,bold:true,color:BLUE,align:"center"});
+  p.text(PW/2,y+22,a.token||"AWAITING CONFIRMATION",{size:30,bold:true,color:AC,align:"center"});
   p.text(PW/2,y+44,`${a.docName}  ·  ${a.room}`,{size:10.5,color:GREY,align:"center"});y+=92;
   const pair=(k1,v1,k2,v2)=>{p.text(46,y,k1,{size:8,bold:true,color:GREY});p.text(320,y,k2,{size:8,bold:true,color:GREY});y+=14;
     p.text(46,y,v1,{size:11.5,bold:true,color:DARK});p.text(320,y,v2,{size:11.5,bold:true,color:DARK});y+=22};
@@ -857,7 +1129,10 @@ function msgBooking(a,kind){
 }
 function msgBill(b){return `${C.settings.clinic}\nBill ${b.no}\n\nPatient: ${b.patient} (${b.pid})\nDoctor: ${b.doctor}\nDate: ${fmtFull(parseISO(b.date))}\n\n`+
   b.lines.map(l=>`${l.name} x${l.qty} — ${rs(l.rate*l.qty)}`).join("\n")+`\nRegistration — ${rs(C.settings.regFee)}`+
-  (b.disc?`\nDiscount (${b.pct}%) — -${rs(b.disc)}`:"")+`\n\nTOTAL PAID: ${rs(b.total)}\nMode: ${b.mode}\n\nThank you for visiting.`}
+  (b.disc?`\nDiscount — -${rs(b.disc)}`:"")+(b.tax?`\nTax (${b.taxPct}%) — ${rs(b.tax)}`:"")+
+  `\n\n${b.payStatus==="Unpaid"?"AMOUNT DUE":"TOTAL PAID"}: ${rs(b.total)}\nMode: ${b.mode}`+
+  (b.mode==="UPI"&&C.settings.upiId?`\nUPI: ${C.settings.upiId}`:"")+
+  `\n\nThank you for visiting.`}
 function msgFollowup(a){const c=a.consult,s=C.settings;
   return `${s.clinic}\nFollow-up reminder\n\nPatient: ${a.name} (${a.pid})\nDoctor: ${a.docName}\n`+
   `Seen on: ${fmtFull(parseISO(a.date))}\nDiagnosis: ${c.diagnosis}\n\n`+
@@ -1083,6 +1358,7 @@ const IC={dash:`<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3
  messages:`<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>`,
  activity:`<path d="M3 12h4l2 6 4-14 2 8h6"/>`,
  apptlist:`<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18M7 15h6"/>`,
+ donelist:`<path d="M20 6L9 17l-5-5"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>`,
  current:`<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M17 11h4M19 9v4"/>`,
  history:`<path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 3v5h5"/><path d="M12 8v4l3 2"/>`,
  config:`<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>`};
@@ -1096,8 +1372,10 @@ const SECMETA={
   book:{admin:["New appointment","Confirmed on the spot, with the token issued"]},
   appts:{admin:["Schedule","Every doctor's calendar, colour-coded"],
          doctor:["My schedule","Only your own patients"]},
-  apptlist:{admin:["Today's appointments","Everyone booked today — tap a row to open it"],
-            doctor:["Today's appointments","Your patients today — tap a row to open it"]},
+  apptlist:{admin:["Today's appointments","Still to be seen — tap a row to open it"],
+            doctor:["Today's appointments","Still to be seen — tap a row to open it"]},
+  donelist:{admin:["Completed today","Treated and billed — every visit is kept in Patient history"],
+            doctor:["Completed today","Treated today — the full record is in Patient history"]},
   dash:{admin:["Dashboard","How the clinic is running today"],
         doctor:["Dashboard","Your numbers at a glance"]},
   current:{admin:["Current patients","In the clinic now, with their appointment"],
@@ -1115,9 +1393,10 @@ const SHORT={dash:{admin:"Front desk",doctor:"Today"},book:{admin:"Book"},
   patients:{admin:"Patients",doctor:"Patients"},followups:{doctor:"Follow-ups"},
   doctors:{admin:"Doctors"},billing:{admin:"Billing"},messages:{admin:"Messages"},
   activity:{admin:"Activity",doctor:"Activity"}};
-const BODYID={book:"bookBody",appts:"apptsBody",apptlist:"listBody",current:"curBody",history:"histBody",dash:"dashBody",
+const BODYID={book:"bookBody",appts:"apptsBody",apptlist:"listBody",donelist:"doneBody",current:"curBody",history:"histBody",dash:"dashBody",
   followups:"fuBody",doctors:"docBody",billing:"billBody",messages:"msgBody",activity:"actBody"};
 const RENDER={book:()=>renderBook(),appts:()=>renderAppts(),apptlist:()=>renderApptList(),
+  donelist:()=>renderDoneList(),
   current:()=>renderCurrent(),
   history:()=>renderHistory(),dash:()=>renderDashboard(),
   followups:()=>renderFollowups(),doctors:()=>renderDoctors(),billing:()=>renderBilling(),
@@ -1163,10 +1442,10 @@ const APPTS_TPL=`
 const PAGES={admin:["book","appts","doctors"],doctor:["appts","current"]}; // redirect
 const POPUP={admin:["dash","history","billing","messages","activity"],   // profile menu
              doctor:["dash","history","followups","activity"]};
-const INLINE={admin:["apptlist"],doctor:["apptlist"]}; // today's list is the first thing both roles see
+const INLINE={admin:["apptlist","donelist"],doctor:["apptlist","donelist"]};
 const ACTSUB={book:"Confirm a walk-in",appts:"Calendar view",doctors:"Team and sessions",
   current:"Who is in the clinic"};
-const TINT={dash:"blue",book:"blue",appts:"violet",apptlist:"violet",current:"blue",history:"violet",patients:"blue",
+const TINT={dash:"blue",book:"blue",appts:"violet",apptlist:"violet",donelist:"green",current:"blue",history:"violet",patients:"blue",
   followups:"violet",doctors:"green",billing:"violet",messages:"blue",activity:"amber",config:"blue"};
 
 BODYID.config="cfgBody";
@@ -1233,7 +1512,7 @@ function buildHome(){
 /* Queue helpers, per doctor: who is in the room, and who is next. */
 function servingFor(docId){
   return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="In consultation")
-    .sort((x,y)=>x.time.localeCompare(y.time))[0]||null;
+    .sort((x,y)=>(y.calledAt||0)-(x.calledAt||0)||y.time.localeCompare(x.time))[0]||null;
 }
 function queueFor(docId){
   return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="Scheduled")
@@ -1248,13 +1527,38 @@ function onDuty(){
   return list.filter(d=>me.role==="doctor"||servingFor(d.id)||nextForDoc(d.id)
     ||C.appts.some(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected"));
 }
+/* Calling a patient in. A consulting room holds one patient, so if the doctor is
+   still with someone we ask what to happen to them first - otherwise the room would
+   show two tokens at once and the display would drift from what was announced. */
+function callIn(a){
+  const busy=servingFor(a.docId);
+  if(busy&&busy.id!==a.id){
+    busy.status="Scheduled";                       // back to waiting, keeps token and slot
+    busy.log.push(`Returned to the queue when ${a.token} was called in`);
+    log("postponed",`${busy.name} sent back to the queue`,
+      `${busy.token} · room needed for ${a.token}`,busy.id,["role:admin","doctor:"+a.docId]);
+  }
+  a.status="In consultation";
+  a.calledAt=Date.now();
+  a.log.push(`Called in by ${me.name}`);
+  log("initiated",`${a.name} called in`,`Token ${a.token} · ${a.room}`,a.id,
+      ["role:admin","doctor:"+a.docId]);
+  announceAloud(a);
+  toast(busy&&busy.id!==a.id
+    ? `Token ${a.token} called in — ${busy.token} back to the queue`
+    : `Token ${a.token} called in — ${a.name}`);
+  renderView();
+}
+
 /* Called when a consultation is finished: the next token moves into the room. */
 function advanceQueue(finished){
   const next=C.appts.filter(x=>x.docId===finished.docId&&x.date===finished.date&&x.status==="Scheduled")
     .sort((x,y)=>x.time.localeCompare(y.time))[0];
   if(!next)return null;
   next.status="In consultation";
+  next.calledAt=Date.now();
   next.log.push(`Called in automatically after ${finished.token||finished.name}`);
+  announceAloud(next);
   log("initiated",`Token ${next.token} is now in consultation`,
       `${next.name} · ${next.docName} · ${next.room}`,next.id,["role:admin","doctor:"+next.docId]);
   return next;
@@ -1307,13 +1611,7 @@ document.addEventListener("click",e=>{
   const cb=e.target.closest("[data-call]");
   if(cb&&me){const a=C.appts.find(x=>x.id===cb.dataset.call);if(!a)return;
     const flow=$("#flow-"+cb.dataset.doc);
-    const commit=()=>{
-      a.status="In consultation";a.log.push(`Called in by ${me.name}`);
-      log("initiated",`${a.name} called in`,`Token ${a.token} · ${a.room}`,a.id,
-          ["role:admin","doctor:"+a.docId]);
-      toast(`Token ${a.token} called in — ${a.name}`);
-      renderView();
-    };
+    const commit=()=>callIn(a);
     const reduced=typeof window.matchMedia==="function"
       &&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if(flow&&!reduced){
@@ -1422,15 +1720,25 @@ const EXPORTS={
     ...myAppts().filter(a=>a.date===TODAY_ISO).sort((x,y)=>x.time.localeCompare(y.time))
       .map(a=>[a.token||"",a.name,a.pid,a.age,a.sex,a.phone,a.docName,a.room,a.date,a.time,a.type,
                a.billed?"Billed":a.status])],
+  done:()=>[["Token","Patient","Patient ID","Phone","Doctor","Time","Diagnosis","Billed","Invoice"],
+    ...myAppts().filter(a=>a.date===TODAY_ISO&&a.status==="Completed").map(a=>{
+      const b=C.bills.find(x=>x.apptId===a.id);
+      return [a.token||"",a.name,a.pid,a.phone,a.docName,a.time,a.consult?a.consult.diagnosis:"",
+              a.billed?"Yes":"No",b?b.no:""]})],
   schedule:()=>[["Token","Patient","Patient ID","Phone","Doctor","Room","Date","Time","Type","Status","Diagnosis"],
     ...myAppts().filter(a=>vis(a)).sort((x,y)=>(x.date+x.time).localeCompare(y.date+y.time))
       .map(a=>[a.token||"",a.name,a.pid,a.phone,a.docName,a.room,a.date,a.time,a.type,
                a.billed?"Billed":a.status,a.consult?a.consult.diagnosis:""])],
-  history:()=>[["Patient ID","Patient","Age","Sex","Phone","Visit date","Doctor","Diagnosis","Treatment","Advice","Follow-up"],
+  history:()=>[["Patient ID","Patient","Age","Sex","Phone","Visit date","Token","Visit number",
+                "Doctor","Diagnosis","Treatment","Advice","Follow-up","Invoice","Amount"],
     ...myAppts().filter(a=>a.status==="Completed"&&a.consult)
       .sort((x,y)=>y.date.localeCompare(x.date))
-      .map(a=>[a.pid,a.name,a.age,a.sex,a.phone,a.date,a.docName,a.consult.diagnosis,
-               a.consult.treatment,a.consult.advice,a.consult.followUp||""])],
+      .map(a=>{
+        const all=myAppts().filter(x=>x.pid===a.pid&&x.consult).sort((x,y)=>x.date.localeCompare(y.date));
+        const b=C.bills.find(x=>x.apptId===a.id);
+        return [a.pid,a.name,a.age,a.sex,a.phone,a.date,a.token||"",all.indexOf(a)+1,
+                a.docName,a.consult.diagnosis,a.consult.treatment,a.consult.advice,
+                a.consult.followUp||"",b?b.no:"",b?b.total:""]})],
   bills:()=>[["Invoice","Date","Patient","Patient ID","Doctor","Items","Subtotal","Discount","Registration","Total","Mode"],
     ...C.bills.map(b=>[b.no,b.date,b.patient,b.pid,b.doctor,
       b.lines.map(l=>`${l.name} x${l.qty}`).join("; "),b.sub,b.disc,C.settings.regFee,b.total,b.mode])],
@@ -1454,6 +1762,7 @@ function refreshBadges(){
   const mine=myAppts();
   set("appts",mine.filter(a=>!["Completed","Rejected"].includes(a.status)).length);
   set("history",new Set(mine.filter(a=>a.status==="Completed").map(a=>a.pid)).size);
+  set("donelist",mine.filter(a=>a.date===TODAY_ISO&&a.status==="Completed").length);
   set("followups",mine.filter(a=>a.consult&&a.consult.followUp).length);
   set("billing",C.bills.length);set("doctors",C.doctors.length);set("messages",C.messages.length);
   set("activity",myNotifs().filter(n=>!n.readBy.includes(myKey())).length,true);
@@ -1471,7 +1780,7 @@ function statCard(k,v,c,p,delta){return `<div class="stat"><div class="stat-t">
 /* ==========================================================
    CALENDAR
    ========================================================== */
-let calMode="week",calDate=new Date(2026,7,15),stFilter="all",listQ="",docFilter="All",cfgTab="doctors",visitType="New consultation";
+let calMode="week",calDate=new Date(2026,7,15),stFilter="all",listQ="",exQ="",bmQ="",docFilter="All",cfgTab="doctors",visitType="New consultation";
 /* The schedule markup is injected into the Home page, so these are delegated. */
 document.addEventListener("click",e=>{
   const v=e.target.closest("[data-cal]");
@@ -1637,7 +1946,7 @@ document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;
   if(openId)return closeScreen();
   if($("#pmenu").classList.contains("on"))return closeMenu();
   if(pageId)closePage();});
-function closeModal(){$("#modal").classList.remove("on");$("#mbox").classList.remove("wide")}
+function closeModal(){$("#modal").classList.remove("on");$("#mbox").classList.remove("wide","xl")}
 
 /* Our own confirm dialog. The native confirm() is blocked inside sandboxed and
    preview frames, where it silently returns undefined and the action never runs. */
@@ -1680,9 +1989,7 @@ document.addEventListener("click",e=>{
   if(act==="reject")return promptReject(a);
   if(act==="postpone")return promptPostpone(a);
   if(act==="reassign")return promptReassign(a);
-  if(act==="call"){a.status="In consultation";a.log.push(`Called in by ${me.name}`);
-    log("initiated",`${a.name} called in`,`${a.docName} · ${a.room}`,a.id,["role:admin","doctor:"+a.docId]);
-    toast(`${a.name} called in`);closeModal();after();return}
+  if(act==="call"){closeModal();callIn(a);after();return}
   if(act==="consult")return openConsult(a);
   if(act==="bill"){closeModal();goSection("billing");setTimeout(()=>{const s=$("#billToken");if(s){s.value=a.id;loadBill()}},260)}
 });
@@ -1876,19 +2183,340 @@ function renderApptList(){
   const box=$("#listBody");if(!box)return;
   const q=(listQ||"").toLowerCase();
   const l=myAppts()
-    .filter(a=>a.date===TODAY_ISO)          // today only; the calendar covers other days
+    .filter(a=>a.date===TODAY_ISO&&["Scheduled","In consultation"].includes(a.status))
     .filter(a=>!q||a.name.toLowerCase().includes(q)||(a.token||"").toLowerCase().includes(q)||a.pid.toLowerCase().includes(q))
     .sort((a,b)=>a.time.localeCompare(b.time));
   box.innerHTML=`<div class="card"><div class="c-head"><div><h3>${esc(fmtFull(TODAY))}</h3>
-      <p>${l.length} appointment(s) today · tap a row to open it</p></div>
+      <p>${l.length} still to be seen · tap a row to open it</p></div>
       <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <input class="in no-print" id="listSearch" placeholder="Search name, ID or token"
         value="${esc(listQ)}" style="max-width:210px">
       <button class="btn btn-s no-print" data-export="today">Export CSV</button></div></div>
-    ${l.length?apptTableHTML(l):`<div class="empty"><b>Nothing booked today</b>The list is clear.</div>`}</div>`;
+    ${l.length?apptTableHTML(l):`<div class="empty"><b>Everyone has been seen</b>Today&rsquo;s queue is clear.</div>`}</div>`;
   const si=$("#listSearch");
   if(si)si.oninput=()=>{listQ=si.value;renderApptList();
     const n=$("#listSearch");if(n){n.focus();n.setSelectionRange(listQ.length,listQ.length)}};
+}
+
+/* ==========================================================
+   BILL BUILDER  (opened from a completed visit)
+   ========================================================== */
+let billDraft=null;
+
+function openBillModal(appt){
+  bmQ="";
+  const pats=billablePatients();
+  billDraft={
+    apptId:appt?appt.id:null,
+    pid:appt?appt.pid:(pats[0]?pats[0].pid:""),
+    note:appt?`Token ${appt.token} · ${appt.docName}`:"",
+    lines:appt?[{name:`Consultation — ${appt.docName}`,qty:1,rate:appt.fee}]:[],
+    discount:0,taxPct:0,mode:"Cash",status:"Paid",
+  };
+  drawBillModal();
+  $("#modal").classList.add("on");
+}
+
+function billDraftTotals(){
+  const sub=billDraft.lines.reduce((t,l)=>t+(+l.rate||0)*(+l.qty||0),0);
+  const disc=Math.min(sub,Math.max(0,+billDraft.discount||0));
+  const reg=C.settings.regFee;
+  const taxable=sub-disc+reg;
+  const tax=Math.round(taxable*(Math.max(0,+billDraft.taxPct||0))/100);
+  return {sub,disc,reg,tax,total:taxable+tax};
+}
+
+/* Only patients whose treatment is finished can be billed. */
+function billablePatients(){
+  const done={};
+  C.appts.filter(a=>a.status==="Completed").forEach(a=>{
+    if(!done[a.pid]||a.date>done[a.pid].date)done[a.pid]=a});
+  return Object.values(done).sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+function drawBillModal(){
+  const t=billDraftTotals();
+  const q=(bmQ||"").trim().toLowerCase();
+  const all=billablePatients();
+  const pats=q?all.filter(x=>patientMatches(x,q)):all;
+  const p=all.find(x=>x.pid===billDraft.pid);
+  $("#mbox").classList.add("wide");
+  $("#mAv").style=avSt("violet");
+  $("#mAv").innerHTML=`<svg viewBox="0 0 24 24" style="width:17px;height:17px">
+    <rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>`;
+  $("#mName").textContent="New bill";
+  $("#mMeta").textContent=p?`${p.name} · ${p.pid} · +91 ${p.phone}`:"Counter billing";
+
+  $("#mBody").innerHTML=`
+    <div class="grid g2" style="gap:0 16px">
+      <label class="f"><span class="f-l">Patient</span>
+        <input class="in" id="bmSearch" placeholder="Search name, mobile or token"
+          value="${esc(bmQ)}" style="margin-bottom:8px" autocomplete="off">
+        <select class="in" id="bmPatient">
+          <option value="">Walk-in / counter sale</option>
+          ${pats.map(x=>{
+            const b=C.bills.find(bb=>bb.pid===x.pid&&bb.apptId===x.id);
+            return `<option value="${x.pid}" ${x.pid===billDraft.pid?"selected":""}>
+              ${esc(x.name)} — ${esc(x.pid)} · ${esc(x.token||"")} · ${fmtD(parseISO(x.date))}${
+                b?" · billed":""}</option>`}).join("")}
+        </select>
+        <p class="hint">${p?`${esc(p.pid)} · ${esc(p.age)}/${esc(p.sex[0])} · +91 ${esc(p.phone)} · seen ${fmtD(parseISO(p.date))}`
+          :`${pats.length} treated patient(s) awaiting or ready to bill`}</p></label>
+      <label class="f"><span class="f-l">Reference / notes</span>
+        <input class="in" id="bmNote" value="${esc(billDraft.note)}" placeholder="Token · doctor"></label></div>
+
+    <div class="f-l">Items</div>
+    <div class="chips">${C.services.map((sv,i)=>
+      `<button type="button" class="chip-add" data-additem="${i}">+ ${esc(sv.name)}</button>`).join("")}</div>
+
+    <div class="bl-h"><span>Description</span><span>Qty</span><span>Rate</span>
+      <span style="text-align:right">Amount</span><span></span></div>
+    <div id="bmLines">${billDraft.lines.map((l,i)=>`
+      <div class="bl-row">
+        <input class="in" data-bl="name" data-i="${i}" value="${esc(l.name)}" placeholder="Description">
+        <input class="in" data-bl="qty" data-i="${i}" value="${l.qty}" inputmode="numeric">
+        <input class="in" data-bl="rate" data-i="${i}" value="${l.rate}" inputmode="numeric">
+        <span class="bl-amt">${money((+l.rate||0)*(+l.qty||0))}</span>
+        <button class="x" data-delline="${i}" title="Remove">×</button></div>`).join("")}</div>
+    <button class="btn btn-s" id="bmAdd" style="margin-bottom:18px">+ Add line</button>
+
+    <div class="grid g2" style="gap:0 16px">
+      <label class="f"><span class="f-l">Discount (${C.settings.currency})</span>
+        <input class="in" id="bmDisc" value="${billDraft.discount}" inputmode="numeric"></label>
+      <label class="f"><span class="f-l">Tax %</span>
+        <input class="in" id="bmTax" value="${billDraft.taxPct}" inputmode="numeric"></label>
+      <label class="f"><span class="f-l">Payment mode</span>
+        <select class="in" id="bmMode">${["Cash","UPI","Card","Insurance"].map(m=>
+          `<option ${m===billDraft.mode?"selected":""}>${m}</option>`).join("")}</select></label>
+      <label class="f"><span class="f-l">Status</span>
+        <select class="in" id="bmStatus">${["Paid","Unpaid"].map(m=>
+          `<option ${m===billDraft.status?"selected":""}>${m}</option>`).join("")}</select></label></div>
+
+    <div id="bmUpi">${billDraft.mode==="UPI"?upiBlock(t.total,billDraft.note||"Bill",
+      "Scan to pay this bill"):""}</div>
+
+    <div class="bl-tot">
+      <div class="bl-t"><span>Subtotal</span><b>${money(t.sub)}</b></div>
+      <div class="bl-t"><span>Discount</span><b>− ${money(t.disc)}</b></div>
+      <div class="bl-t"><span>Registration</span><b>${money(t.reg)}</b></div>
+      <div class="bl-t"><span>Tax</span><b>${money(t.tax)}</b></div>
+      <div class="bl-t grand"><span>Total</span><b>${money(t.total)}</b></div></div>
+
+    <div class="req-acts" style="margin-top:18px">
+      <button class="btn btn-p" id="bmSave">Save bill</button>
+      <button class="btn btn-g" id="bmCancel">Cancel</button></div>`;
+
+  $("#bmSearch").oninput=e=>{bmQ=e.target.value;drawBillModal();
+    const n=$("#bmSearch");if(n){n.focus();n.setSelectionRange(bmQ.length,bmQ.length)}};
+  $("#bmPatient").onchange=e=>{billDraft.pid=e.target.value;
+    // prefer their finished, unbilled visit
+    const ap=C.appts.filter(a=>a.pid===billDraft.pid&&!a.billed&&a.token&&a.status==="Completed")
+      .sort((a,b)=>b.date.localeCompare(a.date))[0]
+      ||C.appts.filter(a=>a.pid===billDraft.pid&&!a.billed&&a.token)
+      .sort((a,b)=>b.date.localeCompare(a.date))[0];
+    if(ap){billDraft.apptId=ap.id;billDraft.note=`Token ${ap.token} · ${ap.docName}`;
+      if(!billDraft.lines.length)billDraft.lines=[{name:`Consultation — ${ap.docName}`,qty:1,rate:ap.fee}]}
+    drawBillModal()};
+  $("#bmNote").oninput=e=>billDraft.note=e.target.value;
+  $("#bmAdd").onclick=()=>{billDraft.lines.push({name:"",qty:1,rate:0});drawBillModal()};
+  $("#bmCancel").onclick=closeModal;
+  $("#bmSave").onclick=saveBillDraft;
+  ["bmDisc","bmTax"].forEach(id=>{const el=$("#"+id);el.oninput=()=>{
+    el.value=el.value.replace(/[^\d]/g,"");
+    billDraft[id==="bmDisc"?"discount":"taxPct"]=+el.value||0;
+    const t2=billDraftTotals();
+    $$(".bl-t")[1].querySelector("b").textContent="− "+money(t2.disc);
+    $$(".bl-t")[3].querySelector("b").textContent=money(t2.tax);
+    $$(".bl-t")[4].querySelector("b").textContent=money(t2.total);
+    if(billDraft.mode==="UPI"){const box=$("#bmUpi");
+      if(box)box.innerHTML=upiBlock(t2.total,billDraft.note||"Bill","Scan to pay this bill")}}});
+  $("#bmMode").onchange=e=>{billDraft.mode=e.target.value;drawBillModal()};
+  $("#bmStatus").onchange=e=>billDraft.status=e.target.value;
+}
+
+document.addEventListener("input",e=>{
+  const f=e.target.closest("[data-bl]");if(!f||!billDraft)return;
+  const i=+f.dataset.i,k=f.dataset.bl;
+  if(k==="name")billDraft.lines[i].name=f.value;
+  else{f.value=f.value.replace(/[^\d]/g,"");billDraft.lines[i][k]=+f.value||0;
+    const row=f.closest(".bl-row");
+    row.querySelector(".bl-amt").textContent=money((+billDraft.lines[i].rate||0)*(+billDraft.lines[i].qty||0));
+    const t=billDraftTotals();
+    $$(".bl-t")[0].querySelector("b").textContent=money(t.sub);
+    $$(".bl-t")[1].querySelector("b").textContent="− "+money(t.disc);
+    $$(".bl-t")[3].querySelector("b").textContent=money(t.tax);
+    $$(".bl-t")[4].querySelector("b").textContent=money(t.total);
+    if(billDraft.mode==="UPI"){const box=$("#bmUpi");
+      if(box)box.innerHTML=upiBlock(t.total,billDraft.note||"Bill","Scan to pay this bill")}}
+});
+document.addEventListener("click",e=>{
+  if(!billDraft)return;
+  const add=e.target.closest("[data-additem]");
+  if(add){const sv=C.services[+add.dataset.additem];
+    const ap=C.appts.find(x=>x.id===billDraft.apptId);
+    const name=sv.dyn&&ap?`Consultation — ${ap.docName}`:sv.name;
+    const rate=sv.dyn&&ap?ap.fee:sv.rate;
+    const hit=billDraft.lines.find(l=>l.name===name);
+    hit?hit.qty++:billDraft.lines.push({name,qty:1,rate});
+    return drawBillModal()}
+  const del=e.target.closest("[data-delline]");
+  if(del){billDraft.lines.splice(+del.dataset.delline,1);drawBillModal()}
+});
+
+function saveBillDraft(){
+  if(!billDraft.lines.length||billDraft.lines.every(l=>!l.name.trim()))
+    return toast("Add at least one item");
+  const t=billDraftTotals();
+  const ap=C.appts.find(x=>x.id===billDraft.apptId)||null;
+  if(ap&&ap.billed)return toast("This visit has already been billed");
+  C.billNo++;
+  const b={no:"INV-"+String(C.billNo).padStart(4,"0"),apptId:ap?ap.id:null,
+    patient:ap?ap.name:(registeredPatients().find(x=>x.pid===billDraft.pid)||{}).name||"Walk-in patient",
+    pid:billDraft.pid||"—",
+    meta:ap?`${ap.age} / ${ap.sex} · +91 ${ap.phone}`:"Counter billing",
+    token:ap?ap.token:"—",doctor:ap?ap.docName:"—",dept:ap?ap.dept:"",
+    date:ap?ap.date:TODAY_ISO,mode:billDraft.mode,payStatus:billDraft.status,
+    note:billDraft.note,lines:billDraft.lines.filter(l=>l.name.trim()).map(l=>({...l})),
+    by:me.name,sub:t.sub,pct:0,disc:t.disc,tax:t.tax,taxPct:+billDraft.taxPct||0,total:t.total};
+  C.bills.push(b);
+  if(ap)ap.billed=true;
+  log("billed",`Bill ${b.no} — ${b.patient}`,`${rs(b.total)} · ${b.mode} · ${b.payStatus}`,
+      ap?ap.id:null,["role:admin"]);
+  announce("bill",b,`${b.no} · ${money(b.total)}`);
+  billDraft=null;closeModal();
+  refreshBadges();renderView();
+  setTimeout(()=>openBillPreview(b),120);
+}
+
+/* UPI deep link, exactly as the payment apps expect it. */
+function upiLink(amount,ref){
+  const s=C.settings;
+  if(!s.upiId)return "";
+  const p=new URLSearchParams();
+  p.set("pa",s.upiId);
+  p.set("pn",s.upiName||s.clinic);
+  p.set("am",Number(amount||0).toFixed(2));
+  p.set("cu","INR");
+  if(ref)p.set("tn",ref);
+  return "upi://pay?"+p.toString().replace(/\+/g,"%20");
+}
+function upiBlock(amount,ref,heading){
+  const s=C.settings;
+  if(!s.upiId)
+    return `<div class="upi"><div style="min-width:0">
+      <div class="upi-k">UPI not set up</div>
+      <div class="upi-n">Add the clinic's UPI ID in Settings &rarr; Clinic profile and a payment
+        QR code will appear here for the patient to scan.</div></div></div>`;
+  const link=upiLink(amount,ref);
+  let qr="";
+  try{qr=QR.svg(link)}catch(err){qr=""}
+  return `<div class="upi">
+    <div class="upi-qr">${qr||`<span class="sub">QR unavailable</span>`}</div>
+    <div style="min-width:0">
+      <div class="upi-k">${esc(heading||"Scan to pay")}</div>
+      <div class="upi-a">${money(amount)}</div>
+      <div class="upi-k">Paying to</div>
+      <div class="upi-v">${esc(s.upiId)}</div>
+      <div class="upi-n">${esc(s.upiName||s.clinic)}${ref?" · "+esc(ref):""}</div>
+      <div class="upi-apps">${["GPay","PhonePe","Paytm","BHIM","Any UPI app"]
+        .map(a=>`<span class="upi-app">${a}</span>`).join("")}</div>
+    </div></div>`;
+}
+
+/* The invoice exactly as the PDF lays it out, drawn in the page so it displays
+   everywhere. The Download button produces the real file from the same data. */
+function billSheet(b){
+  const s=C.settings;
+  const ac=docHex();
+  return `<div class="sheet"><div class="sheet-bar" style="background:${ac}"></div><div class="sheet-in">
+    <div class="sheet-top">
+      <div><h4>${esc(s.clinic)}</h4>
+        <div class="s-sub">${esc(s.address)}, ${esc(s.city)} ${esc(s.pin)}<br>
+          ${esc(s.phone)} · ${esc(s.email)}<br>Reg. ${esc(s.regNo)}</div></div>
+      <div style="text-align:right">
+        <div class="sheet-k" style="color:${ac}">Tax invoice</div>
+        <div class="sheet-k" style="margin-top:10px">Invoice number</div>
+        <div class="sheet-v">${esc(b.no)}</div>
+        <div class="s-sub">${fmtFull(parseISO(b.date))}</div></div></div>
+    <dl class="sheet-p">
+      <div><dt class="sheet-k">Billed to</dt>
+        <dd><b>${esc(b.patient)}</b> · ${esc(b.pid)}<br>${esc(b.meta)}</dd></div>
+      <div><dt class="sheet-k">Visit</dt>
+        <dd>Token <b>${esc(b.token)}</b> · ${esc(b.doctor)}<br>${esc(b.dept||b.note||"")}</dd></div></dl>
+    <table><thead><tr><th>Description</th><th class="r">Rate</th><th class="r">Qty</th><th class="r">Amount</th></tr></thead>
+      <tbody>
+        ${b.lines.map(l=>`<tr><td>${esc(l.name)}</td><td class="r">${money(l.rate)}</td>
+          <td class="r">${l.qty}</td><td class="r"><b>${money(l.rate*l.qty)}</b></td></tr>`).join("")}
+        <tr><td colspan="3" class="r">Subtotal</td><td class="r">${money(b.sub)}</td></tr>
+        ${b.disc?`<tr><td colspan="3" class="r">Discount${b.pct?` (${b.pct}%)`:""}</td>
+          <td class="r">− ${money(b.disc)}</td></tr>`:""}
+        <tr><td colspan="3" class="r">Registration</td><td class="r">${money(s.regFee)}</td></tr>
+        ${b.tax?`<tr><td colspan="3" class="r">Tax (${b.taxPct}%)</td><td class="r">${money(b.tax)}</td></tr>`:""}
+        <tr class="tot"><td colspan="3" class="r">${b.payStatus==="Unpaid"?"Amount due":"Amount payable"}</td>
+          <td class="r amt" style="color:${ac}">${money(b.total)}</td></tr></tbody></table>
+    <div class="sheet-foot">
+      <div>${b.payStatus==="Unpaid"?"PAYMENT DUE":"Paid"} by ${esc(b.mode)}${b.note?" · "+esc(b.note):""}<br>
+        Healthcare services are exempt from GST.<br>Raised by ${esc(b.by)}.</div>
+      <div style="text-align:right"><div class="sheet-sign"></div>Authorised signatory</div></div>
+  </div></div>`;
+}
+
+/* Show the generated bill. */
+function openBillPreview(b){
+  if(!b)return;
+  $("#mAv").style=avSt("green");
+  $("#mAv").innerHTML=`<svg viewBox="0 0 24 24" style="width:17px;height:17px">
+    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`;
+  $("#mName").textContent=b.no;
+  $("#mMeta").textContent=`${b.patient} · ${money(b.total)} · ${b.mode}${b.payStatus?" · "+b.payStatus:""}`;
+  $("#mbox").classList.add("xl");
+  $("#mBody").innerHTML=`${billSheet(b)}
+    <div class="req-acts" style="margin-top:16px">
+      <button class="btn btn-p" data-pdf="bill|${b.no}">Download PDF</button>
+      <button class="btn" data-resend="bill|${b.no}">Send to patient again</button>
+      <button class="btn btn-g" onclick="document.getElementById('mClose').click()">Close</button></div>`;
+  $("#modal").classList.add("on");
+}
+
+document.addEventListener("click",e=>{
+  // These sit inside clickable rows, so stop the row handler from firing as well.
+  const nb=e.target.closest("[data-newbill]");
+  if(nb&&me&&me.role==="admin"){e.stopImmediatePropagation();e.preventDefault();
+    return openBillModal(C.appts.find(a=>a.id===nb.dataset.newbill))}
+  const vb=e.target.closest("[data-viewbill]");
+  if(vb&&me){e.stopImmediatePropagation();e.preventDefault();
+    return openBillPreview(C.bills.find(b=>b.no===vb.dataset.viewbill))}
+});
+
+/* Everything finished today. The visit itself stays in Patient history for good. */
+function renderDoneList(){
+  const box=$("#doneBody");if(!box)return;
+  const l=myAppts().filter(a=>a.date===TODAY_ISO&&a.status==="Completed")
+    .sort((x,y)=>y.time.localeCompare(x.time));
+  const admin=me.role==="admin";
+  box.innerHTML=`<div class="card"><div class="c-head"><div><h3>Completed today</h3>
+      <p>${l.length} visit(s) finished · ${l.filter(a=>a.billed).length} billed</p></div>
+      <button class="btn btn-s no-print" data-export="done" style="margin-left:auto">Export CSV</button></div>
+    ${l.length?`<table class="rowlink"><thead><tr><th>Token</th><th>Patient</th>
+        ${admin?"<th>Doctor</th>":""}<th>Time</th><th>Diagnosis</th><th>Status</th>
+        <th class="right no-print">Bill</th></tr></thead>
+      <tbody>${l.map(a=>{
+        const bill=C.bills.find(b=>b.apptId===a.id);
+        return `<tr data-open="${a.id}" title="Open this visit">
+        <td class="num" style="font-weight:700">${esc(a.token||"-")}</td>
+        <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
+          <div><div style="font-weight:700">${esc(a.name)}</div>
+            <div class="sub">${esc(a.pid)} · +91 ${esc(a.phone)}</div></div></div></td>
+        ${admin?`<td>${esc(a.docName)}</td>`:""}
+        <td class="num">${t12(a.time)}</td>
+        <td>${a.consult?esc(a.consult.diagnosis):`<span class="sub">-</span>`}</td>
+        <td>${a.billed?`<span class="pill p-green">Billed</span>`:`<span class="pill p-amber">Not billed</span>`}</td>
+        <td class="right no-print"><div class="donerow">${
+          a.billed
+            ? `<button class="btn btn-s" data-viewbill="${bill?bill.no:""}">${bill?esc(bill.no):"View bill"}</button>`
+            : admin?`<button class="btn btn-s btn-p" data-newbill="${a.id}">Bill</button>`
+                   :`<span class="sub">at the desk</span>`}</div></td></tr>`}).join("")}</tbody></table>`
+      :`<div class="empty"><b>Nothing completed yet today</b>Finished visits land here, then move to Patient history.</div>`}</div>`;
 }
 
 /* Home: who is in the clinic right now, patient AND appointment together. */
@@ -1940,21 +2568,29 @@ function renderHistory(){
         <input class="in no-print" id="histSearch" placeholder="Search name, ID or mobile"
           value="${esc(q)}" style="max-width:230px">
         <button class="btn btn-s no-print" data-export="history">Export CSV</button></div></div>
-    ${l.length?`<table class="rowlink"><thead><tr><th>Patient</th><th>Visits</th><th>Last seen</th>
-        ${me.role==="doctor"?"":"<th>Doctor</th>"}<th>Last diagnosis</th><th>Follow-up</th></tr></thead>
+    ${l.length?`<table class="rowlink"><thead><tr><th>Patient</th><th>Visits</th><th>Last visit</th>
+        <th>Token</th>${me.role==="doctor"?"":"<th>Doctor</th>"}<th>Last diagnosis</th><th>Follow-up</th>
+        <th class="right no-print">Invoice</th></tr></thead>
       <tbody>${l.map(a=>{
         const visits=treated.filter(x=>x.pid===a.pid).length;
         const fu=a.consult&&a.consult.followUp;
+        const bill=C.bills.find(b=>b.apptId===a.id)||C.bills.find(b=>b.pid===a.pid);
         return `<tr data-hist="${a.pid}" title="Open the full visit history">
           <td><div class="who-cell"><div class="av" style="${avSt(a.color)}">${ini(a.name)}</div>
             <div><div style="font-weight:700">${esc(a.name)}</div>
               <div class="sub">${esc(a.pid)} · ${esc(a.age)}/${esc(a.sex[0])} · +91 ${esc(a.phone)}</div></div></div></td>
-          <td class="num" style="font-weight:700">${visits}</td>
-          <td class="num">${fmtD(parseISO(a.date))}</td>
+          <td class="num" style="font-weight:700">${visits}
+            <div class="sub">${visits>1?"repeat":"first"}</div></td>
+          <td class="num">${fmtD(parseISO(a.date))}
+            <div class="sub">${parseISO(a.date).getFullYear()}</div></td>
+          <td class="num" style="font-weight:700">${esc(a.token||"—")}</td>
           ${me.role==="doctor"?"":`<td>${esc(a.docName)}</td>`}
           <td>${a.consult?esc(a.consult.diagnosis):`<span class="sub">—</span>`}</td>
           <td>${fu?(fu<TODAY_ISO?`<span class="pill p-red">Overdue ${fmtD(parseISO(fu))}</span>`
-              :`<span class="pill p-violet">${fmtD(parseISO(fu))}</span>`):`<span class="sub">none</span>`}</td></tr>`}).join("")}</tbody></table>`
+              :`<span class="pill p-violet">${fmtD(parseISO(fu))}</span>`):`<span class="sub">none</span>`}</td>
+          <td class="right no-print">${bill
+            ? `<button class="btn btn-s" data-viewbill="${esc(bill.no)}">${esc(bill.no)}</button>`
+            : `<span class="sub">not billed</span>`}</td></tr>`}).join("")}</tbody></table>`
       :`<div class="empty"><b>No treated patients yet</b>Once a consultation is saved the patient moves here.</div>`}</div>`;
   const si=$("#histSearch");
   if(si)si.oninput=()=>{const v=si.value;renderHistory();const n=$("#histSearch");
@@ -1971,7 +2607,10 @@ document.addEventListener("click",e=>{
     <div class="f-l" style="margin:6px 0 12px">Visit history</div>
     ${v.map(x=>`<div class="note"><div class="note-h"><b>${fmtD(parseISO(x.date))}</b>${pill(x.status)}
       <span class="sub">${esc(x.docName)}${x.token?" · "+esc(x.token):""}</span>
-      ${x.consult?`<button class="btn btn-s btn-g" style="margin-left:auto" data-pdf="report|${x.id}">PDF</button>`:""}</div>
+      <div style="margin-left:auto;display:flex;gap:6px">
+        ${x.consult?`<button class="btn btn-s btn-g" data-pdf="report|${x.id}">Report PDF</button>`:""}
+        ${(()=>{const b=C.bills.find(bb=>bb.apptId===x.id);
+          return b?`<button class="btn btn-s btn-g" data-viewbill="${esc(b.no)}">${esc(b.no)}</button>`:""})()}</div></div>
       ${x.consult?`<dl><dt>Diagnosis</dt><dd>${esc(x.consult.diagnosis)}</dd>
         <dt>Treatment</dt><dd style="white-space:pre-wrap">${esc(x.consult.treatment)}</dd>
         ${x.consult.followUp?`<dt>Follow-up</dt><dd>${fmtD(parseISO(x.consult.followUp))}</dd>`:""}</dl>`
@@ -2032,6 +2671,91 @@ function renderActivity(){
 /* ==========================================================
    NEW APPOINTMENT
    ========================================================== */
+/* Who the "existing patient" list offers depends on why they are here. */
+/* Matches a patient on name, patient ID, mobile, or any token they have been given. */
+function patientMatches(x,q){
+  if(!q)return true;
+  if(x.name.toLowerCase().includes(q)||x.pid.toLowerCase().includes(q)||x.phone.includes(q))return true;
+  return C.appts.some(a=>a.pid===x.pid&&(a.token||"").toLowerCase().includes(q));
+}
+
+/* The list narrows to the selected doctor's own patients, then by why the patient
+   is here. Searching looks across the whole clinic, so a token or mobile always finds
+   someone even if they have not seen this doctor before. */
+function fillExisting(){
+  const sel=$("#pExisting");if(!sel)return;
+  const q=(exQ||"").trim().toLowerCase();
+  const all=registeredPatients();
+  let list=all,note="",bits=[];
+
+  const doc=D($("#pDoc")?$("#pDoc").value:0);
+  if(doc&&!q){
+    const seen=new Set(C.appts.filter(a=>a.docId===doc.id).map(a=>a.pid));
+    const mine=all.filter(x=>seen.has(x.pid));
+    if(mine.length){list=mine;bits.push(`${doc.name}'s patients`)}
+    else bits.push(`${doc.name} has no patients yet — showing everyone`);
+  }
+  if(visitType==="Follow-up"){
+    const due=new Set(C.appts.filter(a=>a.consult&&a.consult.followUp).map(a=>a.pid));
+    const f=list.filter(x=>due.has(x.pid));
+    if(f.length){list=f;bits.push("due a review")}
+    else bits.push("no reviews due — showing everyone");
+  } else if(visitType==="Report review"){
+    const seen=new Set(C.appts.filter(a=>a.status==="Completed"&&a.consult).map(a=>a.pid));
+    const f=list.filter(x=>seen.has(x.pid));
+    if(f.length){list=f;bits.push("with a report on file")}
+    else bits.push("no reports on file — showing everyone");
+  }
+  if(q){list=all.filter(x=>patientMatches(x,q));bits=[`searching every patient for "${exQ.trim()}"`]}
+
+  const keep=sel.value;
+  sel.innerHTML=`<option value="">— New patient —</option>`+list.map(x=>{
+    const fu=C.appts.filter(a=>a.pid===x.pid&&a.consult&&a.consult.followUp)
+      .sort((a,b)=>b.date.localeCompare(a.date))[0];
+    const last=C.appts.filter(a=>a.pid===x.pid).sort((a,b)=>b.date.localeCompare(a.date))[0];
+    const tag=visitType==="Follow-up"&&fu?` · due ${fmtD(parseISO(fu.consult.followUp))}`
+      :last&&last.token?` · ${last.token}`:"";
+    return `<option value="${x.pid}">${esc(x.name)} — ${esc(x.pid)} · ${esc(x.phone)}${esc(tag)}</option>`}).join("");
+  if(list.some(x=>x.pid===keep))sel.value=keep; else if(q&&list.length===1)sel.value=list[0].pid;
+  $("#pExHint").textContent=list.length
+    ? `${list.length} patient(s) — ${bits.join(", ")||"pick a returning patient, or leave blank for someone new"}`
+    : `No match for "${exQ.trim()}" — enter their details below as a new patient.`;
+  applyExisting(true);
+}
+
+/* Pull a returning patient's record forward. The reason for this visit stays blank:
+   they may well be here for something completely different. */
+function applyExisting(quiet){
+  const sel=$("#pExisting");if(!sel)return;
+  const pid=sel.value,box=$("#pPrev");
+  if(!pid){if(box)box.innerHTML="";return}
+  const visits=C.appts.filter(a=>a.pid===pid).sort((a,b)=>b.date.localeCompare(a.date));
+  const last=visits[0];if(!last)return;
+  if(!quiet||!$("#pName").value){
+    $("#pName").value=last.name;$("#pPhone").value=last.phone;
+    $("#pAge").value=last.age;$("#pSex").value=last.sex;
+    $("#pBlood").value=last.blood||"Not known";$("#pEmail").value=last.email||"";
+  }
+  const treated=visits.filter(v=>v.consult);
+  const fu=treated.find(v=>v.consult.followUp);
+  const gap=Math.round((TODAY-parseISO(last.date))/86400000);
+  if(!box)return;
+  box.innerHTML=`<div class="card" style="background:var(--panel);margin-bottom:16px">
+    <div class="c-body" style="padding:14px 16px">
+      <div style="display:flex;gap:11px;align-items:center;${treated.length?"margin-bottom:10px":""}">
+        <div class="av" style="${avSt(last.color)}">${ini(last.name)}</div>
+        <div style="min-width:0"><div style="font-weight:700;font-size:13.5px">Returning patient</div>
+          <div class="sub">${visits.length} visit(s) · last seen ${fmtD(parseISO(last.date))}${
+            gap>0?` (${gap} day${gap>1?"s":""} ago)`:""}</div></div>
+        ${fu?`<span class="pill p-violet" style="margin-left:auto">Review due ${fmtD(parseISO(fu.consult.followUp))}</span>`:""}</div>
+      ${treated.length?`<div class="sub">Past: ${treated.slice(0,3).map(v=>
+        `${esc(v.consult.diagnosis)} (${fmtD(parseISO(v.date))})`).join(" · ")}</div>`:""}
+      ${treated.length?`<div class="req-acts" style="margin-top:10px">
+        <button class="btn btn-s btn-g" data-pdf="report|${treated[0].id}">Last report PDF</button>
+        <button class="btn btn-s btn-g" data-hist="${pid}">Full history</button></div>`:""}
+    </div></div>`;
+}
+
 function renderBook(){
   // Preserve anything half-typed: on a single page this form can be re-rendered
   // by an action taken in another section.
@@ -2044,6 +2768,12 @@ function renderBook(){
   $("#bookBody").innerHTML=`<div class="split">
     <div class="card"><div class="c-head"><div><h3>Patient details</h3><p>Confirmed on the spot — the token is issued straight away</p></div></div>
       <div class="c-body">
+        <label class="f"><span class="f-l">Existing patient</span>
+          <input class="in" id="pSearch" placeholder="Search name, mobile or token — e.g. 98401 or GP-02"
+            style="margin-bottom:8px" autocomplete="off">
+          <select class="in" id="pExisting" size="1"></select>
+          <p class="hint" id="pExHint"></p></label>
+        <div id="pPrev"></div>
         <div class="grid g2" style="gap:0 16px">
           <label class="f"><span class="f-l">Patient name <i>*</i></span><input class="in" id="pName" placeholder="e.g. Lakshmi Narayanan"></label>
           <label class="f"><span class="f-l">Mobile (WhatsApp) <i>*</i></span><input class="in" id="pPhone" inputmode="numeric" maxlength="10"></label>
@@ -2064,11 +2794,27 @@ function renderBook(){
       <div class="c-body" id="slipWrap"><div class="empty"><b>Nothing booked yet</b>Fill in the form to confirm.</div></div></div></div>`;
   fillDocSelect();
   $("#typeSeg").onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;
-    $$("#typeSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));visitType=b.dataset.t};
-  $("#pDoc").onchange=docHint;$("#pDate").onchange=docHint;
+    $$("#typeSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    visitType=b.dataset.t;fillExisting()};
+  $("#pExisting").onchange=applyExisting;
+  // Typing a known mobile is enough: the rest of the record is pulled in.
+  $("#pPhone").addEventListener("blur",()=>{
+    const ph=$("#pPhone").value.trim();if(ph.length!==10)return;
+    const hit=registeredPatients().find(x=>x.phone===ph);
+    if(hit&&$("#pExisting").value!==hit.pid){$("#pExisting").value=hit.pid;applyExisting();
+      toast(`${hit.name} already has a record — details filled in`)}
+  });
+  fillExisting();
+  $("#pDoc").onchange=()=>{docHint();fillExisting()};   // the list follows the doctor
+  $("#pDate").onchange=docHint;
+  $("#pSearch").oninput=()=>{exQ=$("#pSearch").value;fillExisting();
+    const n=$("#pSearch");if(n){n.focus();n.setSelectionRange(exQ.length,exQ.length)}};
   ["pPhone","pAge"].forEach(i=>$("#"+i).addEventListener("input",e=>e.target.value=e.target.value.replace(/\D/g,"")));
   $("#btnIssue").onclick=submitBooking;
-  $("#btnClear").onclick=()=>["pName","pPhone","pAge","pNote","pEmail"].forEach(i=>{$("#"+i).value="";$("#"+i).classList.remove("bad")});
+  $("#btnClear").onclick=()=>{["pName","pPhone","pAge","pNote","pEmail"].forEach(i=>{
+      $("#"+i).value="";$("#"+i).classList.remove("bad")});
+    $("#pExisting").value="";$("#pPrev").innerHTML="";
+    exQ="";$("#pSearch").value="";fillExisting()};
   Object.entries(keep).forEach(([i,v])=>{const el=$("#"+i);if(el)el.value=v});
   $("#btnIssue").textContent="Confirm appointment";
   docHint();
@@ -2094,7 +2840,9 @@ function submitBooking(){
   for(const f of cfFor("patient").filter(f=>f.required))if(!cust[f.id])return toast(`${f.label} is required`);
   const slot=nextSlot(d.id,date);
   if(!slot)return toast(`No free slots for ${d.name} that day`);
-  const a={id:"A"+Date.now(),pid:"#P-"+String(C.appts.length+1).padStart(3,"0"),name,phone,age,
+  // A returning patient keeps their existing ID so the history stays in one place.
+  const known=registeredPatients().find(x=>x.phone===phone||x.pid===$("#pExisting").value);
+  const a={id:"A"+Date.now(),pid:known?known.pid:"#P-"+String(C.appts.length+1).padStart(3,"0"),name,phone,age,
     sex:$("#pSex").value,blood:$("#pBlood").value,email:$("#pEmail").value.trim(),type:visitType,note:$("#pNote").value.trim(),
     docId:d.id,docName:d.name,spec:d.spec,dept:d.dept,room:d.room,fee:d.fee,color:d.color,date,time:slot,
     status:"Scheduled",token:null,billed:false,custom:cust,
@@ -2163,9 +2911,10 @@ function registeredPatients(){
 }
 function fillPatientSelect(){
   const el=$("#billPatient");if(!el)return;
-  el.innerHTML=`<option value="">— Select a registered patient —</option>`+
-    registeredPatients().map(p=>
-      `<option value="${p.pid}">${esc(p.name)} · ${esc(p.pid)} · ${esc(p.phone)}</option>`).join("");
+  const list=billablePatients();
+  el.innerHTML=`<option value="">— Select a treated patient —</option>`+
+    list.map(p=>`<option value="${p.pid}">${esc(p.name)} · ${esc(p.pid)} · ${esc(p.phone)}${
+      p.token?" · "+esc(p.token):""}</option>`).join("");
 }
 /* Selecting a patient pulls their details and their open visit into the bill. */
 function pickPatient(){
@@ -2230,7 +2979,8 @@ function generateBill(){
   if(!items.length)return toast("Add at least one charge");
   const t=billTotals(),v=C.appts.find(x=>x.id===$("#billToken").value);
   if(v)v.billed=true;C.billNo++;
-  const b={no:"INV-"+String(C.billNo).padStart(4,"0"),patient:v?v.name:"Walk-in patient",pid:v?v.pid:"—",
+  const b={no:"INV-"+String(C.billNo).padStart(4,"0"),apptId:v?v.id:null,
+    patient:v?v.name:"Walk-in patient",pid:v?v.pid:"—",
     meta:v?`${v.age} / ${v.sex} · +91 ${v.phone}`:"Counter billing",token:v?v.token:"—",doctor:v?v.docName:"—",
     dept:v?v.dept:"",date:v?v.date:TODAY_ISO,mode:$("#payMode").value,lines:items.map(i=>({...i})),by:me.name,...t};
   C.bills.push(b);
@@ -2249,6 +2999,7 @@ function renderInvoice(b){
         <button class="btn btn-s" data-resend="bill|${b.no}">Send again</button>
         <button class="btn btn-s btn-g" id="btnCloseInv">Close</button></div></div>
     <div class="inv" id="invBody">
+      <div style="height:6px;background:${docHex()};margin:-30px -30px 20px;border-radius:14px 14px 0 0"></div>
       <div class="inv-h"><div><div class="n">${esc(s.clinic)}</div>
         <div class="s">${esc(s.address)}, ${esc(s.city)} ${esc(s.pin)}<br>${esc(s.phone)} · ${esc(s.email)}<br>Reg. ${esc(s.regNo)}</div></div>
         <div class="inv-r"><div class="k">Invoice</div><div class="v">${esc(b.no)}</div>
@@ -2275,7 +3026,8 @@ function renderBills(){const w=$("#billTable");if(!w)return;
       <td>${esc(b.patient)}<div class="sub">${esc(b.doctor)}</div></td><td><span class="pill p-green">${esc(b.mode)}</span></td>
       <td class="right num" style="font-weight:700">${money(b.total)}</td></tr>`).join("")}</tbody></table>`
     :`<div class="empty"><b>No bills yet</b>Complete a visit, then raise the bill.</div>`}
-document.addEventListener("click",e=>{const o=e.target.closest("[data-inv]");if(o)renderInvoice(C.bills.find(b=>b.no===o.dataset.inv))});
+document.addEventListener("click",e=>{const o=e.target.closest("[data-inv]");
+  if(o&&me)openBillPreview(C.bills.find(b=>b.no===o.dataset.inv))});
 
 /* ==========================================================
    DOCTORS
@@ -2542,7 +3294,13 @@ function cfgMessaging(){
       <p class="hint">In the live build these connect to your WhatsApp Business and SMTP accounts. In this demo every send is recorded in the Messages outbox instead.</p></div></div>
     <div class="card"><div class="c-head"><div><h3>Send automatically</h3><p>No one is asked — it just goes</p></div></div>
       <div class="c-body">${rows.map(([k,t,d])=>`<div class="togrow"><div><b>${t}</b><span>${d}</span></div>
-        <button class="sw" data-auto="${k}" aria-pressed="${a[k]}"></button></div>`).join("")}</div></div></div>`;
+        <button class="sw" data-auto="${k}" aria-pressed="${a[k]}"></button></div>`).join("")}
+        <div class="togrow"><div><b>Call tokens aloud</b><span>Reads the token, patient and doctor over the speakers</span></div>
+          <button class="sw" id="swVoice" aria-pressed="${C.settings.voice!==false}"></button></div></div></div></div>`;
+  $("#swVoice").onclick=e=>{C.settings.voice=!C.settings.voice;
+    e.currentTarget.setAttribute("aria-pressed",String(C.settings.voice));
+    toast(`Call announcements ${C.settings.voice?"on":"off"}`);
+    if(C.settings.voice)announceAloud({token:"GP-01",name:"Test patient",docName:"the doctor",room:"Room 1"})};
   $("#mSave").onclick=()=>{C.settings.waNumber=$("#mWa").value.trim();
     C.settings.waCode=$("#mCode").value.replace(/\D/g,"")||"91";
     C.settings.senderEmail=$("#mMail").value.trim();toast("Sender saved")};
@@ -2565,18 +3323,43 @@ function cfgClinic(){
       <label class="f"><span class="f-l">Phone</span><input class="in" id="setPhone" value="${esc(s.phone)}"></label>
       <label class="f"><span class="f-l">Email</span><input class="in" id="setMail" value="${esc(s.email)}"></label>
       <label class="f"><span class="f-l">Registration fee</span><input class="in" type="number" id="setFee" value="${s.regFee}"></label>
+      <label class="f"><span class="f-l">UPI ID (for the payment QR)</span>
+        <input class="in" id="setUpi" value="${esc(s.upiId||"")}" placeholder="clinic@okicici"></label>
+      <label class="f"><span class="f-l">UPI payee name</span>
+        <input class="in" id="setUpiName" value="${esc(s.upiName||s.clinic)}"></label>
+      <label class="f"><span class="f-l">Document accent colour</span>
+        <div style="display:flex;gap:10px;align-items:center">
+          <input type="color" id="setColor" value="${esc(docHex())}"
+            style="width:52px;height:44px;padding:3px;border:1px solid var(--line);border-radius:11px;background:var(--card);cursor:pointer">
+          <input class="in" id="setColorHex" value="${esc(docHex())}" maxlength="7" style="max-width:120px">
+          <div style="display:flex;gap:6px;flex-wrap:wrap">${
+            ["#2563EB","#0F766E","#7C3AED","#B91C1C","#B45309","#0F172A"].map(h=>
+              `<button type="button" data-swatch="${h}" title="${h}"
+                style="width:26px;height:26px;border-radius:8px;border:1px solid var(--line);background:${h};cursor:pointer"></button>`).join("")}</div>
+        </div>
+        <p class="hint">Used on the bar and headings of every invoice, report and token slip.</p></label>
       <label class="f"><span class="f-l">Slot length</span><select class="in" id="setSlot">${[10,15,20,30].map(m=>`<option value="${m}" ${s.slotMin===m?"selected":""}>${m} minutes</option>`).join("")}</select></label>
       <label class="f"><span class="f-l">Opens</span><input class="in" type="time" id="setStart" value="${s.dayStart}"></label>
       <label class="f"><span class="f-l">Closes</span><input class="in" type="time" id="setEnd" value="${s.dayEnd}"></label></div>
     <label class="f"><span class="f-l">Departments (comma separated)</span><input class="in" id="setDept" value="${esc(C.departments.join(", "))}"></label>
     <button class="btn btn-p" id="setSave">Save clinic profile</button>
     <p class="hint">Slot length and hours rebuild the schedule grid. Existing appointments keep their times.</p></div></div>`;
+  // keep the picker, the hex box and the swatches in step
+  const syncColor=v=>{$("#setColor").value=v;$("#setColorHex").value=v};
+  $("#setColor").oninput=e=>syncColor(e.target.value);
+  $("#setColorHex").oninput=e=>{const v=e.target.value.trim();
+    if(/^#[0-9a-fA-F]{6}$/.test(v))$("#setColor").value=v};
+  $$("[data-swatch]").forEach(b=>b.onclick=()=>syncColor(b.dataset.swatch));
   $("#setSave").onclick=()=>{
     if($("#setStart").value>=$("#setEnd").value)return toast("Closing must be after opening");
     Object.assign(C.settings,{clinic:$("#setName").value.trim()||s.clinic,regNo:$("#setReg").value.trim(),
       address:$("#setAddr").value.trim(),city:$("#setCity").value.trim(),state:$("#setState").value.trim(),
       pin:$("#setPin").value.trim(),phone:$("#setPhone").value.trim(),email:$("#setMail").value.trim(),
-      regFee:+$("#setFee").value||0,slotMin:+$("#setSlot").value,dayStart:$("#setStart").value,dayEnd:$("#setEnd").value});
+      regFee:+$("#setFee").value||0,slotMin:+$("#setSlot").value,dayStart:$("#setStart").value,
+      dayEnd:$("#setEnd").value,upiId:$("#setUpi").value.trim(),
+      upiName:$("#setUpiName").value.trim()||$("#setName").value.trim(),
+      invoiceColor:/^#[0-9a-fA-F]{6}$/.test($("#setColorHex").value.trim())
+        ?$("#setColorHex").value.trim():s.invoiceColor});
     C.departments=$("#setDept").value.split(",").map(x=>x.trim()).filter(Boolean);
     $("#clinicName").textContent=C.settings.clinic;toast("Clinic profile saved");renderConfig();
   };
@@ -2586,69 +3369,320 @@ function cfgClinic(){
    DEMO CLINIC
    ========================================================== */
 (function seed(){
-  const c=defaultClinic({name:"Sunrise Family Clinic",type:"General clinic",regNo:"TN/CLN/2018/1129",
-    address:"22 Bazaar Street, Mylapore",city:"Chennai",state:"Tamil Nadu",pin:"600004",
-    phone:"044 2498 7710",email:"desk@sunriseclinic.in",regFee:30,slotMin:15,dayStart:"09:00",dayEnd:"13:00",days:"Mon–Sat",waCode:"91"});
-  c.doctors=[
-    {id:1,code:"GP",name:"Dr. Meera Krishnan",spec:"General Physician",dept:"General Medicine",color:"blue",
-      qual:"MBBS, MD",fee:400,room:"Room 1",days:"Mon–Sat",start:"09:00",end:"13:00",status:"Active",
-      about:"Family physician handling fever, diabetes, blood pressure and general health checks. Sees walk-ins in the last half hour of each session.",custom:{}},
-    {id:2,code:"PD",name:"Dr. Arjun Rao",spec:"Paediatrician",dept:"Paediatrics",color:"green",
-      qual:"MBBS, DCH",fee:450,room:"Room 2",days:"Mon–Sat",start:"09:30",end:"12:30",status:"Active",
-      about:"Newborn to sixteen. Immunisation, growth checks, coughs and fevers.",custom:{}},
-    {id:3,code:"GY",name:"Dr. Sunita Iyer",spec:"Gynaecologist",dept:"Gynaecology",color:"violet",
-      qual:"MBBS, DGO",fee:500,room:"Room 3",days:"Mon, Wed, Fri",start:"10:00",end:"13:00",status:"Active",
-      about:"Antenatal care, menstrual and menopause concerns, routine screening.",custom:{}}];
-  c.services.push({name:"Antenatal scan review",rate:300},{name:"Nebulisation",rate:200});
-  c.customFields.push({id:"cf2",label:"Referred by",type:"text",target:"patient",options:[],required:false,active:true});
-  c.cfSeq=2;
-  clinics.push(c);
-  accounts.push({id:"a1",clinicId:c.id,name:"Sarah Menon",role:"admin",email:"s.menon@sunriseclinic.in",phone:"9840000001",color:"violet"});
-  c.doctors.forEach(d=>accounts.push({id:"a-d"+d.id,clinicId:c.id,name:d.name,role:"doctor",docId:d.id,color:d.color}));
+  /* ------------------------------------------------------------------
+     Demo clinic. Deterministic (fixed pseudo-random seed) so the numbers
+     are the same every reload and anything you test is repeatable.
+     ------------------------------------------------------------------ */
+  let _s=20260816;
+  const rnd=()=>{_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff};
+  const pick=a=>a[Math.floor(rnd()*a.length)];
+  const chance=p=>rnd()<p;
 
-  const S=[["Lakshmi Narayanan","9840112233","58","Female","B+",1,-2,"Follow-up","BP review","done"],
-   ["Arun Prakash","9791220045","34","Male","O+",1,-1,"New consultation","Fever, sore throat","done"],
-   ["Divya Ramesh","9884567712","7","Female","A+",2,0,"New consultation","Night cough","live"],
-   ["Meena Rajan","9445780013","29","Female","O-",3,0,"Follow-up","Antenatal — 24 weeks","book"],
-   ["Suresh Kumar","9600341289","46","Male","AB+",1,0,"Report review","Sugar report","book"],
-   ["Fatima Begum","9600778899","67","Female","AB-",1,1,"Follow-up","Knee pain review","book"],
-   ["Nithya Prasad","9884001122","31","Female","A+",3,1,"New consultation","Irregular cycles","book"],
-   ["Karthik Rajan","9791556677","5","Male","B+",2,2,"Follow-up","Vaccination due","book"]];
-  const DX={1:["Viral pharyngitis","Tab. Paracetamol 500mg — 1-1-1 x 3 days\nWarm saline gargle twice daily","Rest and fluids. Return if fever crosses 3 days.",7]};
+  const c=defaultClinic({name:"Sunrise Family Clinic",type:"Multi-speciality clinic",
+    regNo:"TN/CLN/2018/1129",address:"22 Bazaar Street, Mylapore",city:"Chennai",
+    state:"Tamil Nadu",pin:"600004",phone:"044 2498 7710",email:"desk@sunriseclinic.in",
+    regFee:30,slotMin:15,dayStart:"09:00",dayEnd:"13:00",days:"Mon-Sat",waCode:"91",
+    upiId:"sunriseclinic@okicici",upiName:"Sunrise Family Clinic",invoiceColor:"#2563EB"});
+
+  c.rooms=[{no:"Room 1",type:"Consultation"},{no:"Room 2",type:"Consultation"},
+    {no:"Room 3",type:"Consultation"},{no:"Room 4",type:"Consultation"},
+    {no:"Dental Suite",type:"Dental"},{no:"Injection Bay",type:"Treatment"},
+    {no:"Dressing Room",type:"Procedure"}];
+
+  c.doctors=[
+    {id:1,code:"GP",name:"Dr. Meera Krishnan",spec:"General Physician",dept:"General Medicine",
+     color:"blue",qual:"MBBS, MD",fee:400,room:"Room 1",days:"Mon-Sat",start:"09:00",end:"13:00",
+     status:"Active",about:"Family physician handling fever, diabetes, blood pressure and general health checks. Sees walk-ins in the last half hour of each session.",custom:{}},
+    {id:2,code:"PD",name:"Dr. Arjun Rao",spec:"Paediatrician",dept:"Paediatrics",
+     color:"green",qual:"MBBS, DCH",fee:450,room:"Room 2",days:"Mon-Sat",start:"09:00",end:"12:30",
+     status:"Active",about:"Newborn to sixteen. Immunisation, growth checks, coughs and fevers.",custom:{}},
+    {id:3,code:"GY",name:"Dr. Sunita Iyer",spec:"Gynaecologist",dept:"Gynaecology",
+     color:"violet",qual:"MBBS, DGO",fee:500,room:"Room 3",days:"Mon, Wed, Fri",start:"09:30",end:"13:00",
+     status:"Active",about:"Antenatal care, menstrual and menopause concerns, routine screening.",custom:{}},
+    {id:4,code:"DN",name:"Dr. Rajesh Pillai",spec:"Dental Surgeon",dept:"Dental",
+     color:"amber",qual:"BDS, MDS",fee:350,room:"Dental Suite",days:"Mon-Sat",start:"09:00",end:"12:00",
+     status:"Active",about:"Fillings, scaling, extractions and root canal work. Children seen with a parent present.",custom:{}},
+    {id:5,code:"DR",name:"Dr. Anita Suresh",spec:"Dermatologist",dept:"Dermatology",
+     color:"pink",qual:"MBBS, DVD",fee:550,room:"Room 4",days:"Tue, Thu, Sat",start:"10:00",end:"13:00",
+     status:"On Leave",about:"Skin, hair and nail conditions. Acne, eczema and fungal infections.",custom:{}}];
+
+  c.services=[{name:"Consultation fee",rate:0,dyn:true},{name:"Dressing",rate:150},
+    {name:"Injection",rate:100},{name:"Blood sugar (random)",rate:80},
+    {name:"Blood pressure check",rate:50},{name:"Nebulisation",rate:200},
+    {name:"Suture removal",rate:250},{name:"Vaccination - administration",rate:150},
+    {name:"ECG",rate:300},{name:"Dental scaling",rate:900},{name:"Dental filling",rate:1200},
+    {name:"Antenatal scan review",rate:300},{name:"Wound care",rate:180}];
+
+  c.customFields=[
+    {id:"cf1",label:"Known allergies",type:"textarea",target:"patient",options:[],required:false,active:true},
+    {id:"cf2",label:"Referred by",type:"text",target:"patient",options:[],required:false,active:true},
+    {id:"cf3",label:"Insurance",type:"select",target:"patient",
+     options:["None","Star Health","HDFC Ergo","Employer scheme"],required:false,active:true},
+    {id:"cf4",label:"Reviewed by senior",type:"checkbox",target:"consultation",options:[],required:false,active:true}];
+  c.cfSeq=4;
+
+  clinics.push(c);
   const Cprev=C;C=c;
-  S.forEach(([name,phone,age,sex,blood,docId,off,type,note,state],i)=>{
-    const d=c.doctors.find(x=>x.id===docId),dt=new Date(TODAY);dt.setDate(TODAY.getDate()+off);
-    const k=isoOf(dt),slot=nextSlot(docId,k);if(!slot)return;
-    const sk=docId+"|"+k;c.seq[sk]=(c.seq[sk]||0)+1;
-    const a={id:"S"+i,pid:"#P-"+String(i+1).padStart(3,"0"),name,phone,age,sex,blood,
-      email:i%3===0?name.toLowerCase().split(" ")[0]+"@email.com":"",type,note,
-      docId,docName:d.name,spec:d.spec,dept:d.dept,room:d.room,fee:d.fee,color:d.color,date:k,time:slot,
-      token:d.code+"-"+String(c.seq[sk]).padStart(2,"0"),
-      status:state==="done"?"Completed":state==="live"?"In consultation":"Scheduled",
-      billed:false,custom:{cf1:i%4===0?"Penicillin":"",cf2:""},raisedBy:"Sarah Menon",
-      log:["Created by Sarah Menon"],consult:null};
-    if(state==="done"&&DX[docId]){const[dx,tx,ad,fu]=DX[docId];const f=new Date(dt);f.setDate(f.getDate()+fu);
-      a.consult={vitals:"BP 126/82 · Pulse 78 · Temp 99.1 F",diagnosis:dx,treatment:tx,advice:ad,
-        followUp:isoOf(f),fuDays:String(fu),savedAt:fmtD(dt),by:d.name,custom:{}};
-      a.log.push("Consultation completed by "+d.name)}
-    c.appts.push(a);
-    c.notifs.push({id:"n"+(++c.notifSeq),type:state==="req"?"initiated":state==="done"?"completed":"initiated",
-      title:state==="done"?`${name} — consultation complete`:`New appointment — ${name}`,
-      body:`${d.name} · ${fmtD(dt)} ${t12(slot)}`,apptId:a.id,to:["role:admin","doctor:"+docId],
-      at:"09:"+String(10+i*3).padStart(2,"0")+" AM",when:fmtD(dt),readBy:[]});
-    {
-      c.messages.push({id:"m"+(++c.msgSeq),channel:"whatsapp",to:`+91 ${phone}`,raw:phone,event:"confirmed",name,
-        subject:`${c.settings.clinic} — Appointment confirmed`,body:msgBooking(a,"confirmed"),pdf:{kind:"booking",id:a.id},
-        at:"09:"+String(11+i*3).padStart(2,"0")+" AM",when:fmtD(dt),status:"Sent",auto:true});
+
+  accounts.push({id:"a1",clinicId:c.id,name:"Sarah Menon",role:"admin",
+    email:"s.menon@sunriseclinic.in",phone:"9840000001",color:"violet"});
+  c.doctors.forEach(d=>accounts.push({id:"a-d"+d.id,clinicId:c.id,name:d.name,
+    role:"doctor",docId:d.id,color:d.color}));
+
+  /* ---------------- patients ---------------- */
+  const PEOPLE=[
+    ["Lakshmi Narayanan","9840112233",58,"Female","B+","lakshmi.n@email.com"],
+    ["Arun Prakash","9791220045",34,"Male","O+","arun.prakash@email.com"],
+    ["Divya Ramesh","9884567712",7,"Female","A+",""],
+    ["Meena Rajan","9445780013",29,"Female","O-","meena.rajan@email.com"],
+    ["Suresh Kumar","9600341289",46,"Male","AB+",""],
+    ["Fatima Begum","9600778899",67,"Female","AB-",""],
+    ["Nithya Prasad","9884001122",31,"Female","A+","nithya.p@email.com"],
+    ["Karthik Rajan","9791556677",5,"Male","B+",""],
+    ["Ramesh Subramanian","9840223344",52,"Male","O+","ramesh.s@email.com"],
+    ["Priya Venkatesh","9962118820",27,"Female","B+","priya.v@email.com"],
+    ["Anand Gopal","9840556612",41,"Male","A-",""],
+    ["Shanthi Devi","9445009911",63,"Female","O+",""],
+    ["Vikram Shankar","9791884420",38,"Male","B-","vikram.s@email.com"],
+    ["Deepa Manohar","9884330077",33,"Female","A+","deepa.m@email.com"],
+    ["Mohammed Irfan","9600445588",24,"Male","O+",""],
+    ["Kavitha Raman","9840667788",45,"Female","AB+","kavitha.r@email.com"],
+    ["Sanjay Kumar","9962007733",9,"Male","A+",""],
+    ["Revathi Balan","9445221100",36,"Female","B+",""],
+    ["Ganesh Murthy","9791330099",70,"Male","O-",""],
+    ["Aishwarya Nair","9884776655",22,"Female","A+","aish.nair@email.com"],
+    ["Prakash Iyer","9840990011",55,"Male","B+",""],
+    ["Sneha Krishnan","9962554433",3,"Female","O+",""],
+    ["Hari Vasudevan","9445667700",48,"Male","AB+","hari.v@email.com"],
+    ["Bhuvana Selvam","9791002288",30,"Female","A-",""],
+    ["Naveen Chandra","9884118822",26,"Male","O+","naveen.c@email.com"],
+    ["Latha Sundaram","9840447799",59,"Female","B+",""],
+    ["Rahul Menon","9962114455",19,"Male","A+","rahul.menon@email.com"],
+    ["Janaki Ammal","9445883322",74,"Female","O+",""],
+    ["Sridhar Balaji","9791446688",43,"Male","B-","sridhar.b@email.com"],
+    ["Tara Joseph","9884229900",12,"Female","A+",""]];
+
+  const pats=PEOPLE.map((p,i)=>({pid:"#P-"+String(i+1).padStart(3,"0"),name:p[0],phone:p[1],
+    age:p[2],sex:p[3],blood:p[4],email:p[5],
+    custom:{cf1:chance(.25)?pick(["Penicillin","Sulpha drugs","Dust, pollen","Peanuts"]):"",
+            cf2:chance(.3)?pick(["Walk-in","Dr. Prakash, Adyar","Camp screening","Family"]):"",
+            cf3:chance(.4)?pick(["Star Health","HDFC Ergo","Employer scheme"]):"None"}}));
+
+  /* ---------------- clinical content by department ---------------- */
+  const CASES={
+    "General Medicine":[
+      ["Acute viral pharyngitis","Tab. Paracetamol 500mg - 1-1-1 x 3 days\nWarm saline gargle twice daily","Rest and fluids. Return if fever crosses 3 days.",7],
+      ["Type 2 diabetes - review","Tab. Metformin 500mg - 1-0-1 continued\nRepeat HbA1c before next visit","Walk 30 minutes daily. Avoid sweets and fried food.",30],
+      ["Essential hypertension - review","Tab. Amlodipine 5mg - 0-0-1 continued","Reduce salt. Check BP weekly at home.",30],
+      ["Acute gastritis","Cap. Omeprazole 20mg - 1-0-0 x 5 days\nSyp. Antacid 10ml after meals","Small frequent meals. Avoid spicy food and NSAIDs.",7],
+      ["Migraine without aura","Tab. Naproxen 250mg SOS\nMaintain a headache diary","Regular sleep, avoid skipping meals.",14],
+      ["Iron deficiency anaemia","Tab. Ferrous ascorbate 100mg - 0-1-0 x 60 days","Take with citrus, not with tea or milk.",30],
+      ["Upper respiratory infection","Tab. Cetirizine 10mg at night x 5 days\nSteam inhalation twice daily","Rest. Return if breathless or fever persists.",0]],
+    "Paediatrics":[
+      ["Viral upper respiratory infection","Syp. Paracetamol 5ml SOS for fever\nSaline nasal drops","Plenty of fluids. Keep home from school 2 days.",0],
+      ["Acute gastroenteritis","ORS after each loose stool\nSyp. Zinc 10ml once daily x 14 days","Watch for reduced urine or drowsiness - return at once.",3],
+      ["Immunisation - DPT booster","DPT booster given in left thigh","Mild fever is expected tonight. Paracetamol if needed.",30],
+      ["Allergic rhinitis","Syp. Levocetirizine 5ml at night x 7 days","Dust-proof the bedroom, wash bedding weekly.",14],
+      ["Growth and development check","No medication. Growth on the 50th centile.","Continue a balanced diet and outdoor play.",30]],
+    "Gynaecology":[
+      ["Antenatal review - 24 weeks","Tab. Iron and folic acid - 0-1-0 continued\nCalcium 500mg at night","Scan at 28 weeks. Report any bleeding or reduced movements.",14],
+      ["Polycystic ovary syndrome - review","Tab. Metformin 500mg - 1-0-1\nWeight and cycle diary","Regular exercise. Recheck cycles in a month.",30],
+      ["Menorrhagia","Tab. Tranexamic acid 500mg - 1-1-1 during periods\nHaemoglobin check advised","Return sooner if clots or dizziness.",21],
+      ["Perimenopausal counselling","Calcium and vitamin D daily","Weight-bearing exercise. Bone density scan next year.",30]],
+    "Dental":[
+      ["Dental caries - lower right molar","Composite filling done under local anaesthesia","No hard food on that side for 24 hours.",30],
+      ["Chronic gingivitis","Scaling and polishing done\nChlorhexidine mouthwash twice daily x 7 days","Brush twice daily, floss nightly.",21],
+      ["Root canal - review","Root canal completed, crown advised","Return in three weeks for crown fitting.",21],
+      ["Post-extraction review","Socket healing well. No medication needed.","Continue warm saline rinses for two more days.",0]],
+    "Dermatology":[
+      ["Atopic eczema","Mometasone cream at night x 10 days\nMoisturiser twice daily","Lukewarm showers, mild soap, cotton clothing.",14],
+      ["Acne vulgaris","Adapalene 0.1% gel at night\nClindamycin lotion in the morning","Do not pick lesions. Improvement takes 6 weeks.",30],
+      ["Tinea corporis","Tab. Fluconazole 150mg weekly x 4\nLuliconazole cream twice daily","Keep the area dry, do not share towels.",21]]};
+
+  const REASONS={
+    "General Medicine":["Fever and body ache","Sugar review","BP review","Stomach pain","Headache","Tiredness","Cough and cold"],
+    "Paediatrics":["Cold and cough","Loose motions","Vaccination due","Sneezing at night","Routine check"],
+    "Gynaecology":["Antenatal visit","Irregular cycles","Heavy bleeding","Menopause advice"],
+    "Dental":["Tooth pain","Bleeding gums","Root canal review","After extraction"],
+    "Dermatology":["Itchy patches","Pimples","Ring-shaped rash"]};
+
+  /* ---------------- helpers ---------------- */
+  const used={};
+  function slotFor(doc,dateISO){
+    const key=doc.id+"|"+dateISO;
+    used[key]=used[key]||[];
+    const free=docSlots(doc).filter(t=>!used[key].includes(t));
+    if(!free.length)return null;
+    const t=free[0];used[key].push(t);return t;
+  }
+  function tokenFor(doc,dateISO){
+    const k=doc.id+"|"+dateISO;
+    c.seq[k]=(c.seq[k]||0)+1;
+    return doc.code+"-"+String(c.seq[k]).padStart(2,"0");
+  }
+  const dISO=off=>{const d=new Date(TODAY);d.setDate(TODAY.getDate()+off);return isoOf(d)};
+  const isSunday=off=>{const d=new Date(TODAY);d.setDate(TODAY.getDate()+off);return d.getDay()===0};
+  let aSeq=0,mSeq=0;
+
+  function addMsg(a,event,body,dateISO,at,pdf){
+    if(!c.settings.auto[event])return;
+    const when=fmtD(parseISO(dateISO));
+    [["whatsapp",a.phone],["email",a.email]].forEach(([ch,addr])=>{
+      c.messages.push({id:"m"+(++mSeq),channel:ch,
+        to:addr?(ch==="whatsapp"?`+91 ${addr}`:addr):"",raw:addr||"",event,name:a.name,
+        subject:`${c.settings.clinic} - ${EVENTS[event]}`,body,pdf,at,when,
+        status:addr?"Sent":(ch==="whatsapp"?"No mobile on file":"No email on file"),auto:true});
+    });
+  }
+  function addNotif(type,title,body,apptId,to,dateISO,at,read){
+    c.notifs.push({id:"n"+(++c.notifSeq),type,title,body,apptId,to,
+      at,when:fmtD(parseISO(dateISO)),readBy:read?["role:admin"]:[]});
+  }
+
+  /* ---------------- build one visit ---------------- */
+  function visit(person,doc,off,state,opts){
+    opts=opts||{};
+    const date=dISO(off),slot=slotFor(doc,date);
+    if(!slot)return null;
+    const cases=CASES[doc.dept],cs=opts.case||pick(cases);
+    const a={id:"S"+(++aSeq),pid:person.pid,name:person.name,phone:person.phone,age:person.age,
+      sex:person.sex,blood:person.blood,email:person.email,
+      type:opts.type||pick(["New consultation","Follow-up","Report review"]),
+      note:opts.note||pick(REASONS[doc.dept]),
+      docId:doc.id,docName:doc.name,spec:doc.spec,dept:doc.dept,room:doc.room,fee:doc.fee,
+      color:doc.color,date,time:slot,token:tokenFor(doc,date),
+      status:state,billed:false,custom:{...person.custom},raisedBy:"Sarah Menon",
+      log:[`Created by Sarah Menon`],consult:null};
+    const hh=String(9+Math.floor(rnd()*3)).padStart(2,"0"),mm=String(Math.floor(rnd()*59)).padStart(2,"0");
+    const at=`${hh}:${mm} AM`;
+
+    if(state==="Completed"){
+      const fuDays=cs[3];
+      let fu="";
+      if(fuDays){const f=parseISO(date);f.setDate(f.getDate()+fuDays);fu=isoOf(f)}
+      a.consult={vitals:`BP ${110+Math.floor(rnd()*30)}/${70+Math.floor(rnd()*20)} · Pulse ${68+Math.floor(rnd()*24)} · Temp ${(97.6+rnd()*2.2).toFixed(1)} F`,
+        diagnosis:cs[0],treatment:cs[1],advice:cs[2],followUp:fu,fuDays:String(fuDays||""),
+        savedAt:fmtD(parseISO(date)),by:doc.name,custom:{cf4:chance(.2)}};
+      a.log.push(`Consultation completed by ${doc.name}`);
     }
+    c.appts.push(a);
+
+    // messages and activity for anything recent enough to still matter
+    if(off>=-12){
+      addMsg(a,"confirmed",msgBooking(a,"confirmed"),date,at,{kind:"booking",id:a.id});
+      if(a.consult){
+        addMsg(a,"report",msgReport(a),date,at,{kind:"report",id:a.id});
+        if(a.consult.followUp)addMsg(a,"followup",msgFollowup(a),date,at,{kind:"report",id:a.id});
+      }
+    }
+    if(off>=-6){
+      addNotif("initiated",`New appointment - ${a.name}`,
+        `${doc.name} · ${fmtD(parseISO(date))} ${t12(slot)} · ${a.token}`,a.id,
+        ["role:admin","doctor:"+doc.id],date,at,off<-1);
+      if(a.consult)addNotif("completed",`${a.name} - consultation complete`,
+        `${a.consult.diagnosis}${a.consult.followUp?" · review "+fmtD(parseISO(a.consult.followUp)):""}`,
+        a.id,["role:admin","doctor:"+doc.id],date,at,off<-1);
+    }
+    return a;
+  }
+
+  function bill(a,extraCount,opts){
+    opts=opts||{};
+    const lines=[{name:`Consultation - ${a.docName}`,rate:a.fee,qty:1}];
+    const extras=c.services.filter(s=>!s.dyn);
+    for(let i=0;i<extraCount;i++){
+      const sv=pick(extras);
+      if(!lines.some(l=>l.name===sv.name))lines.push({name:sv.name,rate:sv.rate,qty:chance(.2)?2:1});
+    }
+    const sub=lines.reduce((t,l)=>t+l.rate*l.qty,0);
+    const disc=opts.disc||0;
+    const taxPct=opts.taxPct||0;
+    const taxable=sub-disc+c.settings.regFee;
+    const tax=Math.round(taxable*taxPct/100);
+    c.billNo++;
+    const b={no:"INV-"+String(c.billNo).padStart(4,"0"),apptId:a.id,patient:a.name,pid:a.pid,
+      meta:`${a.age} / ${a.sex} · +91 ${a.phone}`,token:a.token,doctor:a.docName,dept:a.dept,
+      date:a.date,mode:opts.mode||pick(["Cash","UPI","UPI","Card"]),
+      payStatus:opts.payStatus||"Paid",note:`Token ${a.token} · ${a.docName}`,
+      lines,by:"Sarah Menon",sub,pct:0,disc,tax,taxPct,total:taxable+tax};
+    c.bills.push(b);
+    a.billed=true;
+    const hh=String(10+Math.floor(rnd()*3)).padStart(2,"0"),mm=String(Math.floor(rnd()*59)).padStart(2,"0");
+    if(a.date>=dISO(-12))addMsg(a,"bill",msgBill(b),a.date,`${hh}:${mm} AM`,{kind:"bill",id:b.no});
+    if(a.date>=dISO(-6))addNotif("billed",`Bill ${b.no} - ${a.name}`,
+      `${rs(b.total)} · ${b.mode}`,a.id,["role:admin"],a.date,`${hh}:${mm} AM`,true);
+    return b;
+  }
+
+  const docById=id=>c.doctors.find(d=>d.id===id);
+
+  /* ---------------- history: the last nine weeks ---------------- */
+  const activeDocs=[1,2,3,4];
+  for(let off=-60;off<=-1;off++){
+    if(isSunday(off))continue;
+    const count=2+Math.floor(rnd()*4);
+    for(let i=0;i<count;i++){
+      const doc=docById(pick(activeDocs));
+      const person=pick(pats);
+      const a=visit(person,doc,off,"Completed");
+      if(a&&chance(.88))bill(a,Math.floor(rnd()*3),
+        chance(.12)?{disc:50+Math.floor(rnd()*100)}:chance(.1)?{taxPct:5}:{});
+    }
+  }
+  // a couple of people who come back repeatedly, so the history reads properly
+  [[pats[0],1,"General Medicine"],[pats[8],1,"General Medicine"],
+   [pats[3],3,"Gynaecology"],[pats[2],2,"Paediatrics"]].forEach(([person,docId,dept])=>{
+    [-52,-38,-24,-10].forEach(off=>{
+      if(isSunday(off))return;
+      const a=visit(person,docById(docId),off,"Completed",{type:"Follow-up",case:CASES[dept][1]});
+      if(a)bill(a,1,{mode:"UPI"});
+    });
   });
-  const done=c.appts.filter(a=>a.consult)[0];
-  if(done){done.billed=true;c.billNo++;
-    c.bills.push({no:"INV-"+String(c.billNo).padStart(4,"0"),patient:done.name,pid:done.pid,
-      meta:`${done.age} / ${done.sex} · +91 ${done.phone}`,token:done.token,doctor:done.docName,dept:done.dept,
-      date:done.date,mode:"UPI",lines:[{name:`Consultation — ${done.docName}`,rate:done.fee,qty:1},{name:"Blood pressure check",rate:50,qty:1}],
-      by:"Sarah Menon",sub:done.fee+50,pct:0,disc:0,total:done.fee+50+c.settings.regFee})}
-  c.notifs.reverse();c.messages.reverse();
+
+  /* ---------------- today ---------------- */
+  // finished earlier this morning
+  [[1,pats[0]],[2,pats[2]],[4,pats[20]]].forEach(([id,person])=>{
+    const a=visit(person,docById(id),0,"Completed",{type:"Follow-up"});
+    if(a)bill(a,1,{mode:"UPI"});
+  });
+  // finished but not billed yet - these show a Bill button on the home page
+  [[1,pats[8]],[3,pats[3]]].forEach(([id,person])=>{
+    visit(person,docById(id),0,"Completed",{type:"New consultation"});
+  });
+  // in the room right now
+  [[2,pats[16]],[4,pats[12]]].forEach(([id,person])=>{
+    visit(person,docById(id),0,"In consultation",{type:"New consultation"});
+  });
+  // still waiting
+  [[1,pats[4]],[1,pats[5]],[1,pats[25]],[2,pats[7]],[2,pats[21]],
+   [3,pats[6]],[3,pats[9]],[4,pats[14]],[4,pats[26]]].forEach(([id,person])=>{
+    visit(person,docById(id),0,"Scheduled");
+  });
+
+  /* ---------------- the next week ---------------- */
+  for(let off=1;off<=6;off++){
+    if(isSunday(off))continue;
+    const count=2+Math.floor(rnd()*3);
+    for(let i=0;i<count;i++){
+      visit(pick(pats),docById(pick(activeDocs)),off,"Scheduled");
+    }
+  }
+
+  /* ---------------- an overdue follow-up and a cancellation ---------------- */
+  const overdue=c.appts.find(a=>a.consult&&a.consult.followUp&&a.consult.followUp<TODAY_ISO);
+  const cancelled=visit(pats[27],docById(1),2,"Scheduled");
+  if(cancelled){
+    cancelled.status="Rejected";
+    cancelled.rejectReason="Doctor called away for an emergency";
+    cancelled.log.push("Rejected by Dr. Meera Krishnan - Doctor called away for an emergency");
+    addMsg(cancelled,"declined",msgBooking(cancelled,"declined"),cancelled.date,"11:20 AM",
+      {kind:"booking",id:cancelled.id});
+    addNotif("rejected",`Dr. Meera Krishnan rejected ${cancelled.name}`,
+      cancelled.rejectReason,cancelled.id,["role:admin","doctor:1"],TODAY_ISO,"11:20 AM",false);
+  }
+
+  c.notifs.reverse();
+  c.messages.reverse();
   C=Cprev;
 })();
 renderAuth();
