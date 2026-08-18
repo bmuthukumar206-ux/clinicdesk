@@ -141,6 +141,7 @@ svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-l
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .grid{display:grid;gap:16px}
 .g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
 .g2{grid-template-columns:1fr 1fr}
 .split{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-items:start}
 .split-r{display:grid;grid-template-columns:1fr 1.35fr;gap:16px;align-items:start}
@@ -228,6 +229,25 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .tn-t{display:block;font-size:26px;font-weight:700;letter-spacing:-1.2px;line-height:1.15;font-variant-numeric:tabular-nums}
 .tn-n{display:block;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tn-s{display:block;font-size:10.5px;opacity:.7;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* The token in the room is itself the "call again" control. */
+.tnode.tappable{cursor:pointer}
+.tnode.tappable:hover{filter:brightness(1.07)}
+.tnode.tappable:active{transform:scale(.99)}
+.tn-hint{display:block;font-size:10px;margin-top:7px;opacity:.75;font-weight:700;
+  border-top:1px solid rgba(255,255,255,.28);padding-top:6px}
+
+/* Two stacked actions for whoever is in the room. */
+.q-btns{display:flex;flex-direction:column;gap:8px;margin-left:14px;flex:0 0 auto}
+.q-btn{border-radius:12px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;
+  white-space:nowrap;background:var(--card);transition:background .15s,color .15s}
+.q-wait{border:1.5px solid var(--amber);color:var(--amber)}
+.q-wait:hover{background:var(--amber);color:#fff}
+.q-done{border:1.5px solid var(--green);color:var(--green)}
+.q-done:hover{background:var(--green);color:#fff}
+.waitcard{border:1px solid var(--amber);background:var(--amber-s);border-radius:var(--r);padding:14px 16px;margin-bottom:16px}
+.waitrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid rgba(0,0,0,.06)}
+.waitrow:first-of-type{border-top:0}
+.wait-t{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;min-width:64px}
 /* each stage gets its own colour */
 .tnode.now{background:linear-gradient(145deg,var(--violet),#5B21B6);border-color:transparent;color:#fff;
   box-shadow:0 8px 20px rgba(124,58,237,.28)}
@@ -574,7 +594,7 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
 .toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);background:var(--ink);color:var(--card);padding:13px 20px;border-radius:12px;font-size:13px;font-weight:700;opacity:0;transition:.25s;z-index:400;pointer-events:none;box-shadow:var(--sh-lg);max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
-@media(max-width:1200px){.split,.split-r{grid-template-columns:1fr}.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:1200px){.split,.split-r{grid-template-columns:1fr}.g3,.g4{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){
   .auth{grid-template-columns:1fr}
   .auth-art{display:none}.auth-form{padding:26px 20px;max-height:none}
@@ -594,6 +614,8 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
   .acts{grid-template-columns:1fr 1fr;gap:10px}
   .qline{grid-template-columns:1fr;gap:8px}
   .tflow{grid-template-columns:1fr;gap:8px;padding:12px}
+  .tnode.acting{gap:10px}
+  .tn-again,.tn-done{padding:6px 12px}
   .tlink{height:22px;width:3px;margin:0 auto;background:var(--line-2)}
   .tlink::after,.tdot{display:none}
   .q-call{margin-left:0;width:100%}
@@ -604,7 +626,7 @@ select.in{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xml
   .act-b{padding:13px}.act-s{display:none}
   .scr-top{padding:12px 14px}.scr-body{padding:16px 14px 60px}
   .totop{right:14px;bottom:14px}
-  .g3,.g2,.cat,.inv-p,.kv{grid-template-columns:1fr}
+  .g3,.g4,.g2,.cat,.inv-p,.kv{grid-template-columns:1fr}
   .cal{min-width:620px}
   .inv{padding:20px}
   .npanel{right:10px;left:10px;width:auto}
@@ -774,9 +796,13 @@ function slots(){const o=[],[sh,sm]=C.settings.dayStart.split(":").map(Number),[
   let t=sh*60+sm;const e=eh*60+em;while(t<e){o.push(`${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`);t+=C.settings.slotMin}return o}
 function docSlots(d){return slots().filter(s=>s>=d.start&&s<d.end)}
 function nextSlot(id,date){const d=D(id);if(!d)return null;
-  const used=C.appts.filter(a=>a.docId===id&&a.date===date&&a.status!=="Rejected").map(a=>a.time);
+  const used=C.appts.filter(a=>a.docId===id&&a.date===date&&isLive(a)).map(a=>a.time);
   return docSlots(d).find(s=>!used.includes(s))||null}
-const SP={Requested:"p-amber",Scheduled:"p-blue","In consultation":"p-violet",Completed:"p-green",Rejected:"p-red",Billed:"p-green"};
+const SP={Requested:"p-amber",Scheduled:"p-blue","In consultation":"p-violet",Completed:"p-green",
+  Rejected:"p-red",Cancelled:"p-red",Waiting:"p-amber",Billed:"p-green"};
+/* Statuses that are finished with: they free the slot and drop out of the live lists. */
+const DEAD=["Rejected","Cancelled"];
+const isLive=a=>!DEAD.includes(a.status);
 const pill=s=>`<span class="pill ${SP[s]||"p-grey"}">${esc(s)}</span>`;
 const dotFor=s=>`<span class="sdot" style="background:${{Active:"var(--green)","On Leave":"var(--amber)"}[s]||"var(--faint)"}"></span>`;
 function download(n,c,m){const b=new Blob([c],{type:m}),u=URL.createObjectURL(b),a=document.createElement("a");
@@ -802,6 +828,7 @@ function defaultClinic(o){
       dayStart:o.dayStart||"09:00",dayEnd:o.dayEnd||"13:00",days:o.days||"Mon–Sat",
       waCode:o.waCode||"91",senderEmail:o.email,waNumber:o.phone,
       upiId:o.upiId||"",upiName:o.upiName||o.name,invoiceColor:o.invoiceColor||"#2563EB",
+      noShowHours:+o.noShowHours||4,
       auto:{confirmed:true,updated:true,declined:true,report:true,followup:true,bill:true},voice:true},
     departments:["General Medicine","Paediatrics","Gynaecology","Dermatology","Dental","Physiotherapy"],
     rooms:[{no:"Room 1",type:"Consultation"},{no:"Room 2",type:"Consultation"},{no:"Room 3",type:"Consultation"},{no:"Injection Bay",type:"Treatment"}],
@@ -1122,7 +1149,11 @@ function msgBooking(a,kind){
   b+=`Doctor: ${a.docName}\nDate: ${fmtFull(parseISO(a.date))}\nTime: ${t12(a.time)}\nRoom: ${a.room}\n`;
   if(kind!=="declined")b+=`Fee: ${rs(a.fee)}\n`;
   b+="\n"+(kind==="declined"
-    ? `Sorry — the doctor is unable to take this appointment.${a.rejectReason?" Reason: "+a.rejectReason+"." : ""} Please call ${s.phone} and we will find another slot.`
+    ? (a.noShow
+      ? `We called this token ${a.calls||3} times and could not find you at the clinic, so it has `+
+        `been released. Nothing is charged. Please call ${s.phone} or walk in again and we will `+
+        `book you a fresh token.`
+      : `Sorry — the doctor is unable to take this appointment.${a.rejectReason?" Reason: "+a.rejectReason+"." : ""} Please call ${s.phone} and we will find another slot.`)
     : kind==="updated" ? `Your appointment has been moved. Please note the new time above.`
     : `Please arrive 10 minutes early. To reschedule call ${s.phone}.`);
   return b+`\n\n${s.address}, ${s.city}`;
@@ -1337,7 +1368,11 @@ function signIn(acc){
   $(".side").style.display="none";
   $("#meAv").style=avSt(me.color);$("#meAv").textContent=ini(me.name);
   $("#meName").textContent=me.name;$("#meRole").textContent=me.title;
-  buildNav();buildProfileMenu();buildHome();closeSide();go("home");renderNotifs();
+  buildNav();buildProfileMenu();buildHome();closeSide();
+  sweepNoShows();
+  clearInterval(window.__sweep);
+  window.__sweep=setInterval(()=>{if(me&&sweepNoShows())renderView()},60000);
+  go("home");renderNotifs();
 }
 $("#btnLogout").onclick=()=>{closeScreen();closePage();closeMenu();me=null;C=null;$("#app").style.display="none";$("#auth").style.display="grid";
   $("#npanel").classList.remove("on");authMode="in";$$("#authSwitch button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.auth==="in"));renderAuth()};
@@ -1514,9 +1549,16 @@ function servingFor(docId){
   return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="In consultation")
     .sort((x,y)=>(y.calledAt||0)-(x.calledAt||0)||y.time.localeCompare(x.time))[0]||null;
 }
+/* Waiting order: anyone put back after being missed jumps to the front, so they are
+   seen next rather than at the end of the session. Otherwise it is by slot time. */
 function queueFor(docId){
   return C.appts.filter(a=>a.docId===docId&&a.date===TODAY_ISO&&a.status==="Scheduled")
-    .sort((x,y)=>x.time.localeCompare(y.time));
+    .sort((x,y)=>{
+      const xb=x.bumpedAt?0:1,yb=y.bumpedAt?0:1;
+      if(xb!==yb)return xb-yb;
+      if(x.bumpedAt&&y.bumpedAt)return x.bumpedAt-y.bumpedAt;
+      return x.time.localeCompare(y.time);
+    });
 }
 function nextForDoc(docId){return queueFor(docId)[0]||null}
 function thenForDoc(docId){return queueFor(docId)[1]||null}
@@ -1525,29 +1567,123 @@ function onDuty(){
   const list=me.role==="doctor"?C.doctors.filter(d=>d.id===me.docId)
     :C.doctors.filter(d=>d.status==="Active");
   return list.filter(d=>me.role==="doctor"||servingFor(d.id)||nextForDoc(d.id)
-    ||C.appts.some(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected"));
+    ||C.appts.some(a=>a.docId===d.id&&a.date===TODAY_ISO&&isLive(a)));
 }
 /* Calling a patient in. A consulting room holds one patient, so if the doctor is
    still with someone we ask what to happen to them first - otherwise the room would
    show two tokens at once and the display would drift from what was announced. */
+/* Tapping the token in the room reads it out again - same announcement as the
+   original call, for when the patient has not appeared yet. */
+function reannounce(a){
+  if(!a||a.status!=="In consultation")return;
+  a.calls=(a.calls||1)+1;
+  a.log.push(`Called again (${a.calls}) by ${me.name}`);
+  log("postponed",`${a.name} called again`,
+    `Token ${a.token} · call ${a.calls}`,a.id,["role:admin","doctor:"+a.docId]);
+  announceAloud(a);
+  toast(`${a.token} called again — ${a.name}`);
+  renderView();
+}
+
 function callIn(a){
+  if(a.status==="In consultation")return reannounce(a);
+
+  /* One patient per room. The room has to be finished with before the next token is
+     called, which is what the Done button is for - so nothing is ever closed by
+     accident just because someone pressed Call. */
   const busy=servingFor(a.docId);
   if(busy&&busy.id!==a.id){
-    busy.status="Scheduled";                       // back to waiting, keeps token and slot
-    busy.log.push(`Returned to the queue when ${a.token} was called in`);
-    log("postponed",`${busy.name} sent back to the queue`,
-      `${busy.token} · room needed for ${a.token}`,busy.id,["role:admin","doctor:"+a.docId]);
+    return toast(`${busy.token} is still in ${busy.room} — mark them done first`);
   }
+
+  const returning=a.status==="Waiting";
   a.status="In consultation";
   a.calledAt=Date.now();
-  a.log.push(`Called in by ${me.name}`);
-  log("initiated",`${a.name} called in`,`Token ${a.token} · ${a.room}`,a.id,
-      ["role:admin","doctor:"+a.docId]);
+  a.calls=1;
+  a.noShowAt=null;                                 // they turned up, so the clock stops
+  a.bumpedAt=null;
+  a.log.push(returning?`Arrived and called in by ${me.name}`:`Called in by ${me.name}`);
+  log("initiated",returning?`${a.name} arrived and was called in`:`${a.name} called in`,
+      `Token ${a.token} · ${a.room}`,a.id,["role:admin","doctor:"+a.docId]);
   announceAloud(a);
-  toast(busy&&busy.id!==a.id
-    ? `Token ${a.token} called in — ${busy.token} back to the queue`
-    : `Token ${a.token} called in — ${a.name}`);
+  toast(`Token ${a.token} called in — ${a.name}`);
   renderView();
+}
+
+/* Finish with whoever is in the room. Notes can still be written afterwards. */
+function finishVisit(a){
+  if(!a||a.status!=="In consultation")return;
+  a.status="Completed";
+  a.log.push(`Visit closed by ${me.name}`);
+  log("completed",`${a.name} — visit finished`,
+    a.consult?a.consult.diagnosis:`${a.token} · notes not written yet`,
+    a.id,["role:admin","doctor:"+a.docId]);
+  const next=nextForDoc(a.docId);
+  if(next){
+    toast(`${a.token} done — calling ${next.token}`);
+    return callIn(next);                           // straight on to the next patient
+  }
+  toast(`${a.token} done — nobody waiting`);
+  renderView();
+}
+
+/* A missed patient who turns up goes back into the queue as the next token. */
+function requeue(a){
+  if(!a||a.status!=="Waiting")return;
+  a.status="Scheduled";
+  a.bumpedAt=Date.now();
+  a.noShowAt=null;
+  a.calls=0;
+  a.log.push(`Arrived — put back in the queue by ${me.name}`);
+  log("postponed",`${a.name} is back`,
+    `Token ${a.token} · next for ${a.docName}`,a.id,["role:admin","doctor:"+a.docId]);
+  const cur=servingFor(a.docId);
+  toast(cur?`${a.token} is next after ${cur.token}`:`${a.token} is next — call them in`);
+  renderView();
+}
+
+/* Not present after three calls: park the token and pull the next patient in. */
+function markWaiting(a){
+  a.status="Waiting";
+  a.noShowAt=Date.now();
+  a.log.push(`Not present after ${a.calls||1} call(s) — moved to waiting`);
+  log("postponed",`${a.name} did not answer`,
+    `Token ${a.token} · waiting · cancels in ${C.settings.noShowHours||4}h`,a.id,
+    ["role:admin","doctor:"+a.docId]);
+  const next=nextForDoc(a.docId);
+  toast(next?`${a.token} moved to waiting — ${next.token} is next`
+            :`${a.token} moved to waiting — nobody else queued`);
+  if(next)return callIn(next);                     // the room is free now, so pull them in
+  renderView();
+}
+
+/* A token left waiting past the clinic's cut-off is cancelled and the patient told. */
+function sweepNoShows(){
+  if(!C)return false;
+  const hrs=+C.settings.noShowHours||4,ms=hrs*3600000;
+  let changed=false;
+  C.appts.filter(a=>a.status==="Waiting"&&a.noShowAt&&(Date.now()-a.noShowAt)>=ms).forEach(a=>{
+    a.status="Cancelled";
+    a.noShow=true;
+    a.rejectReason=`Did not attend within ${hrs} hours of being called`;
+    a.log.push(`Cancelled automatically — no show after ${hrs}h`);
+    autoSend("declined",a);                        // stored in the outbox either way
+    log("rejected",`${a.name} — token ${a.token} cancelled`,
+      `No show after ${hrs}h · patient notified`,a.id,["role:admin","doctor:"+a.docId]);
+    changed=true;
+  });
+  return changed;
+}
+function waitingFor(scope){
+  return (scope||myAppts()).filter(a=>a.status==="Waiting"&&a.date===TODAY_ISO)
+    .sort((x,y)=>(x.noShowAt||0)-(y.noShowAt||0));
+}
+function cancelsIn(a){
+  const hrs=+C.settings.noShowHours||4;
+  const left=(a.noShowAt||Date.now())+hrs*3600000-Date.now();
+  if(left<=0)return "cancelling";
+  const h=Math.floor(left/3600000),m=Math.floor((left%3600000)/60000);
+  return h?`${h}h ${m}m`:`${m}m`;
 }
 
 /* Called when a consultation is finished: the next token moves into the room. */
@@ -1568,10 +1704,14 @@ function renderHome(){
   const mine=myAppts();
   /* current -> next -> after next, on a path, one row per doctor on duty */
   const docs=onDuty();
-  const node=(cls,kicker,tok,name,sub)=>tok
-    ? `<div class="tnode ${cls}"><span class="tn-k">${esc(kicker)}</span>
+  const node=(cls,kicker,tok,name,sub,tap)=>tok
+    ? `<div class="tnode ${cls} ${tap?"tappable":""}"
+        ${tap?`data-reannounce="${tap.id}" role="button" tabindex="0"
+          title="Call ${esc(tok)} again over the speakers"`:""}>
+        <span class="tn-k">${esc(kicker)}</span>
         <span class="tn-t">${esc(tok)}</span><span class="tn-n">${esc(name)}</span>
-        ${sub?`<span class="tn-s">${esc(sub)}</span>`:""}</div>`
+        ${sub?`<span class="tn-s">${esc(sub)}</span>`:""}
+        ${tap?`<span class="tn-hint">Tap to call again${(tap.calls||1)>1?` · called ${tap.calls}×`:""}</span>`:""}</div>`
     : `<div class="tnode ${cls} empty"><span class="tn-k">${esc(kicker)}</span>
         <span class="tn-t">${cls==="now"?"Room free":"—"}</span>
         <span class="tn-s">${cls==="now"?"Nobody in the room":"nothing queued"}</span></div>`;
@@ -1583,14 +1723,21 @@ function renderHome(){
         <div style="min-width:0"><div class="qdoc-n">${esc(d.name)}</div>
           <div class="qdoc-r">${esc(d.spec)} · ${esc(d.room)}</div></div></div>
       <div class="tflow" id="flow-${d.id}">
-        ${node("now","In consultation",cur&&cur.token,cur&&cur.name,cur&&cur.room)}
+        ${node("now","In consultation",cur&&cur.token,cur&&cur.name,cur&&cur.room,cur)}
         <div class="tlink ${nxt?"":"dim"}"><span class="tdot"></span></div>
         ${node("next","Next token",nxt&&nxt.token,nxt&&nxt.name,nxt&&(t12(nxt.time)+" · "+nxt.type))}
         <div class="tlink ${then?"":"dim"}"><span class="tdot"></span></div>
         ${node("then","After that",then&&then.token,then&&then.name,then&&t12(then.time))}
-        <button class="q-call" ${nxt?`data-call="${nxt.id}" data-doc="${d.id}"`:"disabled"}>
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          ${nxt?"Call "+esc(nxt.token||"next"):"No one waiting"}</button></div></div>`}).join("")
+        ${cur
+          ? `<div class="q-btns">
+              <button class="q-btn q-wait" data-towait="${cur.id}"
+                title="${esc(cur.name)} is not here">Waiting</button>
+              <button class="q-btn q-done" data-donecall="${cur.id}"
+                title="Finish this visit and call the next token">Done</button></div>`
+          : `<button class="q-call" ${nxt?`data-call="${nxt.id}" data-doc="${d.id}"`:"disabled"}>
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              ${nxt?"Call "+esc(nxt.token||"next"):"No one waiting"}</button>`}
+      </div></div>`}).join("")
     :`<div class="card"><div class="empty"><b>No doctor on duty</b>Add a doctor or mark one active.</div></div>`;
 
   /* full-page actions */
@@ -1608,6 +1755,35 @@ function renderHome(){
 
 /* A stage card filters the schedule on this page. */
 document.addEventListener("click",e=>{
+  const ra=e.target.closest("[data-reannounce]");
+  if(ra&&me){e.stopPropagation();
+    reannounce(C.appts.find(x=>x.id===ra.dataset.reannounce));
+    return;}
+  const tw=e.target.closest("[data-towait]");
+  if(tw&&me){e.stopPropagation();
+    markWaiting(C.appts.find(x=>x.id===tw.dataset.towait));
+    return;}
+  const dc=e.target.closest("[data-donecall]");
+  if(dc&&me){e.stopPropagation();
+    finishVisit(C.appts.find(x=>x.id===dc.dataset.donecall));
+    return;}
+  const rc=e.target.closest("[data-recall]");
+  if(rc&&me){e.stopPropagation();
+    requeue(C.appts.find(x=>x.id===rc.dataset.recall));
+    return;}
+  const dp=e.target.closest("[data-dropwait]");
+  if(dp&&me){e.stopPropagation();
+    const a=C.appts.find(x=>x.id===dp.dataset.dropwait);
+    if(!a)return;
+    a.status="Cancelled";
+    a.noShow=true;
+    a.rejectReason="Did not attend";
+    a.log.push(`Cancelled by ${me.name} — patient not present`);
+    autoSend("declined",a);
+    log("rejected",`${a.name} — token ${a.token} cancelled`,"Not present",a.id,
+      ["role:admin","doctor:"+a.docId]);
+    toast(`${a.token} cancelled — the patient has been told`);
+    return renderView();}
   const cb=e.target.closest("[data-call]");
   if(cb&&me){const a=C.appts.find(x=>x.id===cb.dataset.call);if(!a)return;
     const flow=$("#flow-"+cb.dataset.doc);
@@ -1709,6 +1885,11 @@ document.addEventListener("click",e=>{
   const g=e.target.closest("[data-go]");if(g&&me)return go(g.dataset.go);
   const sc=e.target.closest("[data-sec]");if(sc&&me)return goSection(sc.dataset.sec);
 });
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Enter"&&e.key!==" ")return;
+  const t=e.target.closest&&e.target.closest("[data-reannounce]");
+  if(t&&me){e.preventDefault();reannounce(C.appts.find(x=>x.id===t.dataset.reannounce))}
+});
 $("#scrBack").onclick=closeScreen;
 $("#scrClose").onclick=closeScreen;
 $("#homeLink").onclick=()=>me&&go("home");
@@ -1760,7 +1941,7 @@ function refreshBadges(){
   const set=(id,n,a)=>{[`#tn-${id}`,`#pm-${id}`].forEach(sel=>{const el=$(sel);if(!el)return;
     el.style.display=n?"inline-block":"none";el.textContent=n;el.classList.toggle("alert",!!a)})};
   const mine=myAppts();
-  set("appts",mine.filter(a=>!["Completed","Rejected"].includes(a.status)).length);
+  set("appts",mine.filter(a=>a.status!=="Completed"&&isLive(a)).length);
   set("history",new Set(mine.filter(a=>a.status==="Completed").map(a=>a.pid)).size);
   set("donelist",mine.filter(a=>a.date===TODAY_ISO&&a.status==="Completed").length);
   set("followups",mine.filter(a=>a.consult&&a.consult.followUp).length);
@@ -1831,7 +2012,7 @@ function renderCal(){
     <div class="cal-hd" style="font-size:11px;color:var(--faint)">Time</div>`;
   days.forEach(d=>h+=`<div class="cal-hd ${isoOf(d)===TODAY_ISO?"now":""}"><b>${DAYN[d.getDay()]}, ${d.getDate()}</b><span>${MONN[d.getMonth()].slice(0,3)}</span></div>`);
   slots().forEach(s=>{h+=`<div class="cal-tm">${t12(s)}</div>`;
-    days.forEach(d=>{const k=isoOf(d),ev=scope.filter(a=>a.date===k&&a.time===s&&vis(a)&&a.status!=="Rejected");
+    days.forEach(d=>{const k=isoOf(d),ev=scope.filter(a=>a.date===k&&a.time===s&&vis(a)&&isLive(a));
       const off=myDoc&&(s<myDoc.start||s>=myDoc.end);
       h+=`<div class="cal-cell ${ev.length?"":off?"blocked":"free"}" data-slot="${k}|${s}">`+
         ev.map(a=>`<button class="ev ev-${a.color} ${a.status==="Completed"?"gone":""}" data-open="${a.id}">
@@ -1854,7 +2035,7 @@ function renderMonth(scope){
   for(let w=0;w<weeks;w++){
     for(let i=0;i<7;i++){
       const k=isoOf(cur),out=cur.getMonth()!==calDate.getMonth();
-      const ev=scope.filter(a=>a.date===k&&vis(a)&&a.status!=="Rejected")
+      const ev=scope.filter(a=>a.date===k&&vis(a)&&isLive(a))
         .sort((x,y)=>x.time.localeCompare(y.time));
       h+=`<div class="mcell ${out?"out":""} ${k===TODAY_ISO?"today":""}" data-slot="${k}|${C.settings.dayStart}">
         <div class="mday">${cur.getDate()}</div>`+
@@ -1907,7 +2088,13 @@ function openAppt(id){
   if(mine&&a.status==="Scheduled")acts.push(`<button class="btn btn-p" data-act="call|${a.id}">Start consultation</button>`,
     `<button class="btn" data-act="postpone|${a.id}">Postpone</button>`,`<button class="btn" data-act="reassign|${a.id}">Reassign</button>`,
     `<button class="btn btn-no" data-act="reject|${a.id}">Cancel visit</button>`);
-  if(mine&&a.status==="In consultation")acts.push(`<button class="btn btn-p" data-act="consult|${a.id}">Write notes</button>`);
+  if(mine&&a.status==="In consultation")acts.push(`<button class="btn btn-p" data-act="consult|${a.id}">Write notes</button>`,
+    `<button class="btn" data-act="done|${a.id}">Done</button>`,
+    `<button class="btn" data-act="wait|${a.id}">Not here — waiting</button>`);
+  if(me.role==="admin"&&a.status==="In consultation")acts.push(
+    `<button class="btn" data-act="done|${a.id}">Done</button>`,
+    `<button class="btn" data-act="wait|${a.id}">Not here — waiting</button>`);
+  if(a.status==="Waiting")acts.push(`<button class="btn btn-p" data-act="requeue|${a.id}">Available — put next</button>`);
   if(mine&&a.status==="Completed")acts.push(`<button class="btn" data-act="consult|${a.id}">Edit notes</button>`);
   if(me.role==="admin"&&a.status==="Scheduled")acts.push(`<button class="btn btn-p" data-act="call|${a.id}">Call in</button>`,
     `<button class="btn" data-act="postpone|${a.id}">Reschedule</button>`,
@@ -1990,6 +2177,9 @@ document.addEventListener("click",e=>{
   if(act==="postpone")return promptPostpone(a);
   if(act==="reassign")return promptReassign(a);
   if(act==="call"){closeModal();callIn(a);after();return}
+  if(act==="done"){closeModal();finishVisit(a);after();return}
+  if(act==="wait"){closeModal();markWaiting(a);after();return}
+  if(act==="requeue"){closeModal();requeue(a);after();return}
   if(act==="consult")return openConsult(a);
   if(act==="bill"){closeModal();goSection("billing");setTimeout(()=>{const s=$("#billToken");if(s){s.value=a.id;loadBill()}},260)}
 });
@@ -2016,7 +2206,7 @@ function promptPostpone(a){
     <div class="req-acts"><button class="btn btn-p" id="ppGo">Move and notify</button>
     <button class="btn btn-g" onclick="document.getElementById('mClose').click()">Cancel</button></div>`;
   $("#ppGo").onclick=()=>{const nd=$("#ppD").value,nt=$("#ppT").value;
-    if(C.appts.some(x=>x.id!==a.id&&x.docId===a.docId&&x.date===nd&&x.time===nt&&x.status!=="Rejected"))return toast("That slot is taken");
+    if(C.appts.some(x=>x.id!==a.id&&x.docId===a.docId&&x.date===nd&&x.time===nt&&isLive(x)))return toast("That slot is taken");
     const old=`${fmtD(parseISO(a.date))} ${t12(a.time)}`;
     a.log.push(`Moved from ${old} to ${fmtD(parseISO(nd))} ${t12(nt)} by ${me.name}${$("#ppM").value?" — "+$("#ppM").value:""}`);
     a.date=nd;a.time=nt;if(!a.token)a.token=mkToken(a);
@@ -2122,14 +2312,14 @@ function renderFollowups(){
 function renderDashboard(){
   const box=$("#dashBody");if(!box)return;
   const mine=myAppts();
-  const today=mine.filter(a=>a.date===TODAY_ISO&&a.status!=="Rejected");
+  const today=mine.filter(a=>a.date===TODAY_ISO&&isLive(a));
   const treated=mine.filter(a=>a.status==="Completed");
   const inClinic=mine.filter(a=>["Scheduled","In consultation"].includes(a.status)&&a.date===TODAY_ISO);
   const money_=n=>money(n);
 
   const docs=me.role==="doctor"?C.doctors.filter(d=>d.id===me.docId):C.doctors;
   const rows=docs.map(d=>{
-    const all=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected");
+    const all=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&isLive(a));
     const cap=docSlots(d).length;
     const done=all.filter(a=>a.status==="Completed").length;
     const pct=cap?Math.min(100,Math.round(all.length/cap*100)):0;
@@ -2151,8 +2341,10 @@ function renderDashboard(){
       ${statCard(me.role==="doctor"?"My patients":"Patients",new Set(mine.map(a=>a.pid)).size,"blue",IC.current)}
       ${statCard("Treated",treated.length,"green",`<path d="M20 6L9 17l-5-5"/>`)}
       ${statCard("In the clinic now",inClinic.length,"amber",`<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`)}</div>
-    <div class="grid g3" style="margin-bottom:20px">
+    <div class="grid g4" style="margin-bottom:20px">
       ${statCard("Appointments today",today.length,"violet",IC.appts)}
+      ${statCard("Waiting (not present)",waitingFor(mine).length,"amber",
+        `<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`)}
       ${statCard("Follow-ups pending",
         mine.filter(a=>a.consult&&a.consult.followUp&&a.consult.followUp>=TODAY_ISO).length,"violet",IC.followups)}
       ${me.role==="admin"
@@ -2186,7 +2378,22 @@ function renderApptList(){
     .filter(a=>a.date===TODAY_ISO&&["Scheduled","In consultation"].includes(a.status))
     .filter(a=>!q||a.name.toLowerCase().includes(q)||(a.token||"").toLowerCase().includes(q)||a.pid.toLowerCase().includes(q))
     .sort((a,b)=>a.time.localeCompare(b.time));
-  box.innerHTML=`<div class="card"><div class="c-head"><div><h3>${esc(fmtFull(TODAY))}</h3>
+  const wait=waitingFor();
+  const waitCard=wait.length?`<div class="waitcard">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <b style="font-size:14px">Not present — ${wait.length} token(s) waiting</b>
+      <span class="sub" style="margin-left:auto">Cancelled automatically after
+        ${+C.settings.noShowHours||4}h</span></div>
+    ${wait.map(a=>`<div class="waitrow">
+      <span class="wait-t">${esc(a.token||"—")}</span>
+      <div style="min-width:0;flex:1"><div style="font-weight:700;font-size:13.5px">${esc(a.name)}</div>
+        <div class="sub">${esc(a.docName)} · called ${a.calls||1} time(s) ·
+          cancels in ${esc(cancelsIn(a))}</div></div>
+      <button class="btn btn-s btn-p" data-recall="${a.id}">Available</button>
+      <button class="btn btn-s btn-no" data-dropwait="${a.id}">Cancel token</button></div>`).join("")}
+    </div>`:"";
+
+  box.innerHTML=waitCard+`<div class="card"><div class="c-head"><div><h3>${esc(fmtFull(TODAY))}</h3>
       <p>${l.length} still to be seen · tap a row to open it</p></div>
       <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
       <input class="in no-print" id="listSearch" placeholder="Search name, ID or token"
@@ -2509,7 +2716,8 @@ function renderDoneList(){
             <div class="sub">${esc(a.pid)} · +91 ${esc(a.phone)}</div></div></div></td>
         ${admin?`<td>${esc(a.docName)}</td>`:""}
         <td class="num">${t12(a.time)}</td>
-        <td>${a.consult?esc(a.consult.diagnosis):`<span class="sub">-</span>`}</td>
+        <td>${a.consult?esc(a.consult.diagnosis)
+          :`<span class="pill p-amber">Notes pending</span>`}</td>
         <td>${a.billed?`<span class="pill p-green">Billed</span>`:`<span class="pill p-amber">Not billed</span>`}</td>
         <td class="right no-print"><div class="donerow">${
           a.billed
@@ -2824,7 +3032,7 @@ function fillDocSelect(){const s=$("#pDoc");if(!s)return;
   const f=C.doctors.find(d=>d.status==="Active");if(f)s.value=f.id}
 function docHint(){const el=$("#docHint");if(!el)return;const d=D($("#pDoc").value);if(!d)return;
   const date=$("#pDate").value||TODAY_ISO,cap=docSlots(d).length;
-  const used=C.appts.filter(a=>a.docId===d.id&&a.date===date&&a.status!=="Rejected").length,nx=nextSlot(d.id,date);
+  const used=C.appts.filter(a=>a.docId===d.id&&a.date===date&&isLive(a)).length,nx=nextSlot(d.id,date);
   el.textContent=`${d.room} · ${t12(d.start)}–${t12(d.end)} · ${money(d.fee)} · ${used}/${cap} booked · next free ${nx?t12(nx):"none"}`}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-book]");
   if(b&&has("book")){goSection("book");setTimeout(()=>{const s=$("#pDoc");if(s){s.value=b.dataset.book;docHint();$("#pName").focus()}},50)}});
@@ -3043,7 +3251,7 @@ function renderDoctors(){
           <button class="btn btn-s no-print" data-export="doctors">Export CSV</button>
           <button class="btn btn-s btn-p no-print" id="btnAddDoc">Add doctor</button></div></div></div>`:""}
     ${l.length?`<div class="grid g3">${l.map(d=>{
-      const cap=docSlots(d).length,used=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&a.status!=="Rejected").length;
+      const cap=docSlots(d).length,used=C.appts.filter(a=>a.docId===d.id&&a.date===TODAY_ISO&&isLive(a)).length;
       return `<article class="doc ${d.status!=="Active"?"leave":""}"><div style="display:flex;gap:13px;align-items:flex-start">
         <div class="doc-av" style="${avSt(d.color)}">${ini(d.name)}</div>
         <div style="flex:1;min-width:0"><div style="font-size:15.5px;font-weight:700">${esc(d.name)}</div>
@@ -3137,7 +3345,7 @@ function doctorForm(d){
 }
 document.addEventListener("click",e=>{const r=e.target.closest("[data-deldoc]");if(!r)return;
   const d=D(r.dataset.deldoc);if(!d)return;
-  if(C.appts.some(a=>a.docId===d.id&&!["Completed","Rejected"].includes(a.status)))
+  if(C.appts.some(a=>a.docId===d.id&&a.status!=="Completed"&&isLive(a)))
     return toast("Clear their open appointments first");
   askConfirm({title:`Remove ${d.name}?`,meta:"This also disables their login",
     body:`Their past appointments and consultation notes are kept for the patient record. `+
@@ -3323,6 +3531,9 @@ function cfgClinic(){
       <label class="f"><span class="f-l">Phone</span><input class="in" id="setPhone" value="${esc(s.phone)}"></label>
       <label class="f"><span class="f-l">Email</span><input class="in" id="setMail" value="${esc(s.email)}"></label>
       <label class="f"><span class="f-l">Registration fee</span><input class="in" type="number" id="setFee" value="${s.regFee}"></label>
+      <label class="f"><span class="f-l">Cancel a waiting token after</span>
+        <select class="in" id="setNoShow">${[1,2,3,4,6,8].map(h=>
+          `<option value="${h}" ${(+s.noShowHours||4)===h?"selected":""}>${h} hour${h>1?"s":""}</option>`).join("")}</select></label>
       <label class="f"><span class="f-l">UPI ID (for the payment QR)</span>
         <input class="in" id="setUpi" value="${esc(s.upiId||"")}" placeholder="clinic@okicici"></label>
       <label class="f"><span class="f-l">UPI payee name</span>
@@ -3359,7 +3570,8 @@ function cfgClinic(){
       dayEnd:$("#setEnd").value,upiId:$("#setUpi").value.trim(),
       upiName:$("#setUpiName").value.trim()||$("#setName").value.trim(),
       invoiceColor:/^#[0-9a-fA-F]{6}$/.test($("#setColorHex").value.trim())
-        ?$("#setColorHex").value.trim():s.invoiceColor});
+        ?$("#setColorHex").value.trim():s.invoiceColor,
+      noShowHours:+$("#setNoShow").value||4});
     C.departments=$("#setDept").value.split(",").map(x=>x.trim()).filter(Boolean);
     $("#clinicName").textContent=C.settings.clinic;toast("Clinic profile saved");renderConfig();
   };
